@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.KLAB2Challenge" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/MG_20</item>
+        <item name="colorPrimaryVariant">@color/MG_20</item>
+        <item name="colorOnPrimary">@color/MG_20</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/MG_20</item>
+        <item name="colorSecondaryVariant">@color/MG_20</item>
+        <item name="colorOnSecondary">@color/MG_20</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+    </style>
+</resources>

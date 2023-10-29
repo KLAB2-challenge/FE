@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="GS_95">#E2E2EA</color>
+    <color name="GS_90">#E2E2EA</color>
+    <color name="GS_80">#C5C5CF</color>
+    <color name="GS_70">#AAAAB3</color>
+    <color name="GS_60">#909099</color>
+    <color name="GS_50">#76767F</color>
+    <color name="GS_40">#5D5E66</color>
+    <color name="GS_30">#45464F</color>
+    <color name="GS_20">#2F3038</color>
+    <color name="GS_10">#151518</color>
+    <color name="WH">#FFFFFF</color>
+    <color name="MG_10">#EEFBE1</color>
+    <color name="MG_20">#C4E860</color>
+    <color name="MG_30">#C9E175</color>
+    <color name="MG_40">#AACE4A</color>
+    <color name="MG_BK">#0F1910</color>
+</resources>

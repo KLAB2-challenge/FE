@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    android:label="@string/title_my_page"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.klab2challenge.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/navigation_my_challenge"
+        android:name="com.example.klab2challenge.ui.mychallenge.MyChallengeFragment"
+        android:label="@string/title_my_challenge"
+        tools:layout="@layout/fragment_my_challenge" />
+
+    <fragment
+        android:id="@+id/navigation_ranking"
+        android:name="com.example.klab2challenge.ui.ranking.RankingFragment"
+        android:label="@string/title_ranking"
+        tools:layout="@layout/fragment_ranking" />
+    <fragment
+        android:id="@+id/navigation_my_page"
+        android:name="com.example.klab2challenge.ui.mypage.MyPageFragment"
+        android:label="@string/title_my_page" />
+</navigation>

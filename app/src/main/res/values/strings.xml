@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">KLAB2Challenge</string>
+    <string name="title_home">Home</string>
+    <string name="title_my_challenge">My Challenge</string>
+    <string name="title_ranking">Ranking</string>
+    <string name="title_my_page">My Page</string>
+</resources>
