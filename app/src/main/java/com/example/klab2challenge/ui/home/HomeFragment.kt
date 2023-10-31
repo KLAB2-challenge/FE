@@ -1,15 +1,14 @@
 package com.example.klab2challenge.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -19,21 +18,26 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private val popularViewModel = ChallengeViewModel()
-    private val officialViewModel = ChallengeViewModel()
-    private val userViewModel = ChallengeViewModel()
+    private val popularViewModel = HomeChallengeViewModel()
+    private val officialViewModel = HomeChallengeViewModel()
+    private val userViewModel = HomeChallengeViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         binding.rvHomePopular.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvHomePopular.adapter = ChallengeAdapter(popularViewModel.itemList.value!!)
+        val popularAdapter = ChallengeAdapter(popularViewModel.itemList.value!!)
+        popularAdapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
+            override fun onItemClicked() {
+                findNavController().navigate(R.id.navigation_challenge_detail)
+            }
+        }
+        binding.rvHomePopular.adapter = popularAdapter
         popularViewModel.itemList.observe(viewLifecycleOwner, Observer {
             (binding.rvHomePopular.adapter as ChallengeAdapter).setData(it)
         })

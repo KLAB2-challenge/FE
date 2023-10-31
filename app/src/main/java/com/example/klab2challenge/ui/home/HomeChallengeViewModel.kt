@@ -3,7 +3,7 @@ package com.example.klab2challenge.ui.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 
-class ChallengeViewModel {
+class HomeChallengeViewModel {
     private var list = ArrayList<String>()
     private val _itemList = MutableLiveData<List<String>>()
 
