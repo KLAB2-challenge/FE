@@ -1,4 +1,4 @@
-package com.example.klab2challenge.ui.home
+package com.example.klab2challenge.ui.challenge
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

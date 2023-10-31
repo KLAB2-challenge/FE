@@ -1,12 +1,9 @@
-package com.example.klab2challenge.ui.home
+package com.example.klab2challenge.ui.challenge
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityRecordListBinding
 
 class RecordListActivity : AppCompatActivity() {

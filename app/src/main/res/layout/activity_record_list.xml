@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/GS_95"
-    tools:context=".ui.home.RecordListActivity">
+    tools:context=".ui.challenge.RecordListActivity">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_rl_backBtn"

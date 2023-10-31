@@ -1,4 +1,4 @@
-package com.example.klab2challenge.ui.home
+package com.example.klab2challenge.ui.challenge
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -18,7 +18,7 @@ class CommentAdapter(var items: List<String>) : RecyclerView.Adapter<CommentAdap
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: CommentAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
     }
 

@@ -1,16 +1,14 @@
 package com.example.klab2challenge.ui.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.klab2challenge.databinding.FragmentHomeBinding
+import com.example.klab2challenge.ui.challenge.ChallengeAdapter
 
 class HomeFragment : Fragment() {
 
@@ -19,9 +17,9 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private val popularViewModel = ChallengeViewModel()
-    private val officialViewModel = ChallengeViewModel()
-    private val userViewModel = ChallengeViewModel()
+    private val popularViewModel = HomeChallengeViewModel()
+    private val officialViewModel = HomeChallengeViewModel()
+    private val userViewModel = HomeChallengeViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,

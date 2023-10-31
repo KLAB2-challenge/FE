@@ -13,7 +13,7 @@
         android:theme="@style/Theme.KLAB2Challenge"
         tools:targetApi="31">
         <activity
-            android:name=".ui.home.ChallengeDetailActivity"
+            android:name=".ui.challenge.ChallengeDetailActivity"
             android:exported="true" >
 
             <intent-filter>
@@ -23,13 +23,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.home.RecordDetailActivity"
+            android:name=".ui.challenge.RecordDetailActivity"
             android:exported="true"></activity>
         <activity
-            android:name=".ui.home.PostRecordActivity"
+            android:name=".ui.challenge.PostRecordActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.RecordListActivity"
+            android:name=".ui.challenge.RecordListActivity"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
