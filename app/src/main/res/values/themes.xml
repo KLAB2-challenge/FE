@@ -11,6 +11,11 @@
         <item name="colorOnSecondary">@color/MG_20</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:windowFullscreen">true</item>
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="SearchViewStyle" parent="Widget.AppCompat.Light.SearchView">
+        <item name="android:textColorHint">@color/MG_30</item>
     </style>
 </resources>
