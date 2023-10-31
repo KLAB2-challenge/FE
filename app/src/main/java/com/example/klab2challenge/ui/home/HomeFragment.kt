@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.FragmentHomeBinding
-import com.example.klab2challenge.ui.challenge.ChallengeAdapter
 
 class HomeFragment : Fragment() {
 
@@ -30,7 +31,13 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         binding.rvHomePopular.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvHomePopular.adapter = ChallengeAdapter(popularViewModel.itemList.value!!)
+        val popularAdapter = ChallengeAdapter(popularViewModel.itemList.value!!)
+        popularAdapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
+            override fun onItemClicked() {
+                findNavController().navigate(R.id.navigation_challenge_detail)
+            }
+        }
+        binding.rvHomePopular.adapter = popularAdapter
         popularViewModel.itemList.observe(viewLifecycleOwner, Observer {
             (binding.rvHomePopular.adapter as ChallengeAdapter).setData(it)
         })

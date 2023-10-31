@@ -3,7 +3,9 @@ package com.example.klab2challenge.ui.challenge
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityChallengeDetailBinding
 
 class ChallengeDetailActivity : AppCompatActivity() {
@@ -22,5 +24,8 @@ class ChallengeDetailActivity : AppCompatActivity() {
         relatedChallenViewModel.itemList.observe(this, Observer {
             (binding.rvCd.adapter as RelatedChallengeAdapter).setData(it)
         })
+        binding.cvRlBackBtn.setOnClickListener {
+            finish()
+        }
     }
 }

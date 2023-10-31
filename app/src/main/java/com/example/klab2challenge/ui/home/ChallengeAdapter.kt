@@ -1,4 +1,4 @@
-package com.example.klab2challenge.ui.challenge
+package com.example.klab2challenge.ui.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,9 +6,20 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.klab2challenge.databinding.ItemHomeChallengeBinding
 
 class ChallengeAdapter(var items:List<String>) : RecyclerView.Adapter<ChallengeAdapter.ViewHolder>() {
+
+    var itemClickListener : OnItemClickListener? = null
+    interface OnItemClickListener {
+        fun onItemClicked()
+    }
+    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
+        itemClickListener = onItemClickListener
+    }
+
     inner class ViewHolder(val binding: ItemHomeChallengeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : String) {
-
+            binding.root.setOnClickListener {
+                itemClickListener!!.onItemClicked()
+            }
         }
     }
 
