@@ -13,26 +13,28 @@
         android:theme="@style/Theme.KLAB2Challenge"
         tools:targetApi="31">
         <activity
-            android:name=".ui.home.RecordDetailActivity"
+            android:name=".ui.home.ChallengeDetailActivity"
             android:exported="true" >
-
-        </activity>
-        <activity
-            android:name=".ui.home.PostRecordActivity"
-            android:exported="true"/>
-
-        <activity android:name=".ui.home.RecordListActivity"
-            android:exported="true" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:label="@string/app_name">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.home.RecordDetailActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".ui.home.PostRecordActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ui.home.RecordListActivity"
+            android:exported="true" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name">
         </activity>
     </application>
 
