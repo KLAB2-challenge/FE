@@ -52,7 +52,8 @@
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/MG_40">
+        app:strokeColor="@color/MG_40"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,6 +86,33 @@
                 android:layout_height="310dp"
                 android:background="@color/GS_60"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_rl_joinBtn"
+                android:layout_width="100dp"
+                android:layout_height="36dp"
+                android:layout_marginBottom="20dp"
+                android:backgroundTint="@color/MG_40"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="@id/iv_cd_image"
+                app:layout_constraintStart_toStartOf="@id/iv_cd_image"
+                app:layout_constraintBottom_toBottomOf="@id/iv_cd_image"
+                app:strokeColor="@color/MG_40"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/googlesans_regular"
+                    android:text="JOIN"
+                    android:textSize="16dp"
+                    android:textColor="@color/WH"
+                    tools:ignore="MissingConstraints"
+                    android:visibility="visible"/>
+
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/tv_cd_title"
