@@ -18,9 +18,9 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private val popularViewModel = HomeChallengeViewModel()
-    private val officialViewModel = HomeChallengeViewModel()
-    private val userViewModel = HomeChallengeViewModel()
+    private val popularViewModel = ChallengeViewModel()
+    private val officialViewModel = ChallengeViewModel()
+    private val userViewModel = ChallengeViewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,13 +43,25 @@ class HomeFragment : Fragment() {
         })
 
         binding.rvHomeOfficial.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvHomeOfficial.adapter = ChallengeAdapter(officialViewModel.itemList.value!!)
+        val officialAdapter = ChallengeAdapter(officialViewModel.itemList.value!!)
+        officialAdapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
+            override fun onItemClicked() {
+                findNavController().navigate(R.id.navigation_challenge_detail)
+            }
+        }
+        binding.rvHomeOfficial.adapter = officialAdapter
         officialViewModel.itemList.observe(viewLifecycleOwner, Observer {
             (binding.rvHomeOfficial.adapter as ChallengeAdapter).setData(it)
         })
 
         binding.rvHomeUser.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.rvHomeUser.adapter = ChallengeAdapter(userViewModel.itemList.value!!)
+        val userAdapter = ChallengeAdapter(userViewModel.itemList.value!!)
+        userAdapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
+            override fun onItemClicked() {
+                findNavController().navigate(R.id.navigation_challenge_detail)
+            }
+        }
+        binding.rvHomeUser.adapter = userAdapter
         userViewModel.itemList.observe(viewLifecycleOwner, Observer {
             (binding.rvHomeUser.adapter as ChallengeAdapter).setData(it)
         })
