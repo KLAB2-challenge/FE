@@ -7,10 +7,12 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityChallengeDetailBinding
+import com.example.klab2challenge.ui.home.ChallengeAdapter
+import com.example.klab2challenge.ui.home.ChallengeViewModel
 
 class ChallengeDetailActivity : AppCompatActivity() {
     lateinit var _binding : ActivityChallengeDetailBinding
-    private val relatedChallenViewModel = RelatedChallengeViewModel()
+    private val challenViewModel = ChallengeViewModel()
 
     val binding : ActivityChallengeDetailBinding get() = _binding
 
@@ -20,9 +22,15 @@ class ChallengeDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.rvCd.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        binding.rvCd.adapter = RelatedChallengeAdapter(relatedChallenViewModel.itemList.value!!)
-        relatedChallenViewModel.itemList.observe(this, Observer {
-            (binding.rvCd.adapter as RelatedChallengeAdapter).setData(it)
+        val adapter = ChallengeAdapter(challenViewModel.itemList.value!!)
+        adapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
+            override fun onItemClicked() {
+                findNavController(R.id.navigation_home).navigate(R.id.navigation_challenge_detail)
+            }
+        }
+        binding.rvCd.adapter = adapter
+        challenViewModel.itemList.observe(this, Observer {
+            (binding.rvCd.adapter as ChallengeAdapter).setData(it)
         })
         binding.cvRlBackBtn.setOnClickListener {
             finish()
