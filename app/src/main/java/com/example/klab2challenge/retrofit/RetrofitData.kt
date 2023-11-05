@@ -5,31 +5,31 @@ import java.lang.reflect.Member
 
 
 data class Challenge(
-    @SerializedName("challengeId") private val challengeId: Int,
+    @SerializedName("challengeId")  val challengeId: Int,
     @SerializedName("member") val member: Member,
-    @SerializedName("contents") private val contents: ChallengeContents,
-    @SerializedName("infos") private val infos: ChallengeInfos,
-    @SerializedName("memberChallenges") private val memberChallenges: List<MemberChallenge>,
-    @SerializedName("proofPost") private val proofPosts: List<ProofPost>
+    @SerializedName("contents")  val contents: ChallengeContents,
+    @SerializedName("infos")  val infos: ChallengeInfos,
+    @SerializedName("memberChallenges")  val memberChallenges: List<MemberChallenge>,
+    @SerializedName("proofPost")  val proofPosts: List<ProofPost>
 
 )
 data class ChallengeContents (
-    @SerializedName("title") private val title: String,
-    @SerializedName("content") private val content: String,
-    @SerializedName("image") private val image: String
+    @SerializedName("title") val title: String,
+    @SerializedName("content") val content: String,
+    @SerializedName("image") val image: String
 )
 data class ChallengeInfos (
-    @SerializedName("startDate") private val startDate: String,
-    @SerializedName("endDate") private val endDate: String,
-    @SerializedName("frequency") private val frequency: String,
-    @SerializedName("category") private val category: Int,
-    @SerializedName("type") private val type: Boolean
+    @SerializedName("startDate")  val startDate: String,
+    @SerializedName("endDate")  val endDate: String,
+    @SerializedName("frequency")  val frequency: String,
+    @SerializedName("category")  val category: Int,
+    @SerializedName("type")  val type: Boolean
 )
 data class Comment(
-    @SerializedName("commentId") private val commentId: Int,
-    @SerializedName("proofPost") private val proofPost: ProofPost,
-    @SerializedName("member") private val member: Member,
-    @SerializedName("content") private val content: String
+    @SerializedName("commentId")  val commentId: Int,
+    @SerializedName("proofPost")  val proofPost: ProofPost,
+    @SerializedName("member")  val member: Member,
+    @SerializedName("content")  val content: String
 )
 
 data class Member (
@@ -48,16 +48,16 @@ data class MemberChallenge (
 )
 
 data class ProofPost(
-    @SerializedName("proofPostId") private val proofPostId: Int,
-    @SerializedName("contents") private val contents: ProofPostContents,
+    @SerializedName("proofPostId")  val proofPostId: Int,
+    @SerializedName("contents")  val contents: ProofPostContents,
     @SerializedName("challenge") val challenge: Challenge,
     @SerializedName("member") val member: Member,
-    @SerializedName("comments") private val comments: List<Comment>
+    @SerializedName("comments")  val comments: List<Comment>
 )
 data class ProofPostContents (
-    @SerializedName("title") private val title: String,
-    @SerializedName("content") private val content: String,
-    @SerializedName("image") private val image: String
+    @SerializedName("title")  val title: String,
+    @SerializedName("content")  val content: String,
+    @SerializedName("image")  val image: String
 )
 
 data class GetChallengeRequest (
@@ -121,6 +121,7 @@ data class GetAllCommentsResponse (
 )
 
 data class GetChallengeResponse (
+    @SerializedName("challengeId") val challengeId: Int,
     @SerializedName("contents") val contents: ChallengeContents,
     @SerializedName("infos") val infos: ChallengeInfos,
     @SerializedName("memberNum") val memberNum: Int,

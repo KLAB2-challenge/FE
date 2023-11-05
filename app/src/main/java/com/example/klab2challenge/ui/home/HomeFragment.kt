@@ -51,8 +51,9 @@ class HomeFragment : Fragment() {
         binding.rvHomePopular.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         val popularAdapter = ChallengeAdapter(popularViewModel.itemList.value!!)
         popularAdapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
-            override fun onItemClicked() {
+            override fun onItemClicked(challengeId : Int) {
                 val i = Intent(requireContext(), ChallengeDetailActivity::class.java)
+                i.putExtra("challengeId", challengeId)
                 startActivity(i)
             }
         }
@@ -64,8 +65,9 @@ class HomeFragment : Fragment() {
         binding.rvHomeOfficial.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         val officialAdapter = ChallengeAdapter(officialViewModel.itemList.value!!)
         officialAdapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
-            override fun onItemClicked() {
+            override fun onItemClicked(challengeId : Int) {
                 val i = Intent(requireContext(), ChallengeDetailActivity::class.java)
+                i.putExtra("challengeId", challengeId)
                 startActivity(i)
             }
         }
@@ -77,8 +79,9 @@ class HomeFragment : Fragment() {
         binding.rvHomeUser.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         val userAdapter = ChallengeAdapter(userViewModel.itemList.value!!)
         userAdapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
-            override fun onItemClicked() {
+            override fun onItemClicked(challengeId : Int) {
                 val i = Intent(requireContext(), ChallengeDetailActivity::class.java)
+                i.putExtra("challengeId", challengeId)
                 startActivity(i)
             }
         }
@@ -87,7 +90,7 @@ class HomeFragment : Fragment() {
             (binding.rvHomeUser.adapter as ChallengeAdapter).setData(it)
         })
 
-        val popularRequest = GetPopularChallengesRequest("user", 0, 5)
+        val popularRequest = GetPopularChallengesRequest("user1", 0, 5)
         RetrofitUtil.getRetrofitUtil().getChallenge(popularRequest).enqueue(object : Callback<GetPopularChallengesResponse> {
             override fun onResponse(
                 call: Call<GetPopularChallengesResponse>,
@@ -105,7 +108,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        val officialRequest = GetOfficialOrUserChallengesRequest("user",0,5,true)
+        val officialRequest = GetOfficialOrUserChallengesRequest("user1",0,5,true)
         RetrofitUtil.getRetrofitUtil().getChallenge(officialRequest).enqueue(object :Callback<GetOfficialOrUserChallengesResponse> {
             override fun onResponse(
                 call: Call<GetOfficialOrUserChallengesResponse>,
@@ -124,7 +127,7 @@ class HomeFragment : Fragment() {
 
         })
 
-        val userRequest = GetOfficialOrUserChallengesRequest("user",1,5,false)
+        val userRequest = GetOfficialOrUserChallengesRequest("user1",1,5,false)
         RetrofitUtil.getRetrofitUtil().getChallenge(userRequest).enqueue(object : Callback<GetOfficialOrUserChallengesResponse> {
             override fun onResponse(
                 call: Call<GetOfficialOrUserChallengesResponse>,

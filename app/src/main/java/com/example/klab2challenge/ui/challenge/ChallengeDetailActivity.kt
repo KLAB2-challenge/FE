@@ -10,6 +10,9 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityChallengeDetailBinding
+import com.example.klab2challenge.retrofit.ChallengeContents
+import com.example.klab2challenge.retrofit.GetChallengeRequest
+import com.example.klab2challenge.retrofit.GetChallengeResponse
 import com.example.klab2challenge.retrofit.GetRelatedChallengesRequest
 import com.example.klab2challenge.retrofit.GetRelatedChallengesResponse
 import com.example.klab2challenge.retrofit.RetrofitUtil
@@ -30,11 +33,14 @@ class ChallengeDetailActivity : AppCompatActivity() {
         _binding = ActivityChallengeDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val challengeId = intent.getIntExtra("challengeId", -1)
+
         binding.rvCd.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         val adapter = ChallengeAdapter(challengeViewModel.itemList.value!!)
         adapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
-            override fun onItemClicked() {
+            override fun onItemClicked(challengeId : Int) {
                 val i = Intent(applicationContext, ChallengeDetailActivity::class.java)
+                i.putExtra("challengeId", challengeId)
                 startActivity(i)
             }
         }
@@ -66,7 +72,27 @@ class ChallengeDetailActivity : AppCompatActivity() {
             startActivity(i)
         }
 
-        val relatedRequest = GetRelatedChallengesRequest("user",0,5,1)
+        val challengeRequest = GetChallengeRequest("user1", challengeId)
+        RetrofitUtil.getRetrofitUtil().getChallenge(challengeRequest).enqueue(object : Callback<GetChallengeResponse> {
+            override fun onResponse(
+                call: Call<GetChallengeResponse>,
+                response: Response<GetChallengeResponse>
+            ) {
+                if(response.isSuccessful) {
+                    val data = response.body()
+                    val content = data!!.contents
+                } else {
+                    Log.d("hyunhee", response.errorBody().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<GetChallengeResponse>, t: Throwable) {
+                Log.d("hyunhee", t.message.toString())
+            }
+
+        })
+
+        val relatedRequest = GetRelatedChallengesRequest("user1",0,5,1)
         RetrofitUtil.getRetrofitUtil().getChallenge(relatedRequest).enqueue(object: Callback<GetRelatedChallengesResponse> {
             override fun onResponse(
                 call: Call<GetRelatedChallengesResponse>,

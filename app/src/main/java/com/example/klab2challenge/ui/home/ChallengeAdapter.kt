@@ -10,7 +10,7 @@ class ChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.Ad
 
     var itemClickListener : OnItemClickListener? = null
     interface OnItemClickListener {
-        fun onItemClicked()
+        fun onItemClicked(challengeId: Int)
     }
     fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
         itemClickListener = onItemClickListener
@@ -19,7 +19,7 @@ class ChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.Ad
     inner class ViewHolder(val binding: ItemHomeChallengeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : GetChallengeResponse) {
             binding.root.setOnClickListener {
-                itemClickListener!!.onItemClicked()
+                itemClickListener!!.onItemClicked(item.challengeId)
             }
         }
     }
