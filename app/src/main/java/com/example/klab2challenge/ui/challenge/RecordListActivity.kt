@@ -1,5 +1,6 @@
 package com.example.klab2challenge.ui.challenge
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -16,11 +17,24 @@ class RecordListActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.rvRl.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.rvRl.adapter = RecordListAdapter(recordViewModel.itemList.value!!)
+        val adapter = RecordListAdapter(recordViewModel.itemList.value!!)
+        adapter.setOnItemClickListener(object : RecordListAdapter.OnItemClickListener {
+            override fun onItemClicked() {
+                val i = Intent(applicationContext, RecordDetailActivity::class.java)
+                startActivity(i)
+            }
+        })
+        binding.rvRl.adapter = adapter
         recordViewModel.itemList.observe(this, Observer {
             (binding.rvRl.adapter as RecordListAdapter).setData(it)
         })
 
-
+        binding.cvRlBackBtn.setOnClickListener {
+            finish()
+        }
+        binding.cvRlPostBtn.setOnClickListener {
+            val i = Intent(applicationContext, PostRecordActivity::class.java)
+            startActivity(i)
+        }
     }
 }

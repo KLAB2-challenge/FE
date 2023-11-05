@@ -3,6 +3,7 @@ package com.example.klab2challenge.ui.challenge
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +37,26 @@ class ChallengeDetailActivity : AppCompatActivity() {
         })
         binding.cvRlBackBtn.setOnClickListener {
             finish()
+        }
+
+        binding.cvRlJoinBtn.setOnClickListener {
+            binding.cvRlPostBtn.visibility = View.VISIBLE
+            binding.cvRlPostBtn.setOnClickListener {
+                val i = Intent(applicationContext, PostRecordActivity::class.java)
+                startActivity(i)
+            }
+            it.visibility = View.GONE
+        }
+
+        binding.tvCdMore.setOnClickListener {
+            val i = Intent(applicationContext, RecordListActivity::class.java)
+            startActivity(i)
+        }
+
+
+        binding.ivCdMore.setOnClickListener {
+            val i = Intent(applicationContext, RecordListActivity::class.java)
+            startActivity(i)
         }
     }
 }

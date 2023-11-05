@@ -7,9 +7,21 @@ import com.example.klab2challenge.databinding.ItemRecordListBinding
 
 class RecordListAdapter(var items: List<String>) : RecyclerView.Adapter<RecordListAdapter.ViewHolder>() {
 
+    interface OnItemClickListener {
+        fun onItemClicked()
+    }
+
+    private var onItemClickListener : OnItemClickListener? = null
+
+    fun setOnItemClickListener(listener: OnItemClickListener) {
+        onItemClickListener = listener
+    }
+
     inner class ViewHolder(val binding : ItemRecordListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : String) {
-
+            binding.root.setOnClickListener {
+                onItemClickListener!!.onItemClicked()
+            }
         }
     }
 
