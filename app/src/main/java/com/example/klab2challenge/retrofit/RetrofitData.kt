@@ -32,6 +32,14 @@ data class Comment(
     @SerializedName("content")  val content: String
 )
 
+data class CommentInfos(
+    @SerializedName("date") val date: String
+)
+
+data class ProofPostInfos(
+    @SerializedName("date") val date: String
+)
+
 data class Member (
     @SerializedName("memberId") val memberId: Int,
     @SerializedName("name") val name: String,
@@ -128,7 +136,8 @@ data class GetChallengeResponse (
 
 data class GetCommentResponse (
     @SerializedName("memberName") val memberName: String,
-    @SerializedName("content") val content: String
+    @SerializedName("content") val content: String,
+    @SerializedName("infos") val infos: CommentInfos
 )
 
 data class GetOfficialOrUserChallengesResponse (
@@ -142,7 +151,9 @@ data class GetPopularChallengesResponse (
 data class GetProofPostResponse (
     @SerializedName("proofPostId") val proofPostId: Int,
     @SerializedName("memberName") val memberName: String,
-    @SerializedName("contents") val contents: ProofPostContents
+    @SerializedName("contents") val contents: ProofPostContents,
+    @SerializedName("infos") val infos: ProofPostInfos,
+    @SerializedName("commentNum") val commentNum: Int,
 )
 
 data class GetProofPostsResponse (

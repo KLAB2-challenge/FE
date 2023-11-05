@@ -51,6 +51,7 @@ class RecordDetailActivity : AppCompatActivity() {
             binding.tvRdRecordTitle.text = it.contents.title
             binding.tvRdRecordContent.text = it.contents.content
             binding.tvRdUserName.text = it.memberName
+            binding.tvRdPostDate.text = it.infos.date
         })
 
         binding.ivRdSend.setOnClickListener{

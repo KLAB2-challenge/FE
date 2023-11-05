@@ -12,6 +12,7 @@ class CommentAdapter(var items: List<GetCommentResponse>) : RecyclerView.Adapter
         fun bind(item : GetCommentResponse) {
             binding.tvRdCommentName.text = item.memberName
             binding.tvRdCommentContent.text = item.content
+            binding.tvRdCommentDate.text = item.infos.date
         }
     }
 
