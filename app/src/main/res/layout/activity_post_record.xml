@@ -145,7 +145,15 @@
         app:strokeColor="@color/GS_50">
 
         <ImageView
-            android:id="@+id/addImage"
+            android:id="@+id/iv_pr_addedimage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@color/BK"
+            android:visibility="gone"
+        />
+
+        <ImageView
+            android:id="@+id/iv_pr_addimage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="70dp"
@@ -153,6 +161,7 @@
             android:src="@drawable/ic_add_image" />
 
         <TextView
+            android:id="@+id/tv_pr_addimage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="108dp"
