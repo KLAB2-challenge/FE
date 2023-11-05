@@ -11,8 +11,14 @@ import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
 import com.example.klab2challenge.databinding.ActivityPostRecordBinding
+import com.example.klab2challenge.retrofit.RetrofitUtil
+import com.example.klab2challenge.retrofit.SetProofPostRequest
+import com.example.klab2challenge.retrofit.SetProofPostResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
 
 class PostRecordActivity : AppCompatActivity() {
     lateinit var binding: ActivityPostRecordBinding
@@ -75,6 +81,27 @@ class PostRecordActivity : AppCompatActivity() {
                 requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
         }
+
+        val postRecord = SetProofPostRequest(0,"user1",
+            binding.etPrTitleInput.text.toString(), binding.etPrContentInput.text.toString(),"")
+        RetrofitUtil.getRetrofitUtil().setProofPost(postRecord).enqueue(object : Callback<SetProofPostResponse> {
+            override fun onResponse(
+                call: Call<SetProofPostResponse>,
+                response: Response<SetProofPostResponse>
+            ) {
+                if(response.isSuccessful) {
+                    Log.d("seohyun", "post success!!")
+                } else {
+                    Log.d("seohyun", response.errorBody().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<SetProofPostResponse>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
     }
 
     private fun openGallery() {
