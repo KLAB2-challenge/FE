@@ -67,7 +67,7 @@ interface RetrofitInterface {
         request: SetProofPostRequest
     ): Call<SetProofPostResponse>
 
-    @GET("/proofPost/getProofPosts")
+    @POST("/proofPost/getProofPosts")
     fun getProofPost(
         @Body
         request: GetProofPostsRequest

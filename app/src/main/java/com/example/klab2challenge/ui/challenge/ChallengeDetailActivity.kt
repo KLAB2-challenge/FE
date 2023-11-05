@@ -13,6 +13,8 @@ import com.example.klab2challenge.databinding.ActivityChallengeDetailBinding
 import com.example.klab2challenge.retrofit.ChallengeContents
 import com.example.klab2challenge.retrofit.GetChallengeRequest
 import com.example.klab2challenge.retrofit.GetChallengeResponse
+import com.example.klab2challenge.retrofit.GetProofPostsRequest
+import com.example.klab2challenge.retrofit.GetProofPostsResponse
 import com.example.klab2challenge.retrofit.GetRelatedChallengesRequest
 import com.example.klab2challenge.retrofit.GetRelatedChallengesResponse
 import com.example.klab2challenge.retrofit.RetrofitUtil
@@ -26,6 +28,8 @@ class ChallengeDetailActivity : AppCompatActivity() {
     lateinit var _binding : ActivityChallengeDetailBinding
     private val challengeViewModel = ChallengeViewModel()
     private val challengeDetailViewModel = ChallengeDetailViewModel()
+    private val recordViewModel = RecordViewModel()
+    private val challengeId = intent.getIntExtra("challengeId", -1)
 
     val binding : ActivityChallengeDetailBinding get() = _binding
 
@@ -35,28 +39,6 @@ class ChallengeDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initLayout()
-
-        val challengeId = intent.getIntExtra("challengeId", -1)
-
-        binding.rvCd.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        val adapter = ChallengeAdapter(challengeViewModel.itemList.value!!)
-        adapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
-            override fun onItemClicked(challengeId : Int) {
-                val i = Intent(applicationContext, ChallengeDetailActivity::class.java)
-                i.putExtra("challengeId", challengeId)
-                startActivity(i)
-            }
-        }
-        binding.rvCd.adapter = adapter
-        challengeViewModel.itemList.observe(this, Observer {
-            (binding.rvCd.adapter as ChallengeAdapter).setData(it)
-        })
-
-        challengeDetailViewModel.challengeDetail.observe(this, Observer {
-            binding.tvCdTitle.text = it.contents.title
-            binding.tvCdContent.text = it.contents.content
-            binding.tvCdDuration.text = it.infos.startDate + " ~ " + it.infos.endDate + "\n" + it.infos.frequency
-        })
 
         val challengeRequest = GetChallengeRequest("user1", challengeId)
         RetrofitUtil.getRetrofitUtil().getChallenge(challengeRequest).enqueue(object : Callback<GetChallengeResponse> {
@@ -72,6 +54,24 @@ class ChallengeDetailActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<GetChallengeResponse>, t: Throwable) {
+                Log.d("hyunhee", t.message.toString())
+            }
+        })
+
+        val proofRequest = GetProofPostsRequest(challengeId, 2)
+        RetrofitUtil.getRetrofitUtil().getProofPost(proofRequest).enqueue(object : Callback<GetProofPostsResponse> {
+            override fun onResponse(
+                call: Call<GetProofPostsResponse>,
+                response: Response<GetProofPostsResponse>
+            ) {
+                if(response.isSuccessful) {
+                    recordViewModel.addRecords(response.body()!!.proofPosts)
+                } else {
+                    Log.d("hyunhee", response.errorBody()!!.toString())
+                }
+            }
+
+            override fun onFailure(call: Call<GetProofPostsResponse>, t: Throwable) {
                 Log.d("hyunhee", t.message.toString())
             }
 
@@ -106,6 +106,7 @@ class ChallengeDetailActivity : AppCompatActivity() {
             binding.cvRlPostBtn.visibility = View.VISIBLE
             binding.cvRlPostBtn.setOnClickListener {
                 val i = Intent(applicationContext, PostRecordActivity::class.java)
+                i.putExtra("challengeId", challengeId)
                 startActivity(i)
             }
             it.visibility = View.GONE
@@ -113,14 +114,42 @@ class ChallengeDetailActivity : AppCompatActivity() {
 
         binding.tvCdMore.setOnClickListener {
             val i = Intent(applicationContext, RecordListActivity::class.java)
+            i.putExtra("challengeId", challengeId)
             startActivity(i)
         }
 
 
         binding.ivCdMore.setOnClickListener {
             val i = Intent(applicationContext, RecordListActivity::class.java)
+            i.putExtra("challengeId", challengeId)
             startActivity(i)
         }
 
+        binding.rvCd.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        val adapter = ChallengeAdapter(challengeViewModel.itemList.value!!)
+        adapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
+            override fun onItemClicked(challengeId : Int) {
+                val i = Intent(applicationContext, ChallengeDetailActivity::class.java)
+                i.putExtra("challengeId", challengeId)
+                startActivity(i)
+            }
+        }
+        binding.rvCd.adapter = adapter
+        challengeViewModel.itemList.observe(this, Observer {
+            (binding.rvCd.adapter as ChallengeAdapter).setData(it)
+        })
+
+        challengeDetailViewModel.challengeDetail.observe(this, Observer {
+            binding.tvCdTitle.text = it.contents.title
+            binding.tvCdContent.text = it.contents.content
+            binding.tvCdDuration.text = it.infos.startDate + " ~ " + it.infos.endDate + "\n" + it.infos.frequency
+        })
+
+        recordViewModel.itemList.observe(this, Observer {
+            binding.tvCdRecordTitle1.text = it[0].title
+            binding.tvCdRecordContent1.text = it[0].content
+            binding.tvCdRecordTitle2.text = it[1].title
+            binding.tvCdRecordContent2.text = it[1].content
+        })
     }
 }
