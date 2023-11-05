@@ -6,8 +6,8 @@ import androidx.lifecycle.MutableLiveData
 class ChallengeViewModel {
     private var list = ArrayList<String>()
     private val _itemList = MutableLiveData<List<String>>()
-
     val itemList: LiveData<List<String>> get() = _itemList
+
 
     init {
         list = arrayListOf("1","1","1","1","1","1","1")

@@ -1,5 +1,6 @@
 package com.example.klab2challenge.ui.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.FragmentHomeBinding
+import com.example.klab2challenge.ui.challenge.ChallengeDetailActivity
 
 class HomeFragment : Fragment() {
 
@@ -34,7 +36,8 @@ class HomeFragment : Fragment() {
         val popularAdapter = ChallengeAdapter(popularViewModel.itemList.value!!)
         popularAdapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
             override fun onItemClicked() {
-                findNavController().navigate(R.id.navigation_challenge_detail)
+                val i = Intent(requireContext(), ChallengeDetailActivity::class.java)
+                startActivity(i)
             }
         }
         binding.rvHomePopular.adapter = popularAdapter
@@ -46,7 +49,8 @@ class HomeFragment : Fragment() {
         val officialAdapter = ChallengeAdapter(officialViewModel.itemList.value!!)
         officialAdapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
             override fun onItemClicked() {
-                findNavController().navigate(R.id.navigation_challenge_detail)
+                val i = Intent(requireContext(), ChallengeDetailActivity::class.java)
+                startActivity(i)
             }
         }
         binding.rvHomeOfficial.adapter = officialAdapter
@@ -58,7 +62,8 @@ class HomeFragment : Fragment() {
         val userAdapter = ChallengeAdapter(userViewModel.itemList.value!!)
         userAdapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
             override fun onItemClicked() {
-                findNavController().navigate(R.id.navigation_challenge_detail)
+                val i = Intent(requireContext(), ChallengeDetailActivity::class.java)
+                startActivity(i)
             }
         }
         binding.rvHomeUser.adapter = userAdapter

@@ -5,7 +5,7 @@ import retrofit2.http.GET
 
 interface RetrofitInterface {
 
-    @GET("/")
-    fun SampleAPI(sampleRequest: SampleRequest) : Call<SampleResponse>
+//    @GET("/")
+//    fun SampleAPI(sampleRequest: SampleRequest) : Call<SampleResponse>
 
 }

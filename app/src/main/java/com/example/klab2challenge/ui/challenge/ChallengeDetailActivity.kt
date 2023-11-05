@@ -1,5 +1,6 @@
 package com.example.klab2challenge.ui.challenge
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -25,7 +26,8 @@ class ChallengeDetailActivity : AppCompatActivity() {
         val adapter = ChallengeAdapter(challenViewModel.itemList.value!!)
         adapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
             override fun onItemClicked() {
-                findNavController(R.id.navigation_home).navigate(R.id.navigation_challenge_detail)
+                val i = Intent(applicationContext, ChallengeDetailActivity::class.java)
+                startActivity(i)
             }
         }
         binding.rvCd.adapter = adapter
