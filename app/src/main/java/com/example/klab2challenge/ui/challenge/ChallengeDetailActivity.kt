@@ -25,6 +25,7 @@ import retrofit2.Response
 class ChallengeDetailActivity : AppCompatActivity() {
     lateinit var _binding : ActivityChallengeDetailBinding
     private val challengeViewModel = ChallengeViewModel()
+    private val challengeDetailViewModel = ChallengeDetailViewModel()
 
     val binding : ActivityChallengeDetailBinding get() = _binding
 
@@ -32,6 +33,8 @@ class ChallengeDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityChallengeDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        initLayout()
 
         val challengeId = intent.getIntExtra("challengeId", -1)
 
@@ -48,29 +51,12 @@ class ChallengeDetailActivity : AppCompatActivity() {
         challengeViewModel.itemList.observe(this, Observer {
             (binding.rvCd.adapter as ChallengeAdapter).setData(it)
         })
-        binding.cvRlBackBtn.setOnClickListener {
-            finish()
-        }
 
-        binding.cvRlJoinBtn.setOnClickListener {
-            binding.cvRlPostBtn.visibility = View.VISIBLE
-            binding.cvRlPostBtn.setOnClickListener {
-                val i = Intent(applicationContext, PostRecordActivity::class.java)
-                startActivity(i)
-            }
-            it.visibility = View.GONE
-        }
-
-        binding.tvCdMore.setOnClickListener {
-            val i = Intent(applicationContext, RecordListActivity::class.java)
-            startActivity(i)
-        }
-
-
-        binding.ivCdMore.setOnClickListener {
-            val i = Intent(applicationContext, RecordListActivity::class.java)
-            startActivity(i)
-        }
+        challengeDetailViewModel.challengeDetail.observe(this, Observer {
+            binding.tvCdTitle.text = it.contents.title
+            binding.tvCdContent.text = it.contents.content
+            binding.tvCdDuration.text = it.infos.startDate + " ~ " + it.infos.endDate + "\n" + it.infos.frequency
+        })
 
         val challengeRequest = GetChallengeRequest("user1", challengeId)
         RetrofitUtil.getRetrofitUtil().getChallenge(challengeRequest).enqueue(object : Callback<GetChallengeResponse> {
@@ -79,8 +65,7 @@ class ChallengeDetailActivity : AppCompatActivity() {
                 response: Response<GetChallengeResponse>
             ) {
                 if(response.isSuccessful) {
-                    val data = response.body()
-                    val content = data!!.contents
+                    challengeDetailViewModel.setChallengeDetail(response.body()!!)
                 } else {
                     Log.d("hyunhee", response.errorBody().toString())
                 }
@@ -110,5 +95,32 @@ class ChallengeDetailActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    fun initLayout() {
+        binding.cvRlBackBtn.setOnClickListener {
+            finish()
+        }
+
+        binding.cvRlJoinBtn.setOnClickListener {
+            binding.cvRlPostBtn.visibility = View.VISIBLE
+            binding.cvRlPostBtn.setOnClickListener {
+                val i = Intent(applicationContext, PostRecordActivity::class.java)
+                startActivity(i)
+            }
+            it.visibility = View.GONE
+        }
+
+        binding.tvCdMore.setOnClickListener {
+            val i = Intent(applicationContext, RecordListActivity::class.java)
+            startActivity(i)
+        }
+
+
+        binding.ivCdMore.setOnClickListener {
+            val i = Intent(applicationContext, RecordListActivity::class.java)
+            startActivity(i)
+        }
+
     }
 }

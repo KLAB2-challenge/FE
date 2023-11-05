@@ -10,6 +10,7 @@ interface RetrofitInterface {
 //    @GET("/")
 //    fun SampleAPI(sampleRequest: SampleRequest) : Call<SampleResponse>
 
+    //안해도 됨 demo는
     @POST("/challenge/setChallenge")
     fun setChallenge(
         @Body request: SetChallengeRequest
@@ -21,18 +22,21 @@ interface RetrofitInterface {
         request: GetChallengeRequest
     ): Call<GetChallengeResponse>
 
+    //완료
     @POST("/challenge/getPopularChallenges")
     fun getChallenge(
         @Body
         request: GetPopularChallengesRequest
     ): Call<GetPopularChallengesResponse>
 
+    //완료
     @POST("/challenge/getOfficialOrUserChallenges")
     fun getChallenge(
         @Body
         request: GetOfficialOrUserChallengesRequest
     ): Call<GetOfficialOrUserChallengesResponse>
 
+    //완료
     @POST("/challenge/getRelatedChallenges")
     fun getChallenge(
         @Body
