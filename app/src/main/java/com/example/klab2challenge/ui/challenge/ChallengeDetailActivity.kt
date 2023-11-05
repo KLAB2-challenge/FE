@@ -3,18 +3,25 @@ package com.example.klab2challenge.ui.challenge
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityChallengeDetailBinding
+import com.example.klab2challenge.retrofit.GetRelatedChallengesRequest
+import com.example.klab2challenge.retrofit.GetRelatedChallengesResponse
+import com.example.klab2challenge.retrofit.RetrofitUtil
 import com.example.klab2challenge.ui.home.ChallengeAdapter
 import com.example.klab2challenge.ui.home.ChallengeViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ChallengeDetailActivity : AppCompatActivity() {
     lateinit var _binding : ActivityChallengeDetailBinding
-    private val challenViewModel = ChallengeViewModel()
+    private val challengeViewModel = ChallengeViewModel()
 
     val binding : ActivityChallengeDetailBinding get() = _binding
 
@@ -24,7 +31,7 @@ class ChallengeDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.rvCd.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        val adapter = ChallengeAdapter(challenViewModel.itemList.value!!)
+        val adapter = ChallengeAdapter(challengeViewModel.itemList.value!!)
         adapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
             override fun onItemClicked() {
                 val i = Intent(applicationContext, ChallengeDetailActivity::class.java)
@@ -32,7 +39,7 @@ class ChallengeDetailActivity : AppCompatActivity() {
             }
         }
         binding.rvCd.adapter = adapter
-        challenViewModel.itemList.observe(this, Observer {
+        challengeViewModel.itemList.observe(this, Observer {
             (binding.rvCd.adapter as ChallengeAdapter).setData(it)
         })
         binding.cvRlBackBtn.setOnClickListener {
@@ -58,5 +65,24 @@ class ChallengeDetailActivity : AppCompatActivity() {
             val i = Intent(applicationContext, RecordListActivity::class.java)
             startActivity(i)
         }
+
+        val relatedRequest = GetRelatedChallengesRequest("user",0,5,1)
+        RetrofitUtil.getRetrofitUtil().getChallenge(relatedRequest).enqueue(object: Callback<GetRelatedChallengesResponse> {
+            override fun onResponse(
+                call: Call<GetRelatedChallengesResponse>,
+                response: Response<GetRelatedChallengesResponse>
+            ) {
+                if(response.isSuccessful) {
+                    challengeViewModel.addChallenges(response.body()!!.challenges)
+                } else {
+                    Log.d("seohyun", response.errorBody().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<GetRelatedChallengesResponse>, t: Throwable) {
+                Log.d("seohyun", t.message.toString())
+            }
+
+        })
     }
 }

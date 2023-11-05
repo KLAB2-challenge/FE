@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +19,16 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.FragmentHomeBinding
+import com.example.klab2challenge.retrofit.GetChallengeResponse
+import com.example.klab2challenge.retrofit.GetOfficialOrUserChallengesRequest
+import com.example.klab2challenge.retrofit.GetOfficialOrUserChallengesResponse
+import com.example.klab2challenge.retrofit.GetPopularChallengesRequest
+import com.example.klab2challenge.retrofit.GetPopularChallengesResponse
+import com.example.klab2challenge.retrofit.RetrofitUtil
 import com.example.klab2challenge.ui.challenge.ChallengeDetailActivity
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class HomeFragment : Fragment() {
 
@@ -77,24 +87,62 @@ class HomeFragment : Fragment() {
             (binding.rvHomeUser.adapter as ChallengeAdapter).setData(it)
         })
 
-        binding.ivHomeMore1.setOnClickListener {
-            popularViewModel.addChallenge("1")
-        }
-        binding.tvHomeMore1.setOnClickListener {
-            popularViewModel.deleteChallenge("1")
-        }
-        binding.ivHomeMore2.setOnClickListener {
-            officialViewModel.addChallenge("1")
-        }
-        binding.tvHomeMore2.setOnClickListener {
-            officialViewModel.deleteChallenge("1")
-        }
-        binding.ivHomeMore3.setOnClickListener {
-            userViewModel.addChallenge("1")
-        }
-        binding.tvHomeMore3.setOnClickListener {
-            userViewModel.deleteChallenge("1")
-        }
+        val popularRequest = GetPopularChallengesRequest("user", 0, 5)
+        RetrofitUtil.getRetrofitUtil().getChallenge(popularRequest).enqueue(object : Callback<GetPopularChallengesResponse> {
+            override fun onResponse(
+                call: Call<GetPopularChallengesResponse>,
+                response: Response<GetPopularChallengesResponse>
+            ) {
+                if(response.isSuccessful) {
+                    popularViewModel.addChallenges(response.body()!!.challenges)
+                } else {
+                    Log.d("seohyun", response.errorBody().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<GetPopularChallengesResponse>, t: Throwable) {
+                Log.d("seohyun", t.message.toString())
+            }
+        })
+
+        val officialRequest = GetOfficialOrUserChallengesRequest("user",0,5,true)
+        RetrofitUtil.getRetrofitUtil().getChallenge(officialRequest).enqueue(object :Callback<GetOfficialOrUserChallengesResponse> {
+            override fun onResponse(
+                call: Call<GetOfficialOrUserChallengesResponse>,
+                response: Response<GetOfficialOrUserChallengesResponse>
+            ) {
+                if(response.isSuccessful) {
+                    officialViewModel.addChallenges(response.body()!!.challenges)
+                } else {
+                    Log.d("seohyun", response.errorBody().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<GetOfficialOrUserChallengesResponse>, t: Throwable) {
+                Log.d("seohyun", t.message.toString())
+            }
+
+        })
+
+        val userRequest = GetOfficialOrUserChallengesRequest("user",1,5,false)
+        RetrofitUtil.getRetrofitUtil().getChallenge(userRequest).enqueue(object : Callback<GetOfficialOrUserChallengesResponse> {
+            override fun onResponse(
+                call: Call<GetOfficialOrUserChallengesResponse>,
+                response: Response<GetOfficialOrUserChallengesResponse>
+            ) {
+                if(response.isSuccessful) {
+                    userViewModel.addChallenges(response.body()!!.challenges)
+                } else {
+                    Log.d("seohyun", response.errorBody().toString())
+                }
+            }
+
+            override fun onFailure(call: Call<GetOfficialOrUserChallengesResponse>, t: Throwable) {
+                Log.d("seohyun", t.message.toString())
+            }
+
+        })
+
 
         return root
     }

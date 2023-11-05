@@ -2,25 +2,31 @@ package com.example.klab2challenge.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.klab2challenge.retrofit.GetChallengeResponse
 
 class ChallengeViewModel {
-    private var list = ArrayList<String>()
-    private val _itemList = MutableLiveData<List<String>>()
-    val itemList: LiveData<List<String>> get() = _itemList
+    private var list = ArrayList<GetChallengeResponse>()
+    private val _itemList = MutableLiveData<List<GetChallengeResponse>>()
+    val itemList: LiveData<List<GetChallengeResponse>> get() = _itemList
 
 
     init {
-        list = arrayListOf("1","1","1","1","1","1","1")
+        list = arrayListOf()
         _itemList.value = list
     }
-    fun addChallenge(str : String) {
-        list.add(str)
+    fun addChallenge(challenge : GetChallengeResponse) {
+        list.add(challenge)
 
         _itemList.value = list
     }
 
-    fun deleteChallenge(str : String) {
-        list.remove(str)
+    fun addChallenges(challenges : List<GetChallengeResponse>) {
+        list.addAll(challenges)
+
+        _itemList.value = list
+    }
+    fun deleteChallenge(challenge : GetChallengeResponse) {
+        list.remove(challenge)
 
         _itemList.value = list
     }
