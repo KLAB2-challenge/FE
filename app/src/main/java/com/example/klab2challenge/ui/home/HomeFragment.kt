@@ -25,6 +25,7 @@ import com.example.klab2challenge.retrofit.GetOfficialOrUserChallengesResponse
 import com.example.klab2challenge.retrofit.GetPopularChallengesRequest
 import com.example.klab2challenge.retrofit.GetPopularChallengesResponse
 import com.example.klab2challenge.retrofit.RetrofitUtil
+import com.example.klab2challenge.retrofit.getUserName
 import com.example.klab2challenge.ui.challenge.ChallengeDetailActivity
 import retrofit2.Call
 import retrofit2.Callback
@@ -90,7 +91,7 @@ class HomeFragment : Fragment() {
             (binding.rvHomeUser.adapter as ChallengeAdapter).setData(it)
         })
 
-        val popularRequest = GetPopularChallengesRequest("user1", 0, 5)
+        val popularRequest = GetPopularChallengesRequest(getUserName(requireContext()), 0, 5)
         RetrofitUtil.getRetrofitUtil().getChallenge(popularRequest).enqueue(object : Callback<GetPopularChallengesResponse> {
             override fun onResponse(
                 call: Call<GetPopularChallengesResponse>,
@@ -108,7 +109,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        val officialRequest = GetOfficialOrUserChallengesRequest("user1",0,5,true)
+        val officialRequest = GetOfficialOrUserChallengesRequest(getUserName(requireContext()),0,5,true)
         RetrofitUtil.getRetrofitUtil().getChallenge(officialRequest).enqueue(object :Callback<GetOfficialOrUserChallengesResponse> {
             override fun onResponse(
                 call: Call<GetOfficialOrUserChallengesResponse>,
@@ -127,7 +128,7 @@ class HomeFragment : Fragment() {
 
         })
 
-        val userRequest = GetOfficialOrUserChallengesRequest("user1",1,5,false)
+        val userRequest = GetOfficialOrUserChallengesRequest(getUserName(requireContext()),0,5,false)
         RetrofitUtil.getRetrofitUtil().getChallenge(userRequest).enqueue(object : Callback<GetOfficialOrUserChallengesResponse> {
             override fun onResponse(
                 call: Call<GetOfficialOrUserChallengesResponse>,

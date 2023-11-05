@@ -92,6 +92,7 @@
             app:layout_constraintTop_toTopOf="@id/cv_item_rl" />
 
         <TextView
+            android:id="@+id/tv_item_rl_content"
             android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/googlesans_regular"
@@ -111,6 +112,7 @@
             app:layout_constraintStart_toEndOf="@id/cv_item_rl" />
 
         <TextView
+            android:id="@+id/tv_item_rl_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"

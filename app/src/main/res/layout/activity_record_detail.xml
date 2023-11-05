@@ -57,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="17dp"
+                android:paddingBottom="12dp"
                 android:background="@drawable/background_record_detail_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -160,8 +161,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="12dp"
-                    android:layout_marginTop="12dp"
                     android:background="@color/GS_60"
+                    android:layout_marginTop="12dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_rd_recordContent" />
@@ -211,18 +212,31 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <EditText
-                    android:layout_width="wrap_content"
+                    android:id="@+id/et_rd_comment"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginHorizontal="8dp"
                     android:background="@null"
                     android:fontFamily="@font/googlesans_regular"
                     android:hint="Add a comment"
                     android:textColorHint="@color/MG_30"
                     android:textSize="14dp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/iv_rd_send"
                     app:layout_constraintStart_toEndOf="@id/cv_rd_commentAddImg"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <ImageView
+                    android:id="@+id/iv_rd_send"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:tint="@color/MG_20"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/ic_send"
+                    />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -8,6 +8,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.klab2challenge.databinding.ActivityMainBinding
+import com.example.klab2challenge.retrofit.saveUserName
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +16,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        saveUserName(this, "user2")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

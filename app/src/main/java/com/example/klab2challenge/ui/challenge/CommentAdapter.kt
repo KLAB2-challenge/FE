@@ -4,12 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.klab2challenge.databinding.ItemRecordDetailCommentBinding
+import com.example.klab2challenge.retrofit.GetCommentResponse
 
-class CommentAdapter(var items: List<String>) : RecyclerView.Adapter<CommentAdapter.ViewHolder>(){
+class CommentAdapter(var items: List<GetCommentResponse>) : RecyclerView.Adapter<CommentAdapter.ViewHolder>(){
 
     inner class ViewHolder(val binding : ItemRecordDetailCommentBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : String) {
-//            binding.tvRdCommentName.text = item.name
+        fun bind(item : GetCommentResponse) {
+            binding.tvRdCommentName.text = item.memberName
+            binding.tvRdCommentContent.text = item.content
         }
     }
 
@@ -26,7 +28,7 @@ class CommentAdapter(var items: List<String>) : RecyclerView.Adapter<CommentAdap
         return items.size
     }
 
-    fun setData(list : List<String>) {
+    fun setData(list : List<GetCommentResponse>) {
         items = list
         notifyDataSetChanged()
     }
