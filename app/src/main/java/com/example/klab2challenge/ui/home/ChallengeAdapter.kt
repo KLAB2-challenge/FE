@@ -21,6 +21,9 @@ class ChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.Ad
             binding.root.setOnClickListener {
                 itemClickListener!!.onItemClicked(item.challengeId)
             }
+            binding.tvHcTitle.text = item.contents.title
+            binding.tvHcDuration.text = item.infos.startDate + " ~ " + item.infos.endDate + "\n" + item.infos.frequency
+            binding.tvHcMemeberCount.text = item.memberNum.toString()
         }
     }
 
