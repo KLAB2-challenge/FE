@@ -17,13 +17,14 @@ class RecordDetailActivity : AppCompatActivity() {
         _binding = ActivityRecordDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         binding.rvRdComments.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvRdComments.adapter = CommentAdapter(commentViewModel.itemList.value!!)
         commentViewModel.itemList.observe(this, Observer {
             (binding.rvRdComments.adapter as CommentAdapter).setData(it)
         })
 
-
+        binding.cvRdBackBtn.setOnClickListener {
+            finish()
+        }
     }
 }
