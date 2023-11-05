@@ -19,12 +19,14 @@ class RecordListActivity : AppCompatActivity() {
     lateinit var _binding : ActivityRecordListBinding
     private val binding : ActivityRecordListBinding get() = _binding
     private val recordViewModel = RecordViewModel()
-    private val challengeId = intent.getIntExtra("challengeId", -1)
+    private var challengeId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityRecordListBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        challengeId = intent.getIntExtra("challengeId", -1)
 
         val proofPostRequest = GetProofPostsRequest(0,1)
         RetrofitUtil.getRetrofitUtil().getProofPost(proofPostRequest).enqueue(object : Callback<GetProofPostsResponse> {

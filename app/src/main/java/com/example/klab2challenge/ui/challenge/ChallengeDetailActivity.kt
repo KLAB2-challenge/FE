@@ -29,7 +29,7 @@ class ChallengeDetailActivity : AppCompatActivity() {
     private val challengeViewModel = ChallengeViewModel()
     private val challengeDetailViewModel = ChallengeDetailViewModel()
     private val recordViewModel = RecordViewModel()
-    private val challengeId = intent.getIntExtra("challengeId", -1)
+    private var challengeId = -1
 
     val binding : ActivityChallengeDetailBinding get() = _binding
 
@@ -38,6 +38,7 @@ class ChallengeDetailActivity : AppCompatActivity() {
         _binding = ActivityChallengeDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        challengeId = intent.getIntExtra("challengeId", -1)
         initLayout()
 
         val challengeRequest = GetChallengeRequest("user1", challengeId)
@@ -146,10 +147,10 @@ class ChallengeDetailActivity : AppCompatActivity() {
         })
 
         recordViewModel.itemList.observe(this, Observer {
-            binding.tvCdRecordTitle1.text = it[0].title
-            binding.tvCdRecordContent1.text = it[0].content
-            binding.tvCdRecordTitle2.text = it[1].title
-            binding.tvCdRecordContent2.text = it[1].content
+            for(item in it) {
+                binding.tvCdRecordTitle1.text = item.title
+                binding.tvCdRecordContent1.text = item.content
+            }
         })
     }
 }

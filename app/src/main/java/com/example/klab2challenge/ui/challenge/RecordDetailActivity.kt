@@ -14,7 +14,7 @@ class RecordDetailActivity : AppCompatActivity() {
     lateinit var _binding : ActivityRecordDetailBinding
     private val commentViewModel = CommentViewModel()
     private val recordDetailViewModel = RecordDetailViewModel()
-    private val recordId = intent.getIntExtra("recordId", -1)
+    private var recordId = -1
 
 
     val binding : ActivityRecordDetailBinding get() = _binding
@@ -23,6 +23,8 @@ class RecordDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityRecordDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        recordId = intent.getIntExtra("recordId", -1)
 
         binding.rvRdComments.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvRdComments.adapter = CommentAdapter(commentViewModel.itemList.value!!)
