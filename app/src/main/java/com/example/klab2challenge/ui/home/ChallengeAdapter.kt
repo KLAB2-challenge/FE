@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.klab2challenge.databinding.ItemHomeChallengeBinding
+import com.example.klab2challenge.retrofit.GetChallengeResponse
 
-class ChallengeAdapter(var items:List<String>) : RecyclerView.Adapter<ChallengeAdapter.ViewHolder>() {
+class ChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.Adapter<ChallengeAdapter.ViewHolder>() {
 
     var itemClickListener : OnItemClickListener? = null
     interface OnItemClickListener {
@@ -16,7 +17,7 @@ class ChallengeAdapter(var items:List<String>) : RecyclerView.Adapter<ChallengeA
     }
 
     inner class ViewHolder(val binding: ItemHomeChallengeBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : String) {
+        fun bind(item : GetChallengeResponse) {
             binding.root.setOnClickListener {
                 itemClickListener!!.onItemClicked()
             }
@@ -36,7 +37,7 @@ class ChallengeAdapter(var items:List<String>) : RecyclerView.Adapter<ChallengeA
         holder.bind(items[position])
     }
 
-    fun setData(list:List<String>) {
+    fun setData(list:List<GetChallengeResponse>) {
         items = list
         notifyDataSetChanged()
     }

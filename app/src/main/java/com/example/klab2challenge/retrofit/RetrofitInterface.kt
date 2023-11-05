@@ -22,7 +22,7 @@ interface RetrofitInterface {
     fun getChallenge(request: GetOfficialOrUserChallengesRequest) : Call<GetOfficialOrUserChallengesResponse>
 
     @POST("/challenge/getRelatedChallenges")
-    fun getChallenge(request: GetRelatedChallengesRequest) : Call<GetRelatedChallengeResponse>
+    fun getChallenge(request: GetRelatedChallengesRequest) : Call<GetRelatedChallengesResponse>
 
     @POST("/comment/setComment")
     fun setComment(request: SetCommentRequest) : Call<SetCommentResponse>

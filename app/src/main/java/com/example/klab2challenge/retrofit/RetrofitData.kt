@@ -152,7 +152,7 @@ data class GetProofPostsResponse (
     @SerializedName("proofPosts") val proofPosts : List<GetProofPostResponse>
 )
 
-data class GetRelatedChallengeResponse (
+data class GetRelatedChallengesResponse (
     @SerializedName("challenges") val challenges : List<GetChallengeResponse>
 )
 
