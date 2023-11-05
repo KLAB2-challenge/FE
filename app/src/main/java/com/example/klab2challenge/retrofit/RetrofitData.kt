@@ -4,54 +4,54 @@ import com.google.gson.annotations.SerializedName
 
 
 data class Challenge(
-    @SerializedName("challenge_id") private val challengeId: Int? = null,
+    @SerializedName("challenge_id") private val challengeId: Int,
     @SerializedName("contents") private val contents: ChallengeContents,
     @SerializedName("infos") private val infos: ChallengeInfos,
-    @SerializedName("user") private val userChallenges: List<UserChallenge> = ArrayList<UserChallenge>(),
-    @SerializedName("proofPost") private val proofPosts: List<ProofPost> = ArrayList<ProofPost>()
+    @SerializedName("user") private val userChallenges: List<UserChallenge>,
+    @SerializedName("proofPost") private val proofPosts: List<ProofPost>
 
 )
 data class ChallengeContents (
-    @SerializedName("title") private val title: String? = null,
-    @SerializedName("image") private val image: String? = null,
-    @SerializedName("content") private val content: String? = null
+    @SerializedName("title") private val title: String,
+    @SerializedName("image") private val image: String,
+    @SerializedName("content") private val content: String
 )
 data class ChallengeInfos (
-    @SerializedName("userName") private val userName: String? = null,
-    @SerializedName("startDate") private val startDate: String? = null,
-    @SerializedName("endDate") private val endDate: String? = null,
-    @SerializedName("frequency") private val frequency: String? = null,
-    @SerializedName("category") private val category: Int? = null,
-    @SerializedName("type") private val type: Boolean? = null
+    @SerializedName("userName") private val userName: String,
+    @SerializedName("startDate") private val startDate: String,
+    @SerializedName("endDate") private val endDate: String,
+    @SerializedName("frequency") private val frequency: String,
+    @SerializedName("category") private val category: Int,
+    @SerializedName("type") private val type: Boolean
 )
 data class Comment(
-    @SerializedName("commentId") private val commentId: Int? = null,
+    @SerializedName("commentId") private val commentId: Int,
     @SerializedName("proofPostId") private val proofPostId: Int,
     @SerializedName("userName") private val userName: String
 )
 data class ProofPost(
-    @SerializedName("proofPostId") private val proofPostId: Long? = null,
+    @SerializedName("proofPostId") private val proofPostId: Int,
     @SerializedName("contents") private val contents: ProofPostContents,
     @SerializedName("infos") private val infos: ProofPostInfos,
-    @SerializedName("commets") private val comments: List<Comment> = ArrayList()
+    @SerializedName("commets") private val comments: List<Comment>
 )
 data class ProofPostContents (
-    @SerializedName("title") private val title: String? = null,
-    @SerializedName("content") private val content: String? = null,
-    @SerializedName("image") private val image: String? = null
+    @SerializedName("title") private val title: String,
+    @SerializedName("content") private val content: String,
+    @SerializedName("image") private val image: String
 )
 data class ProofPostInfos (
-    @SerializedName("callengeId") private val challengeId: Long? = null,
-    @SerializedName("userName") private val userName: String? = null
+    @SerializedName("callengeId") private val challengeId: Int,
+    @SerializedName("userName") private val userName: String
 )
 data class User(
-    @SerializedName("userId") private val userId: Long? = null,
-    @SerializedName("challenge") private val userChallenges: List<UserChallenge> = ArrayList<UserChallenge>(),
-    @SerializedName("comments") private val comments: List<Comment> = ArrayList(),
-    @SerializedName("proofPost") private val proofPosts: List<ProofPost> = ArrayList()
+    @SerializedName("userId") private val userId: Int,
+    @SerializedName("challenge") private val userChallenges: List<UserChallenge>,
+    @SerializedName("comments") private val comments: List<Comment>,
+    @SerializedName("proofPost") private val proofPosts: List<ProofPost>
 )
 data class UserChallenge(
-    @SerializedName("id") private val id: Int? = null
+    @SerializedName("id") private val id: Int
 )
 
 data class GetAllCommentsRequest (
@@ -80,7 +80,7 @@ data class SetProofPostRequest (
 
 data class GetAllCommentsResponse (
     @SerializedName("count") val count: Int,
-    List<Comment> commentList;
+    @SerializedName("commentList") val commentList : List<Comment>
 )
 
 data class GetProofPostResponse (
@@ -93,7 +93,7 @@ data class GetProofPostResponse (
 )
 
 data class GetProofPostsResponse (
-    List<GetProofPostResponse> proofPosts;
+    @SerializedName("proofPosts") val proofPosts : List<GetProofPostResponse>
 )
 
 data class SetCommentResponse (
