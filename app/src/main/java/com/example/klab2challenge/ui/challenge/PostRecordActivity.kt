@@ -29,6 +29,11 @@ class PostRecordActivity : AppCompatActivity() {
     private val pickImageLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
+                val data : Intent? = result.data
+                val uri = data?.data
+                binding.ivPrAddedimage.setImageURI(uri)
+                binding.ivPrAddedimage.visibility = View.VISIBLE
+                Log.d("hyunhee", uri.toString())
             }
         }
 

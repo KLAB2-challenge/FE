@@ -10,14 +10,14 @@
         android:id="@+id/cv_pr_backBtn"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="12dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="@color/MG_40">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/MG_40"
+        app:strokeWidth="1dp">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -32,22 +32,22 @@
         android:id="@+id/cv_pr_postBtn"
         android:layout_width="64dp"
         android:layout_height="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="12dp"
         android:layout_marginRight="16dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="@color/MG_40">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/MG_40"
+        app:strokeWidth="1dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/googlesans_regular"
             android:text="Post"
             android:textColor="@color/MG_40"
-            android:fontFamily="@font/googlesans_regular"
             tools:ignore="MissingConstraints" />
 
     </com.google.android.material.card.MaterialCardView>
@@ -68,112 +68,114 @@
         android:id="@+id/tv_pr_titleLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/v_pr_topLine"
-        android:layout_marginTop="28dp"
         android:layout_marginLeft="24dp"
-        android:text="Title"
+        android:layout_marginTop="28dp"
         android:fontFamily="@font/googlesans_regular"
+        android:text="Title"
+        android:textColor="#000000"
         android:textSize="16sp"
-        android:textColor="#000000" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/v_pr_topLine" />
 
     <EditText
         android:id="@+id/et_pr_titleInput"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_pr_titleLabel"
-        android:layout_marginTop="8dp"
         android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="24dp"
         android:background="@drawable/background_post_record"
-        />
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_pr_titleLabel" />
 
     <TextView
         android:id="@+id/tv_pr_contentLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_pr_titleInput"
-        android:layout_marginTop="40dp"
         android:layout_marginLeft="24dp"
-        android:text="Content"
+        android:layout_marginTop="40dp"
         android:fontFamily="@font/googlesans_regular"
+        android:text="Content"
+        android:textColor="#000000"
         android:textSize="16sp"
-        android:textColor="#000000" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_pr_titleInput" />
 
     <EditText
         android:id="@+id/et_pr_contentInput"
         android:layout_width="match_parent"
         android:layout_height="190dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_pr_contentLabel"
-        android:layout_marginTop="8dp"
         android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="24dp"
         android:background="@drawable/background_post_record"
-        />
+        android:gravity="top"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_pr_contentLabel" />
 
     <TextView
         android:id="@+id/tv_pr_photoLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_pr_contentInput"
-        android:layout_marginTop="40dp"
         android:layout_marginLeft="24dp"
-        android:text="Photo"
+        android:layout_marginTop="40dp"
         android:fontFamily="@font/googlesans_regular"
+        android:text="Photo"
+        android:textColor="#000000"
         android:textSize="16sp"
-        android:textColor="#000000" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_pr_contentInput" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_pr_photoInput"
         android:layout_width="match_parent"
         android:layout_height="190dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_pr_photoLabel"
-        android:layout_marginTop="8dp"
         android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
         android:layout_marginRight="24dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
-        app:strokeWidth="1dp"
-        app:strokeColor="@color/GS_50">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_pr_photoLabel"
+        app:strokeColor="@color/GS_50"
+        app:strokeWidth="1dp">
 
         <ImageView
             android:id="@+id/iv_pr_addedimage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="5dp"
             android:src="@color/BK"
-            android:visibility="gone"
-        />
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/iv_pr_addimage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="70dp"
             android:src="@drawable/ic_add_image" />
 
         <TextView
             android:id="@+id/tv_pr_addimage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="108dp"
             android:layout_gravity="center_horizontal"
-            android:text="Press and add\nphoto to proof your challenge"
-            android:textSize="10sp"
+            android:layout_marginTop="108dp"
             android:fontFamily="@font/googlesans_regular"
+            android:text="Press and add\nphoto to proof your challenge"
+            android:textAlignment="center"
             android:textColor="@color/GS_60"
-            android:textAlignment="center"/>
+            android:textSize="10sp" />
 
     </com.google.android.material.card.MaterialCardView>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
