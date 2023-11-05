@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.klab2challenge.databinding.ItemRecordListBinding
+import com.example.klab2challenge.retrofit.GetProofPostResponse
 
-class RecordListAdapter(var items: List<String>) : RecyclerView.Adapter<RecordListAdapter.ViewHolder>() {
+class RecordListAdapter(var items: List<GetProofPostResponse>) : RecyclerView.Adapter<RecordListAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClicked()
@@ -18,7 +19,7 @@ class RecordListAdapter(var items: List<String>) : RecyclerView.Adapter<RecordLi
     }
 
     inner class ViewHolder(val binding : ItemRecordListBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : String) {
+        fun bind(item : GetProofPostResponse) {
             binding.root.setOnClickListener {
                 onItemClickListener!!.onItemClicked()
             }
@@ -38,7 +39,7 @@ class RecordListAdapter(var items: List<String>) : RecyclerView.Adapter<RecordLi
         holder.bind(items[position])
     }
 
-    fun setData(list: List<String>) {
+    fun setData(list: List<GetProofPostResponse>) {
         items = list
         notifyDataSetChanged()
     }

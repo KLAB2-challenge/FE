@@ -58,7 +58,7 @@ interface RetrofitInterface {
     ): Call<JoinChallengeResponse>
 
     @POST("/proofPost/setProofPost")
-    fun setProofPostRequestResponseEntity(
+    fun setProofPost(
         @Body
         request: SetProofPostRequest
     ): Call<SetProofPostResponse>
