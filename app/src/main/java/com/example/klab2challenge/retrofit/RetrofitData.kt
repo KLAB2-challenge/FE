@@ -1,23 +1,24 @@
 package com.example.klab2challenge.retrofit
 
 import com.google.gson.annotations.SerializedName
+import java.lang.reflect.Member
 
 
 data class Challenge(
-    @SerializedName("challenge_id") private val challengeId: Int,
+    @SerializedName("challengeId") private val challengeId: Int,
+    @SerializedName("member") val member: Member,
     @SerializedName("contents") private val contents: ChallengeContents,
     @SerializedName("infos") private val infos: ChallengeInfos,
-    @SerializedName("user") private val userChallenges: List<UserChallenge>,
+    @SerializedName("memberChallenges") private val memberChallenges: List<MemberChallenge>,
     @SerializedName("proofPost") private val proofPosts: List<ProofPost>
 
 )
 data class ChallengeContents (
     @SerializedName("title") private val title: String,
-    @SerializedName("image") private val image: String,
-    @SerializedName("content") private val content: String
+    @SerializedName("content") private val content: String,
+    @SerializedName("image") private val image: String
 )
 data class ChallengeInfos (
-    @SerializedName("userName") private val userName: String,
     @SerializedName("startDate") private val startDate: String,
     @SerializedName("endDate") private val endDate: String,
     @SerializedName("frequency") private val frequency: String,
@@ -26,74 +27,141 @@ data class ChallengeInfos (
 )
 data class Comment(
     @SerializedName("commentId") private val commentId: Int,
-    @SerializedName("proofPostId") private val proofPostId: Int,
-    @SerializedName("userName") private val userName: String
+    @SerializedName("proofPost") private val proofPost: ProofPost,
+    @SerializedName("member") private val member: Member,
+    @SerializedName("content") private val content: String
 )
+
+data class Member (
+    @SerializedName("memberId") val memberId: Int,
+    @SerializedName("name") val name: String,
+    @SerializedName("challenges") val challenges: List<Challenge>,
+    @SerializedName("memberChallenges") val memberChallenges: List<MemberChallenge>,
+    @SerializedName("comments") val comments: List<Comment>,
+    @SerializedName("proofPosts") val proofPosts: List<ProofPost>
+)
+
+data class MemberChallenge (
+    @SerializedName("id") val id: Int,
+    @SerializedName("member") val member: Member,
+    @SerializedName("challenge") val challenge: Challenge
+)
+
 data class ProofPost(
     @SerializedName("proofPostId") private val proofPostId: Int,
     @SerializedName("contents") private val contents: ProofPostContents,
-    @SerializedName("infos") private val infos: ProofPostInfos,
-    @SerializedName("commets") private val comments: List<Comment>
+    @SerializedName("challenge") val challenge: Challenge,
+    @SerializedName("member") val member: Member,
+    @SerializedName("comments") private val comments: List<Comment>
 )
 data class ProofPostContents (
     @SerializedName("title") private val title: String,
     @SerializedName("content") private val content: String,
     @SerializedName("image") private val image: String
 )
-data class ProofPostInfos (
-    @SerializedName("callengeId") private val challengeId: Int,
-    @SerializedName("userName") private val userName: String
-)
-data class User(
-    @SerializedName("userId") private val userId: Int,
-    @SerializedName("challenge") private val userChallenges: List<UserChallenge>,
-    @SerializedName("comments") private val comments: List<Comment>,
-    @SerializedName("proofPost") private val proofPosts: List<ProofPost>
-)
-data class UserChallenge(
-    @SerializedName("id") private val id: Int
+
+data class GetChallengeRequest (
+    @SerializedName("memberName") val memberName : String,
+    @SerializedName("challengeId") val challengeId : Int
 )
 
-data class GetAllCommentsRequest (
-    @SerializedName("proofPostId") val proofPostId : Int,
-    @SerializedName("startPoint") val startPoint : Int
+data class GetOfficialOrUserChallengesRequest (
+    @SerializedName("memberName") val memberName: String,
+    @SerializedName("page") val page: Int,
+    @SerializedName("size") val size: Int,
+    @SerializedName("type") val type: Boolean,
 )
+
+data class GetPopularChallengesRequest (
+    @SerializedName("memberName") val memberName: String,
+    @SerializedName("page") val page: Int,
+    @SerializedName("size") val size: Int
+)
+
 
 data class GetProofPostsRequest (
     @SerializedName("challengeID") val challengeID : Int,
-    @SerializedName("count") val count : Int
+    @SerializedName("num") val num : Int
+)
+
+data class GetRelatedChallengesRequest (
+    @SerializedName("memberName") val memberName: String,
+    @SerializedName("page") val page: Int,
+    @SerializedName("size") val size: Int,
+    @SerializedName("category") val category: Int
+)
+
+data class JoinChallengeRequest (
+    @SerializedName("memberName") val memberName: String,
+    @SerializedName("challengeID") val challengeID : Int
+)
+
+data class SetChallengeRequest (
+    @SerializedName("memberName") val memberName: String,
+    @SerializedName("contents") val contents: ChallengeContents,
+    @SerializedName("infos") val infos: ChallengeInfos
 )
 
 data class SetCommentRequest (
-    @SerializedName("content") val content : String,
-    @SerializedName("userName") val userName : String,
+    @SerializedName("memberName") val memberName: String,
+    @SerializedName("contents") val contents: String,
     @SerializedName("proofPostId") val proofPostId : Int
 )
 
 data class SetProofPostRequest (
     @SerializedName("challengeId") val challengeID : Int,
-    @SerializedName("userId") val userId : String,
+    @SerializedName("memberName") val memberName: String,
     @SerializedName("title") val title : String,
     @SerializedName("content") val content: String,
     @SerializedName("image") val image : String
 )
 
 data class GetAllCommentsResponse (
-    @SerializedName("count") val count: Int,
-    @SerializedName("commentList") val commentList : List<Comment>
+    @SerializedName("getCommentResponses") val getCommentResponses : List<GetCommentResponse>
+)
+
+data class GetChallengeResponse (
+    @SerializedName("contents") val contents: ChallengeContents,
+    @SerializedName("infos") val infos: ChallengeInfos,
+    @SerializedName("memberNum") val memberNum: Int,
+    @SerializedName("isJoin") val isJoin: Boolean
+)
+
+data class GetCommentResponse (
+    @SerializedName("memberName") val memberName: String,
+    @SerializedName("content") val content: String
+)
+
+data class GetOfficialOrUserChallengesResponse (
+    @SerializedName("challenges") val challenges: List<GetChallengeResponse>
+)
+
+data class GetPopularChallengesResponse (
+    @SerializedName("challenges") val challenges: List<GetChallengeResponse>
 )
 
 data class GetProofPostResponse (
     @SerializedName("proofPostId") val proofPostId: Int,
-    @SerializedName("userId") val userId: String,
+    @SerializedName("memberName") val memberName: String,
     @SerializedName("title") val title: String,
     @SerializedName("content") val content: String,
-    @SerializedName("image") val image: String,
-    @SerializedName("commentsNum") val commentsNum: Int
+    @SerializedName("image") val image: String
 )
 
 data class GetProofPostsResponse (
     @SerializedName("proofPosts") val proofPosts : List<GetProofPostResponse>
+)
+
+data class GetRelatedChallengeResponse (
+    @SerializedName("challenges") val challenges : List<GetChallengeResponse>
+)
+
+data class JoinChallengeResponse (
+    @SerializedName("challengeId") val challengeID: Int
+)
+
+data class SetChallengeResponse (
+    @SerializedName("challengeId") val challengeID: Int
 )
 
 data class SetCommentResponse (
@@ -101,6 +169,6 @@ data class SetCommentResponse (
 )
 
 data class SetProofPostResponse (
-    @SerializedName("proofPostid") val proofPostId: Int
+    @SerializedName("proofPostId") val proofPostId: Int
 )
 
