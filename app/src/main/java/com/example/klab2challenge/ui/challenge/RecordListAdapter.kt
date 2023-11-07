@@ -23,6 +23,11 @@ class RecordListAdapter(var items: List<GetProofPostResponse>) : RecyclerView.Ad
             binding.root.setOnClickListener {
                 onItemClickListener!!.onItemClicked(item.proofPostId)
             }
+            binding.tvItemRlTitle.text = item.contents.title
+            binding.tvItemRlContent.text = item.contents.content
+            binding.tvRdUserName.text = item.memberName
+            binding.tvRdPostDate.text = item.infos.date
+            binding.tvItemRlMessage.text = item.commentNum.toString()
         }
     }
 

@@ -48,12 +48,12 @@
         android:layout_marginTop="12dp"
         android:layout_marginRight="16dp"
         android:backgroundTint="@color/MG_40"
+        android:visibility="gone"
         app:cardCornerRadius="10dp"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/MG_40"
-        android:visibility="gone">
+        app:strokeColor="@color/MG_40">
 
         <TextView
             android:layout_width="wrap_content"
@@ -85,6 +85,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="310dp"
                 android:background="@color/GS_60"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image1"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.card.MaterialCardView
@@ -93,13 +95,13 @@
                 android:layout_height="36dp"
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/MG_40"
+                android:visibility="visible"
                 app:cardCornerRadius="10dp"
                 app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="@id/iv_cd_image"
                 app:layout_constraintEnd_toEndOf="@id/iv_cd_image"
                 app:layout_constraintStart_toStartOf="@id/iv_cd_image"
-                app:layout_constraintBottom_toBottomOf="@id/iv_cd_image"
-                app:strokeColor="@color/MG_40"
-                android:visibility="visible">
+                app:strokeColor="@color/MG_40">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -107,10 +109,10 @@
                     android:layout_gravity="center"
                     android:fontFamily="@font/googlesans_regular"
                     android:text="JOIN"
-                    android:textSize="16dp"
                     android:textColor="@color/WH"
-                    tools:ignore="MissingConstraints"
-                    android:visibility="visible"/>
+                    android:textSize="16dp"
+                    android:visibility="visible"
+                    tools:ignore="MissingConstraints" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -121,7 +123,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="14dp"
                 android:fontFamily="@font/googlesans_bold"
-                android:text="Coding"
+                android:text="Title"
                 android:textColor="@color/BK"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -134,7 +136,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/googlesans_regular"
-                android:text="2023.10.25 ~ 2023.11.06\n3 times per week"
+                android:text="duration\nfrequency"
                 android:textColor="@color/BK"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -147,7 +149,7 @@
                 android:layout_marginHorizontal="24dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/googlesans_regular"
-                android:text="This is where the description of this challenge is entered.\nThis is where the description of this challenge is entered.\nThis is where the description of this challenge is entered.\nThis is where the description of this challenge is entered.\nThis is where the description of this challenge is entered.\n\n 1. something about this challenge\n 2. something about this challenge"
+                android:text="content"
                 android:textColor="@color/GS_40"
                 android:textSize="12sp"
                 app:layout_constraintTop_toBottomOf="@id/tv_cd_duration" />
@@ -225,7 +227,9 @@
                             <ImageView
                                 android:layout_width="84dp"
                                 android:layout_height="84dp"
-                                android:background="@color/GS_60" />
+                                android:background="@color/GS_60"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/image2" />
 
 
                         </androidx.cardview.widget.CardView>
@@ -253,7 +257,7 @@
                             android:layout_marginBottom="12dp"
                             android:ellipsize="end"
                             android:fontFamily="@font/googlesans_regular"
-                            android:text="I learned this part today. I learned this part today. I learned this part today. I learned this part today. ......"
+                            android:text="Content of Record"
                             android:textColor="@color/GS_20"
                             android:textSize="10sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -290,7 +294,9 @@
                             <ImageView
                                 android:layout_width="84dp"
                                 android:layout_height="84dp"
-                                android:background="@color/GS_60" />
+                                android:background="@color/GS_60"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/image2" />
 
 
                         </androidx.cardview.widget.CardView>
@@ -317,7 +323,7 @@
                             android:layout_marginBottom="12dp"
                             android:ellipsize="marquee"
                             android:fontFamily="@font/googlesans_regular"
-                            android:text="I learned this part today. I learned this part today. I learned this part today. I learned this part today. ......"
+                            android:text="Content of Record"
                             android:textColor="@color/GS_20"
                             android:textSize="10sp"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -354,8 +360,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="11dp"
-                app:layout_constraintTop_toBottomOf="@id/rv_cd"
-                />
+                app:layout_constraintTop_toBottomOf="@id/rv_cd" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

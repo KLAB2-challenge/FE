@@ -7,7 +7,6 @@ import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.klab2challenge.databinding.ActivityRecordListBinding
-import com.example.klab2challenge.retrofit.GetProofPostResponse
 import com.example.klab2challenge.retrofit.GetProofPostsRequest
 import com.example.klab2challenge.retrofit.GetProofPostsResponse
 import com.example.klab2challenge.retrofit.RetrofitUtil
@@ -19,15 +18,19 @@ class RecordListActivity : AppCompatActivity() {
     lateinit var _binding : ActivityRecordListBinding
     private val binding : ActivityRecordListBinding get() = _binding
     private val recordViewModel = RecordViewModel()
-    private val challengeId = intent.getIntExtra("challengeId", -1)
+    private var challengeId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityRecordListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val proofPostRequest = GetProofPostsRequest(0,1)
-        RetrofitUtil.getRetrofitUtil().getProofPost(proofPostRequest).enqueue(object : Callback<GetProofPostsResponse> {
+
+        challengeId = intent.getIntExtra("challengeId", -1)
+
+        initLayout()
+
+        RetrofitUtil.getRetrofitUtil().getProofPosts(challengeId).enqueue(object : Callback<GetProofPostsResponse> {
             override fun onResponse(
                 call: Call<GetProofPostsResponse>,
                 response: Response<GetProofPostsResponse>

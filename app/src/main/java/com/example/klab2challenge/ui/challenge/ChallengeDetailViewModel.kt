@@ -28,4 +28,9 @@ class ChallengeDetailViewModel : ViewModel() {
         _challengeDetail.value = cd
     }
 
+    fun setChallengeDetailJoin(isjoin : Boolean) {
+        cd = cd.copy(join = isjoin)
+        _challengeDetail.value = cd
+    }
+
 }

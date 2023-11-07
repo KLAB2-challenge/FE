@@ -18,10 +18,11 @@
             android:layout_width="100dp"
             android:layout_height="150dp">
 
-            <View
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@color/GS_90"
+                android:scaleType="centerCrop"
+                android:src="@drawable/image1"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.cardview.widget.CardView
@@ -73,9 +74,11 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="103dp"
                 android:fontFamily="@font/googlesans_bold"
-                android:text="Running"
+                android:text="Title"
                 android:textColor="@color/BK"
                 android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -87,7 +90,7 @@
                 android:layout_marginStart="4dp"
                 android:layout_marginBottom="7dp"
                 android:fontFamily="@font/googlesans_regular"
-                android:text="2023.10.25 ~ 2023.11.06\n3 times per week"
+                android:text="duration\nfrequency"
                 android:textColor="@color/GS_70"
                 android:textSize="8sp"
                 app:layout_constraintBottom_toBottomOf="parent"
