@@ -3,6 +3,7 @@ package com.example.klab2challenge.ui.challenge
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
@@ -93,26 +94,50 @@ class PostRecordActivity : AppCompatActivity() {
         }
 
         binding.tvPrAddimage.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                openGallery()
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    openGallery()
+                } else {
+                    requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                }
             } else {
-                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    openGallery()
+                } else {
+                    requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
             }
         }
 
         binding.ivPrAddimage.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.READ_MEDIA_IMAGES
-                ) == PackageManager.PERMISSION_GRANTED
-            ) {
-                openGallery()
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.READ_MEDIA_IMAGES
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    openGallery()
+                } else {
+                    requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+                }
             } else {
-                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    openGallery()
+                } else {
+                    requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+                }
             }
         }
     }

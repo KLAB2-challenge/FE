@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        saveUserName(this, "user2")
+        saveUserName(this, "user3")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
