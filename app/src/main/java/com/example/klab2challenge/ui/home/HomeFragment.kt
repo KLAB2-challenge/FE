@@ -27,6 +27,7 @@ import com.example.klab2challenge.retrofit.GetPopularChallengesResponse
 import com.example.klab2challenge.retrofit.RetrofitUtil
 import com.example.klab2challenge.retrofit.getUserName
 import com.example.klab2challenge.ui.challenge.ChallengeDetailActivity
+import com.example.klab2challenge.ui.challenge.NewChallengeActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -90,6 +91,11 @@ class HomeFragment : Fragment() {
         userViewModel.itemList.observe(viewLifecycleOwner, Observer {
             (binding.rvHomeUser.adapter as ChallengeAdapter).setData(it)
         })
+
+        binding.fabHomeAdd.setOnClickListener {
+            val i = Intent(requireContext(), NewChallengeActivity::class.java)
+            startActivity(i)
+        }
 
         val popularRequest = GetPopularChallengesRequest(getUserName(requireContext()), 0, 5)
         RetrofitUtil.getRetrofitUtil().getChallenge(popularRequest).enqueue(object : Callback<GetPopularChallengesResponse> {
