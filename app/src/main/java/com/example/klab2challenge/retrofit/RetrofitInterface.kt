@@ -4,6 +4,8 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface RetrofitInterface {
 
@@ -51,7 +53,7 @@ interface RetrofitInterface {
 
     @GET("/comment/getAllComments")
     fun getAllComments(
-        @Body
+        @Query("proofPostId")
         proofPostId: Int
     ): Call<GetAllCommentsResponse>
 
@@ -67,9 +69,13 @@ interface RetrofitInterface {
         request: SetProofPostRequest
     ): Call<SetProofPostResponse>
 
-    @GET("/proofPost/getProofPosts")
-    fun getProofPost(
-        @Body
-        request: GetProofPostsRequest
+    @GET("/proofPost/getAllProofPosts")
+    fun getProofPosts(
+        @Query("challengeId") challengeId : Int
     ): Call<GetProofPostsResponse>
+
+    @GET("/proofPost/getProofPost")
+    fun getProofPost(
+        @Query("proofPostId") proofPostId : Int
+    ): Call<GetProofPostResponse>
 }

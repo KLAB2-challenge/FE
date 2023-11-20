@@ -3,17 +3,23 @@ package com.example.klab2challenge.ui.challenge
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.klab2challenge.retrofit.GetCommentResponse
 
 class CommentViewModel : ViewModel() {
-    private var list = ArrayList<String>()
-    private val _itemList = MutableLiveData<List<String>>()
+    private var list = ArrayList<GetCommentResponse>()
+    private val _commentList = MutableLiveData<List<GetCommentResponse>>()
 
-    val itemList : LiveData<List<String>> get() = _itemList
+    val commentList : LiveData<List<GetCommentResponse>> get() = _commentList
 
     init {
-        list = arrayListOf("1", "1", "1", "1")
+        list = arrayListOf()
+        _commentList.value = list
+    }
 
-        _itemList.value = list
+    fun setComments(comments : List<GetCommentResponse>) {
+        list.clear()
+        list.addAll(comments)
+        _commentList.value = list
     }
 
 }

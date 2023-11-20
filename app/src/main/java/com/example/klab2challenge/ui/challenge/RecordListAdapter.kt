@@ -9,7 +9,7 @@ import com.example.klab2challenge.retrofit.GetProofPostResponse
 class RecordListAdapter(var items: List<GetProofPostResponse>) : RecyclerView.Adapter<RecordListAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClicked()
+        fun onItemClicked(recordId: Int)
     }
 
     private var onItemClickListener : OnItemClickListener? = null
@@ -21,8 +21,13 @@ class RecordListAdapter(var items: List<GetProofPostResponse>) : RecyclerView.Ad
     inner class ViewHolder(val binding : ItemRecordListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : GetProofPostResponse) {
             binding.root.setOnClickListener {
-                onItemClickListener!!.onItemClicked()
+                onItemClickListener!!.onItemClicked(item.proofPostId)
             }
+            binding.tvItemRlTitle.text = item.contents.title
+            binding.tvItemRlContent.text = item.contents.content
+            binding.tvRdUserName.text = item.memberName
+            binding.tvRdPostDate.text = item.infos.date
+            binding.tvItemRlMessage.text = item.commentNum.toString()
         }
     }
 
