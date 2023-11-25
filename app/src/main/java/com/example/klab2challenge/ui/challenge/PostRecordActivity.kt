@@ -18,6 +18,12 @@ import com.example.klab2challenge.retrofit.RetrofitUtil
 import com.example.klab2challenge.retrofit.SetProofPostRequest
 import com.example.klab2challenge.retrofit.SetProofPostResponse
 import com.example.klab2challenge.retrofit.getUserName
+import com.google.gson.Gson
+import com.google.gson.JsonObject
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,6 +70,12 @@ class PostRecordActivity : AppCompatActivity() {
                     ""
                 )
             )
+
+//            var j = Gson().toJson(postRecord)
+//            val jsonObject = JSONObject(j)
+//            val mediaType = "application/json; charset=utf-8".toMediaType()
+//            val body = jsonObject.toString().toRequestBody(mediaType)
+
             RetrofitUtil.getRetrofitUtil().setProofPost(postRecord)
                 .enqueue(object : Callback<SetProofPostResponse> {
                     override fun onResponse(

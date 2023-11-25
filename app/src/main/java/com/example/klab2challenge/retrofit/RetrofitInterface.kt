@@ -1,9 +1,12 @@
 package com.example.klab2challenge.retrofit
 
+import okhttp3.MultipartBody
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -19,8 +22,11 @@ interface RetrofitInterface {
         @Body request: GetMemberAllBordersRequest
     ): Call<GetMemberAllBordersResponse>
 
+//    @Multipart
     @POST("/challenge/setChallenge")
     fun setChallenge(
+//        @Part("image") image : MultipartBody.Part,
+//        @Part("challenge") request: SetChallengeRequest
         @Body request: SetChallengeRequest
     ): Call<SetChallengeResponse>
 
@@ -105,10 +111,12 @@ interface RetrofitInterface {
         memberName: String
     ): Call<GetRankResponse>
 
-    @POST("/proofPost/setProofPost")
+//    @Multipart
+    @POST("/challenge/setChallenge")
     fun setProofPost(
-        @Body
-        request: SetProofPostRequest
+//        @Part("image") image : MultipartBody.Part,
+//        @Part("proofPost") request: SetChallengeRequest
+        @Body request: SetProofPostRequest
     ): Call<SetProofPostResponse>
 
     @GET("/proofPost/getProofPost")
