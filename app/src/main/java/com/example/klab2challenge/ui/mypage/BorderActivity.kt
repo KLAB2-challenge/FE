@@ -7,25 +7,27 @@ import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityBorderBinding
 
 class BorderActivity : AppCompatActivity() {
-    lateinit var binding : ActivityBorderBinding
+    lateinit var binding: ActivityBorderBinding
 
-    private lateinit var border : ArrayList<View>
-    private lateinit var icCheck : ArrayList<View>
+    private lateinit var border: ArrayList<View>
+    private lateinit var icCheck: ArrayList<View>
     private var isChecked = arrayListOf(false, false, false, false, false, false)
     private var isUnlocked = arrayListOf(false, false, false, false, false, false)
-    private var color = arrayListOf(
-        getColor(R.color.gold), getColor(R.color.green), getColor(R.color.cherry),
-        getColor(R.color.blueberry), getColor(R.color.sunny), getColor(R.color.rainy)
-    )
-
+    lateinit var color: ArrayList<Int>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBorderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        color = arrayListOf(
+            getColor(R.color.gold), getColor(R.color.green), getColor(R.color.cherry),
+            getColor(R.color.blueberry), getColor(R.color.sunny), getColor(R.color.rainy)
+        )
+
+
         border = arrayListOf(
             binding.clBGoldContainer, binding.clBGreenContainer, binding.clBCherryContainer,
-            binding.clBBlueberryContainer,binding.clBSunnyContainer, binding.clBRainyContainer
+            binding.clBBlueberryContainer, binding.clBSunnyContainer, binding.clBRainyContainer
         )
 
         icCheck = arrayListOf(
@@ -43,7 +45,7 @@ class BorderActivity : AppCompatActivity() {
     }
 
     private fun startClickListener() {
-        for (i in 0..5 step(1)) {
+        for (i in 0..5 step (1)) {
             border[i].setOnClickListener {
                 if (!isChecked[i]) {
                     icCheck[i].visibility = View.VISIBLE

@@ -68,9 +68,15 @@ class AddChallengeActivity : AppCompatActivity() {
                 .setChallenge(
                     SetChallengeRequest(
                         getUserName(this), ChallengeContents(
-                            binding.etNcTitleInput.text.toString(), binding.etNcContentInput.text.toString(), ""
+                            binding.etNcTitleInput.text.toString(),
+                            binding.etNcContentInput.text.toString(),
+                            ""
                         ), ChallengeInfos(
-                            binding.etNcStartInput.editableText.toString(), binding.etNcFinishInput.editableText.toString(), binding.spNcFreqInput.selectedItem.toString(), 0, false
+                            binding.etNcStartInput.editableText.toString(),
+                            binding.etNcFinishInput.editableText.toString(),
+                            binding.spNcFreqInput.selectedItem.toString(),
+                            0,
+                            false
                         )
                     )
                 ).enqueue(object : Callback<SetChallengeResponse> {
@@ -78,9 +84,9 @@ class AddChallengeActivity : AppCompatActivity() {
                         call: Call<SetChallengeResponse>,
                         response: Response<SetChallengeResponse>
                     ) {
-                        if(response.isSuccessful) {
+                        if (response.isSuccessful) {
                             Log.d("hyunhee", response.body().toString())
-                        }else {
+                        } else {
                             Log.d("hyunhee", response.errorBody().toString())
                         }
                     }

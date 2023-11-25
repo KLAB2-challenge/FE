@@ -22,12 +22,12 @@ interface RetrofitInterface {
         @Body request: GetMemberAllBordersRequest
     ): Call<GetMemberAllBordersResponse>
 
-//    @Multipart
+    @Multipart
     @POST("/challenge/setChallenge")
     fun setChallenge(
 //        @Part("image") image : MultipartBody.Part,
-//        @Part("challenge") request: SetChallengeRequest
-        @Body request: SetChallengeRequest
+        @Part("challenge") request: SetChallengeRequest
+//        @Body request: SetChallengeRequest
     ): Call<SetChallengeResponse>
 
     @POST("/challenge/getChallenge")
@@ -93,7 +93,7 @@ interface RetrofitInterface {
         request: SetMemberCoinsRequest
     ): Call<SetMemberCoinsResponse>
 
-    @GET("/member/getMemberInfos")
+    @POST("/member/getMemberInfos")
     fun getMemberInfos(
         @Body
         request: GetMemberInfosRequest
@@ -105,7 +105,7 @@ interface RetrofitInterface {
         request: ChangeCurrentBorderResponse
     ): Call<ChangeCurrentBorderRequest>
 
-    @POST("/member/getRating")
+    @GET("/member/getRating")
     fun getRanking(
         @Query("memberName")
         memberName: String
