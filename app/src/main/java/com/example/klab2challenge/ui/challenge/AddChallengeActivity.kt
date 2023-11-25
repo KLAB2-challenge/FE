@@ -70,7 +70,7 @@ class AddChallengeActivity : AppCompatActivity() {
                         getUserName(this), ChallengeContents(
                             binding.etNcTitleInput.text.toString(), binding.etNcContentInput.text.toString(), ""
                         ), ChallengeInfos(
-                            "", "", "", 0, false
+                            binding.etNcStartInput.editableText.toString(), binding.etNcFinishInput.editableText.toString(), binding.spNcFreqInput.selectedItem.toString(), 0, false
                         )
                     )
                 ).enqueue(object : Callback<SetChallengeResponse> {
