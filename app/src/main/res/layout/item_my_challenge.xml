@@ -120,6 +120,7 @@
             </androidx.cardview.widget.CardView>
             
             <TextView
+                android:id="@+id/tv_item_my_challenge_percent"
                 android:layout_width="wrap_content"
                 android:layout_height="6dp"
                 android:textSize="5sp"
