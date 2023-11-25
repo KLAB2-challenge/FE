@@ -5,7 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.challenge.AddChallengeActivity">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_nc_backBtn"
         android:layout_width="30dp"
@@ -162,6 +171,68 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_nc_titleLabel" />
 
     <TextView
+        android:id="@+id/tv_nc_startLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/googlesans_regular"
+        android:text="Start Date"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_nc_titleInput" />
+
+    <EditText
+        android:id="@+id/et_nc_startInput"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/background_post_record"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_nc_startLabel"
+        android:hint="yyyy.MM.dd"
+        android:textColorHint="@color/GS_60"
+        android:textSize="16dp"
+        android:fontFamily="@font/googlesans_regular"/>
+
+    <TextView
+        android:id="@+id/tv_nc_finishLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="14dp"
+        android:fontFamily="@font/googlesans_regular"
+        android:text="Finish Date"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_nc_startInput" />
+
+    <EditText
+        android:id="@+id/et_nc_finishInput"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/background_post_record"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_nc_finishLabel"
+        android:hint="yyyy.MM.dd"
+        android:textColorHint="@color/GS_60"
+        android:textSize="16dp"
+        android:fontFamily="@font/googlesans_regular"/>
+
+    <TextView
         android:id="@+id/tv_nc_freqLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -172,7 +243,7 @@
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_nc_titleInput" />
+        app:layout_constraintTop_toBottomOf="@+id/et_nc_finishInput" />
 
     <EditText
         android:id="@+id/et_nc_freqInput"
@@ -217,13 +288,16 @@
         android:layout_marginLeft="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginRight="24dp"
+        android:layout_marginBottom="29dp"
         android:background="@drawable/background_post_record"
         android:gravity="top"
         android:paddingHorizontal="10dp"
         android:paddingVertical="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_nc_contentLabel" />
-
+        app:layout_constraintTop_toBottomOf="@+id/tv_nc_contentLabel"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
