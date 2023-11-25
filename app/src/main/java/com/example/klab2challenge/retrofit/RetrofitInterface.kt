@@ -13,6 +13,12 @@ interface RetrofitInterface {
 //    fun SampleAPI(sampleRequest: SampleRequest) : Call<SampleResponse>
 
     //안해도 됨 demo는
+
+    @POST("/border/getMemberAllBorders")
+    fun getMemberAllBorders(
+        @Body request: GetMemberAllBordersRequest
+    ): Call<GetMemberAllBordersResponse>
+
     @POST("/challenge/setChallenge")
     fun setChallenge(
         @Body request: SetChallengeRequest
@@ -45,6 +51,12 @@ interface RetrofitInterface {
         request: GetRelatedChallengesRequest
     ): Call<GetRelatedChallengesResponse>
 
+    @POST("/challenge/getMemberAllChallenges")
+    fun getChallenge(
+        @Body
+        request: GetMemberAllChallengesRequest
+    ): Call<GetMemberAllChallengesResponse>
+
     @POST("/comment/setComment")
     fun setComment(
         @Body
@@ -57,11 +69,41 @@ interface RetrofitInterface {
         proofPostId: Int
     ): Call<GetAllCommentsResponse>
 
+    @POST ("/memberBorder/buyBorder")
+    fun buyBorder(
+        @Body
+        request: BuyBorderRequest
+    ): Call<BuyBorderResponse>
+
     @POST("/memberChallenge/joinChallenge")
     fun setChallenge(
         @Body
         request: JoinChallengeRequest
     ): Call<JoinChallengeResponse>
+
+    @POST("/member/setMemberCoin")
+    fun setMemberCoins(
+        @Body
+        request: SetMemberCoinsRequest
+    ): Call<SetMemberCoinsResponse>
+
+    @GET("/member/getMemberInfos")
+    fun getMemberInfos(
+        @Body
+        request: GetMemberInfosRequest
+    ): Call<GetMemberInfosResponse>
+
+    @GET("/member/changeCurrentBorder")
+    fun changeCurrentBorder(
+        @Body
+        request: ChangeCurrentBorderResponse
+    ): Call<ChangeCurrentBorderRequest>
+
+    @POST("/member/getRating")
+    fun getRanking(
+        @Query("memberName")
+        memberName: String
+    ): Call<GetRankResponse>
 
     @POST("/proofPost/setProofPost")
     fun setProofPost(
@@ -69,13 +111,20 @@ interface RetrofitInterface {
         request: SetProofPostRequest
     ): Call<SetProofPostResponse>
 
+    @GET("/proofPost/getProofPost")
+    fun getProofPost(
+        @Query("proofPostId")
+        proofPostId: Int
+    ): Call<GetProofPostResponse>
+
     @GET("/proofPost/getAllProofPosts")
     fun getProofPosts(
         @Query("challengeId") challengeId : Int
     ): Call<GetProofPostsResponse>
 
-    @GET("/proofPost/getProofPost")
+    @GET("/proofPost/getProofPosts")
     fun getProofPost(
-        @Query("proofPostId") proofPostId : Int
-    ): Call<GetProofPostResponse>
+        @Body
+        request: GetProofPostsRequest
+    ): Call<GetProofPostsResponse>
 }
