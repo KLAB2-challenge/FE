@@ -14,20 +14,20 @@ class ChallengeViewModel {
 
     init {
         list = arrayListOf(
-            GetChallengeResponse(
-                0,
-                ChallengeContents("abc", "abc", ""),
-                ChallengeInfos("startdate", "enddate", "freq", 0, false),
-                1,
-                true
-            ),
-            GetChallengeResponse(
-                2,
-                ChallengeContents("abc2", "abc2", ""),
-                ChallengeInfos("startdate2", "enddate2", "freq2", 0, false),
-                1,
-                true
-            )
+//            GetChallengeResponse(
+//                0,
+//                ChallengeContents("abc", "abc", ""),
+//                ChallengeInfos("startdate", "enddate", "freq", 0, false),
+//                1,
+//                true
+//            ),
+//            GetChallengeResponse(
+//                2,
+//                ChallengeContents("abc2", "abc2", ""),
+//                ChallengeInfos("startdate2", "enddate2", "freq2", 0, false),
+//                1,
+//                true
+//            )
         )
 
         _itemList.value = list
