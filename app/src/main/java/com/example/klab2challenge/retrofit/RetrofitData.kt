@@ -187,7 +187,8 @@ data class GetChallengeResponse (
     @SerializedName("contents") val contents: ChallengeContents,
     @SerializedName("infos") val infos: ChallengeInfos,
     @SerializedName("memberNum") val memberNum: Int,
-    @SerializedName("join") var join: Boolean
+    @SerializedName("join") var join: Boolean,
+    @SerializedName("progressRate")  val progressRate: Double
 )
 
 data class GetCommentResponse (

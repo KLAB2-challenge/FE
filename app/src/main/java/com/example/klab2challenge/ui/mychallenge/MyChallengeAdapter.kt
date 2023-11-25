@@ -1,9 +1,11 @@
 package com.example.klab2challenge.ui.mychallenge
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.klab2challenge.databinding.ItemHomeChallengeBinding
+import com.example.klab2challenge.databinding.ItemMyChallengeBinding
 import com.example.klab2challenge.retrofit.GetChallengeResponse
 
 class MyChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.Adapter<MyChallengeAdapter.ViewHolder>() {
@@ -16,19 +18,20 @@ class MyChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.
         itemClickListener = onItemClickListener
     }
 
-    inner class ViewHolder(val binding: ItemHomeChallengeBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(val binding: ItemMyChallengeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : GetChallengeResponse) {
 //            binding.root.setOnClickListener {
 //                itemClickListener!!.onItemClicked(item.challengeId)
 //            }
-            binding.tvHcTitle.text = item.contents.title
-            binding.tvHcDuration.text = item.infos.startDate + " ~ " + item.infos.endDate + "\n" + item.infos.frequency
-            binding.tvHcMemeberCount.text = item.memberNum.toString()
+            binding.tvMcTitle.text = item.contents.title
+            binding.tvItemMyChallengePercent.text = (item.progressRate * 100).toInt().toString() + "%"
+            binding.cvMcProgress.layoutParams.width = (360 * item.progressRate).toInt()
+
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = ItemHomeChallengeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = ItemMyChallengeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 

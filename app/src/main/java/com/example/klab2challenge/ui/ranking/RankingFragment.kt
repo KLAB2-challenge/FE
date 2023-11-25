@@ -43,29 +43,40 @@ class RankingFragment : Fragment() {
             (binding.rvRankingAllRankings.adapter as RankingAdapter).setData(it)
         })
 
+
         RetrofitUtil.getRetrofitUtil().getRanking(getUserName(requireContext())).enqueue(object:
             Callback<GetRankResponse> {
             override fun onResponse(
                 call: Call<GetRankResponse>,
                 response: Response<GetRankResponse>
             ) {
+                Log.d("hyunherankqq", response.body().toString())
                 if(response.isSuccessful) {
                     val rankingList = response.body()!!.ranker
+                    val myRanking = response.body()!!.myRank
                     binding.tvRankingTop1Profile.text = rankingList.get(0).name
-                    binding.tvRankingTop2Profile.text = rankingList.get(1).name
-                    binding.tvRankingTop3Profile.text = rankingList.get(2).name
                     binding.tvRankingTop1Coin.text = rankingList.get(0).infos.holdingCoins.toString()
-                    binding.tvRankingTop2Coin.text = rankingList.get(1).infos.holdingCoins.toString()
-                    binding.tvRankingTop3Coin.text = rankingList.get(2).infos.holdingCoins.toString()
-
-                    rankingViewModel.setItem(rankingList.subList(3, rankingList.size-1))
+                    binding.tvRankingMyRank.text = "# " + myRanking
+                    binding.tvRankingProfileName.text = rankingList.get(myRanking-1).name
+                    binding.tvRankingCoin.text = rankingList.get(myRanking-1).infos.holdingCoins.toString()
+                    if(rankingList.size >= 2) {
+                        binding.tvRankingTop2Profile.text = rankingList.get(1).name
+                        binding.tvRankingTop3Profile.text = rankingList.get(2).name
+                    }
+                    if(rankingList.size >= 3) {
+                        binding.tvRankingTop2Coin.text = rankingList.get(1).infos.holdingCoins.toString()
+                        binding.tvRankingTop3Coin.text = rankingList.get(2).infos.holdingCoins.toString()
+                    }
+                    if(rankingList.size >= 4) {
+                        rankingViewModel.setItem(rankingList.subList(4, rankingList.size-1))
+                    }
                 } else {
-                    Log.d("hyunhee", response.errorBody().toString())
+                    Log.d("hyunherankww", response.errorBody().toString())
                 }
             }
 
             override fun onFailure(call: Call<GetRankResponse>, t: Throwable) {
-                Log.d("hyunhee", t.message!!)
+                t.printStackTrace()
             }
 
         })

@@ -11,9 +11,30 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cv_mypage_profile"
+        android:id="@+id/cv_mypage_profile_border"
         android:layout_width="90dp"
         android:layout_height="90dp"
+        android:layout_marginTop="40dp"
+        android:elevation="1dp"
+        app:cardCornerRadius="45dp"
+        app:cardElevation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.utils.widget.ImageFilterButton
+            android:id="@+id/ifb_mypage_profile_border"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/GS_60"
+            android:elevation="2dp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_mypage_profile"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginTop="40dp"
         android:elevation="1dp"
         app:cardCornerRadius="45dp"

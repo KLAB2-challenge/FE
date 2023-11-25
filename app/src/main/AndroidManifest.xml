@@ -34,6 +34,9 @@
             android:name=".ui.challenge.AddChallengeActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.mypage.BorderActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name">

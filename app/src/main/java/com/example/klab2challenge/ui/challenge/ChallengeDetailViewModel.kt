@@ -8,12 +8,14 @@ import com.example.klab2challenge.retrofit.ChallengeInfos
 import com.example.klab2challenge.retrofit.GetChallengeResponse
 
 class ChallengeDetailViewModel : ViewModel() {
-    private var cd = GetChallengeResponse(
+    private var cd =
+        GetChallengeResponse(
         -1,
         ChallengeContents("", "", ""),
         ChallengeInfos("", "", "", -1, false),
         -1,
-        false
+        false,
+        0.0
     )
     private val _challengeDetail = MutableLiveData<GetChallengeResponse>()
 
