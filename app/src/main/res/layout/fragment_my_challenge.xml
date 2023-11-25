@@ -5,23 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.mychallenge.MyChallengeFragment">
-    
+
     <TextView
         android:id="@+id/tv_mc_title"
         android:layout_width="wrap_content"
         android:layout_height="25dp"
-        android:textSize="20sp"
-        android:text="My Challenge"
-        android:fontFamily="@font/googlesans_bold"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:fontFamily="@font/googlesans_bold"
+        android:text="My Challenge"
+        android:textColor="@color/GS_10"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="65dp"
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -35,14 +35,14 @@
                 android:id="@+id/rv_my_challenge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="11dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="18dp"
+                android:layout_marginTop="20dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -52,7 +52,7 @@
         android:layout_marginBottom="76dp"
         android:src="@drawable/ic_add"
         app:fabCustomSize="48dp"
-        app:tint="@color/BK"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/BK" />
 </androidx.constraintlayout.widget.ConstraintLayout>

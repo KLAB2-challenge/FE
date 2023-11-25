@@ -13,6 +13,19 @@ class MyChallengeViewModel : ViewModel() {
 
     val itemList: LiveData<ArrayList<GetChallengeResponse>> get() = _itemList
 
+    init {
+        list = arrayListOf(
+            GetChallengeResponse(
+                0,
+                ChallengeContents("title", "", ""),
+                ChallengeInfos("", "", "", 0, false),
+                0,
+                true
+            )
+        )
+
+        _itemList.value = list
+    }
 
     fun setMyChallenge(cList: ArrayList<GetChallengeResponse>) {
         list = cList
