@@ -4,4 +4,13 @@
     <string name="title_my_challenge">My Challenge</string>
     <string name="title_ranking">Ranking</string>
     <string name="title_my_page">My Page</string>
+    <string-array name="freq_array">
+        <item name="one_day">1 day a week</item>
+        <item name="two_day">2 days a week</item>
+        <item name="three_day">3 days a week</item>
+        <item name="four_day">4 days a week</item>
+        <item name="five_day">5 days a week</item>
+        <item name="six_day">6 days a week</item>
+        <item name="seven_day">7 days a week</item>
+    </string-array>
 </resources>

@@ -18,9 +18,9 @@ class MyChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.
 
     inner class ViewHolder(val binding: ItemHomeChallengeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : GetChallengeResponse) {
-            binding.root.setOnClickListener {
-                itemClickListener!!.onItemClicked(item.challengeId)
-            }
+//            binding.root.setOnClickListener {
+//                itemClickListener!!.onItemClicked(item.challengeId)
+//            }
             binding.tvHcTitle.text = item.contents.title
             binding.tvHcDuration.text = item.infos.startDate + " ~ " + item.infos.endDate + "\n" + item.infos.frequency
             binding.tvHcMemeberCount.text = item.memberNum.toString()

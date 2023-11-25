@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.challenge.NewChallengeActivity">
+    tools:context=".ui.challenge.AddChallengeActivity">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cv_nc_backBtn"
@@ -190,14 +190,12 @@
 
     <Spinner
         android:id="@+id/sp_nc_freqInput"
-        android:layout_marginTop="12dp"
-        android:layout_marginLeft="26dp"
-        android:layout_marginRight="26dp"
-        android:layout_centerHorizontal="true"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_nc_freqLabel"/>
+        app:layout_constraintBottom_toBottomOf="@+id/et_nc_freqInput"
+        app:layout_constraintEnd_toEndOf="@id/et_nc_freqInput"
+        app:layout_constraintStart_toStartOf="@id/et_nc_freqInput"
+        app:layout_constraintTop_toTopOf="@id/et_nc_freqInput" />
 
     <TextView
         android:id="@+id/tv_nc_contentLabel"
@@ -226,8 +224,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_nc_contentLabel" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
