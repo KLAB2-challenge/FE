@@ -17,4 +17,11 @@
     <color name="MG_30">#C9E175</color>
     <color name="MG_40">#AACE4A</color>
     <color name="MG_BK">#0F1910</color>
+
+    <color name="gold">#FFEA2D</color>
+    <color name="green">#81D074</color>
+    <color name="cherry">#FF306E</color>
+    <color name="blueberry">#2D42FF</color>
+    <color name="sunny">#FF9534</color>
+    <color name="rainy">#9DC9FE</color>
 </resources>
