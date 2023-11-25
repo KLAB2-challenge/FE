@@ -15,12 +15,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityAddChallengeBinding
+import com.example.klab2challenge.retrofit.ChallengeContents
+import com.example.klab2challenge.retrofit.ChallengeInfos
+import com.example.klab2challenge.retrofit.RetrofitUtil
+import com.example.klab2challenge.retrofit.SetChallengeRequest
+import com.example.klab2challenge.retrofit.SetChallengeResponse
+import com.example.klab2challenge.retrofit.getUserName
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class AddChallengeActivity : AppCompatActivity() {
-    lateinit var binding : ActivityAddChallengeBinding
-    lateinit var items : Array<String>
+    lateinit var binding: ActivityAddChallengeBinding
+    lateinit var items: Array<String>
+
     //어댑터 연결 다시 잘 해보자...
-    lateinit var myAdapter : ArrayAdapter<String>
+    lateinit var myAdapter: ArrayAdapter<String>
     //api연결은 아직
 
     // 갤러리 open
@@ -54,6 +64,32 @@ class AddChallengeActivity : AppCompatActivity() {
         binding.spNcFreqInput.adapter = myAdapter
 
         binding.cvNcCreateBtn.setOnClickListener {
+            RetrofitUtil.getRetrofitUtil()
+                .setChallenge(
+                    SetChallengeRequest(
+                        getUserName(this), ChallengeContents(
+                            binding.etNcTitleInput.text.toString(), binding.etNcContentInput.text.toString(), ""
+                        ), ChallengeInfos(
+                            "", "", "", 0, false
+                        )
+                    )
+                ).enqueue(object : Callback<SetChallengeResponse> {
+                    override fun onResponse(
+                        call: Call<SetChallengeResponse>,
+                        response: Response<SetChallengeResponse>
+                    ) {
+                        if(response.isSuccessful) {
+                            Log.d("hyunhee", response.body().toString())
+                        }else {
+                            Log.d("hyunhee", response.errorBody().toString())
+                        }
+                    }
+
+                    override fun onFailure(call: Call<SetChallengeResponse>, t: Throwable) {
+                        Log.d("hyunhee", t.message!!)
+                    }
+
+                })
             finish()
         }
 
@@ -62,7 +98,7 @@ class AddChallengeActivity : AppCompatActivity() {
         }
 
         binding.tvNcAddimage.setOnClickListener {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ContextCompat.checkSelfPermission(
                         this,
                         Manifest.permission.READ_MEDIA_IMAGES
@@ -86,7 +122,7 @@ class AddChallengeActivity : AppCompatActivity() {
         }
 
         binding.ivNcAddimage.setOnClickListener {
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                 if (ContextCompat.checkSelfPermission(
                         this,
                         Manifest.permission.READ_MEDIA_IMAGES
@@ -109,7 +145,6 @@ class AddChallengeActivity : AppCompatActivity() {
             }
         }
     }
-
 
 
     private fun openGallery() {

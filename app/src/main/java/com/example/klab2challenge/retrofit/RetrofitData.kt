@@ -1,7 +1,6 @@
 package com.example.klab2challenge.retrofit
 
 import com.google.gson.annotations.SerializedName
-import java.lang.reflect.Member
 
 data class Border(
     @SerializedName("id") val id: Int,
