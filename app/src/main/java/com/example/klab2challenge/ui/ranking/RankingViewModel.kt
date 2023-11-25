@@ -3,13 +3,89 @@ package com.example.klab2challenge.ui.ranking
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.klab2challenge.retrofit.Challenge
+import com.example.klab2challenge.retrofit.Member
+import com.example.klab2challenge.retrofit.MemberInfos
 
 class RankingViewModel : ViewModel() {
-    private var list = ArrayList<String>()
-    private val _itemlist = MutableLiveData<String>()
+    private var list = ArrayList<Member>()
+    private val _itemlist = MutableLiveData<List<Member>>()
+    val itemList: LiveData<List<Member>> get() = _itemlist
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+    init {
+        list = arrayListOf<Member>(
+            Member(
+                0,
+                "user1",
+                MemberInfos(0, 0, 0, ""),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf()
+            ),
+            Member(
+                1,
+                "user2",
+                MemberInfos(0, 0, 0, ""),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf()
+            ),
+            Member(
+                2,
+                "user3",
+                MemberInfos(0, 0, 0, ""),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf()
+            ),
+            Member(
+                3,
+                "user4",
+                MemberInfos(0, 0, 0, ""),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf()
+            ),
+            Member(
+                4,
+                "user5",
+                MemberInfos(0, 0, 0, ""),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf()
+            ),
+            Member(
+                5,
+                "user6",
+                MemberInfos(0, 0, 0, ""),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf()
+            ),
+            Member(
+                6,
+                "user7",
+                MemberInfos(0, 0, 0, ""),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf(),
+                listOf()
+            )
+        )
+
+        _itemlist.value = list
     }
-    val text: LiveData<String> = _text
 }
