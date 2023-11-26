@@ -1,17 +1,21 @@
 package com.example.klab2challenge.ui.challenge
 
+import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityRecordDetailBinding
 import com.example.klab2challenge.retrofit.GetAllCommentsResponse
 import com.example.klab2challenge.retrofit.GetProofPostResponse
 import com.example.klab2challenge.retrofit.RetrofitUtil
 import com.example.klab2challenge.retrofit.SetCommentRequest
 import com.example.klab2challenge.retrofit.SetCommentResponse
+import com.example.klab2challenge.retrofit.getUserBorder
 import com.example.klab2challenge.retrofit.getUserName
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,6 +27,8 @@ class RecordDetailActivity : AppCompatActivity() {
     private val recordDetailViewModel = RecordDetailViewModel()
     private var recordId = -1
 
+    lateinit var color : ArrayList<Int>
+
     val binding : ActivityRecordDetailBinding get() = _binding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +37,9 @@ class RecordDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         recordId = intent.getIntExtra("recordId", -1)
+
+        Log.d("hyunheeRDborder", getUserBorder(this).toString())
+        binding.cvRdUserImgBorder.backgroundTintList = ColorStateList.valueOf(getUserBorder(this))
 
         binding.rvRdComments.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.rvRdComments.adapter = CommentAdapter(this, commentViewModel.commentList.value!!)

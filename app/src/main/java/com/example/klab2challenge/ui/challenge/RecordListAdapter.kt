@@ -41,7 +41,7 @@ class RecordListAdapter(val context: Context, var items: List<GetProofPostRespon
             binding.tvRdUserName.text = item.memberName
             binding.tvRdPostDate.text = item.infos.date
             binding.tvItemRlMessage.text = item.commentNum.toString()
-//            binding.cvPrUserImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(item.userBorder))
+            binding.cvPrUserImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(item.memberCurrentBorder))
         }
     }
 

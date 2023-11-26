@@ -29,7 +29,7 @@ class CommentAdapter(var context: Context, var items: List<GetCommentResponse>) 
             binding.tvRdCommentName.text = item.memberName
             binding.tvRdCommentContent.text = item.content
             binding.tvRdCommentDate.text = item.infos.date
-//            binding.cvRdCommentImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(item.userBorder))
+            binding.cvRdCommentImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(item.memberCurrentBorder))
         }
     }
 

@@ -9,7 +9,7 @@ import com.example.klab2challenge.retrofit.ProofPostContents
 import com.example.klab2challenge.retrofit.ProofPostInfos
 
 class RecordDetailViewModel : ViewModel() {
-    private var rd = GetProofPostResponse(-1, "", ProofPostContents("", "", ""), ProofPostInfos(""), -1)
+    private var rd = GetProofPostResponse(-1, "", ProofPostContents("", "", ""), ProofPostInfos(""), -1, 0, "")
     private val _recordDetail = MutableLiveData<GetProofPostResponse>()
 
     val recordDetail : LiveData<GetProofPostResponse> get() = _recordDetail

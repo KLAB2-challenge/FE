@@ -194,7 +194,9 @@ data class GetChallengeResponse (
 data class GetCommentResponse (
     @SerializedName("memberName") val memberName: String,
     @SerializedName("content") val content: String,
-    @SerializedName("infos") val infos: CommentInfos
+    @SerializedName("infos") val infos: CommentInfos,
+    @SerializedName("memberCurrentBorder") val memberCurrentBorder: Int,
+    @SerializedName("memberImageUrl") val memberImageUrl: String
 )
 
 data class GetMemberAllBordersResponse (
@@ -224,6 +226,8 @@ data class GetProofPostResponse (
     @SerializedName("contents") val contents: ProofPostContents,
     @SerializedName("infos") val infos: ProofPostInfos,
     @SerializedName("commentNum") val commentNum: Int,
+    @SerializedName("memberCurrentBorder") val memberCurrentBorder: Int,
+    @SerializedName("memberImageUrl") val memberImageUrl: String
 )
 
 data class GetProofPostsResponse (
