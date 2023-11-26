@@ -44,4 +44,5 @@ class ChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.Ad
         items = list
         notifyDataSetChanged()
     }
+
 }

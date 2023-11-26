@@ -111,12 +111,12 @@ interface RetrofitInterface {
         memberName: String
     ): Call<GetRankResponse>
 
-//    @Multipart
-    @POST("/challenge/setChallenge")
+    @Multipart
+    @POST("/proofPost/setProofPost")
     fun setProofPost(
 //        @Part("image") image : MultipartBody.Part,
-//        @Part("proofPost") request: SetChallengeRequest
-        @Body request: SetProofPostRequest
+        @Part("proofPost") request: SetProofPostRequest
+//        @Body request: SetProofPostRequest
     ): Call<SetProofPostResponse>
 
     @GET("/proofPost/getProofPost")

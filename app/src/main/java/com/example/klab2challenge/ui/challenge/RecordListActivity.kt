@@ -50,7 +50,7 @@ class RecordListActivity : AppCompatActivity() {
 
     fun initLayout() {
         binding.rvRl.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        val adapter = RecordListAdapter(recordViewModel.itemList.value!!)
+        val adapter = RecordListAdapter(applicationContext, recordViewModel.itemList.value!!)
         adapter.setOnItemClickListener(object : RecordListAdapter.OnItemClickListener {
             override fun onItemClicked(recordId: Int) {
                 val i = Intent(applicationContext, RecordDetailActivity::class.java)
