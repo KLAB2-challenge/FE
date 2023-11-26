@@ -43,7 +43,7 @@ class AddChallengeActivity : AppCompatActivity() {
     //어댑터 연결 다시 잘 해보자...
     lateinit var myAdapter: ArrayAdapter<String>
 
-    lateinit var fileToUpload: MultipartBody.Part
+    var fileToUpload: MultipartBody.Part? = null
     //api연결은 아직
 
     // 갤러리 open
@@ -96,7 +96,7 @@ class AddChallengeActivity : AppCompatActivity() {
         binding.cvNcCreateBtn.setOnClickListener {
             RetrofitUtil.getRetrofitUtil()
                 .setChallenge(
-                    fileToUpload,
+                    fileToUpload!!,
                     SetChallengeRequest(
                         getUserName(this), ChallengeContents(
                             binding.etNcTitleInput.text.toString(),
@@ -117,17 +117,20 @@ class AddChallengeActivity : AppCompatActivity() {
                     ) {
                         if (response.isSuccessful) {
                             Log.d("hyunhee", response.body().toString())
+                            setResult(RESULT_OK)
+                            finish()
                         } else {
                             Log.d("hyunhee", response.errorBody().toString())
+                            finish()
                         }
                     }
 
                     override fun onFailure(call: Call<SetChallengeResponse>, t: Throwable) {
                         Log.d("hyunhee", t.message!!)
+                        finish()
                     }
 
                 })
-            finish()
         }
 
         binding.cvNcBackBtn.setOnClickListener {
