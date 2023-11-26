@@ -55,4 +55,16 @@ fun getUserCoin(context: Context): Int {
     return spf.getInt("userCoin_spf", -1)!!
 }
 
+fun saveUserProfileUrl(context: Context, userProfileUrl: String) {
+    val pref =
+        context.getSharedPreferences("userProfileUrl_spf", Context.MODE_PRIVATE) //shared key 설정
+    val edit = pref.edit() // 수정모드
+    edit.putString("userProfileUrl_spf", userProfileUrl) // 값 넣기
+    edit.apply() // 적용하기
+}
+fun getUserProfileUrl(context: Context): String {
+    val spf = context.getSharedPreferences("userProfileUrl_spf", AppCompatActivity.MODE_PRIVATE)
+    return spf.getString("userProfileUrl_spf", 1.toString())!!
+}
+
 

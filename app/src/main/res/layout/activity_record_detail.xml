@@ -86,19 +86,20 @@
                     app:layout_constraintBottom_toBottomOf="@id/cv_rd_userImg_border"
                     app:layout_constraintEnd_toEndOf="@id/cv_rd_userImg_border"
                     app:layout_constraintStart_toStartOf="@id/cv_rd_userImg_border"
-                    app:layout_constraintTop_toTopOf="@id/cv_rd_userImg_border"/>
+                    app:layout_constraintTop_toTopOf="@id/cv_rd_userImg_border">
 
+                    <ImageView
+                        android:id="@+id/iv_rd_userImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:elevation="2dp"
+                        app:layout_constraintBottom_toBottomOf="@id/cv_rd_userImg_border"
+                        app:layout_constraintEnd_toEndOf="@id/cv_rd_userImg_border"
+                        app:layout_constraintStart_toStartOf="@id/cv_rd_userImg_border"
+                        app:layout_constraintTop_toTopOf="@id/cv_rd_userImg_border" />
+                </com.google.android.material.card.MaterialCardView>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_user"
-                    android:elevation="2dp"
-                    app:layout_constraintBottom_toBottomOf="@id/cv_rd_userImg_border"
-                    app:layout_constraintEnd_toEndOf="@id/cv_rd_userImg_border"
-                    app:layout_constraintStart_toStartOf="@id/cv_rd_userImg_border"
-                    app:layout_constraintTop_toTopOf="@id/cv_rd_userImg_border" />
 
                 <TextView
                     android:id="@+id/tv_rd_userName"
@@ -149,6 +150,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_rd_recordTitle">
 
                     <ImageView
+                        android:id="@+id/iv_rd_recordImg"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/GS_60"

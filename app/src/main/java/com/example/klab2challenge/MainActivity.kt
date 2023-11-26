@@ -1,15 +1,13 @@
 package com.example.klab2challenge
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.module.AppGlideModule
+import com.bumptech.glide.annotation.GlideModule
 import com.example.klab2challenge.databinding.ActivityMainBinding
 import com.example.klab2challenge.retrofit.GetMemberInfosRequest
 import com.example.klab2challenge.retrofit.GetMemberInfosResponse
@@ -18,6 +16,7 @@ import com.example.klab2challenge.retrofit.getUserName
 import com.example.klab2challenge.retrofit.saveUserBorder
 import com.example.klab2challenge.retrofit.saveUserCoin
 import com.example.klab2challenge.retrofit.saveUserName
+import com.example.klab2challenge.retrofit.saveUserProfileUrl
 import com.example.klab2challenge.retrofit.saveUserTotalCoin
 import retrofit2.Call
 import retrofit2.Callback
@@ -65,6 +64,7 @@ class MainActivity : AppCompatActivity() {
                         saveUserBorder(applicationContext, color.get(data.infos.currentBorder))
                         saveUserCoin(applicationContext, data.infos.holdingCoins)
                         saveUserTotalCoin(applicationContext, data.infos.totalCoins)
+                        saveUserProfileUrl(applicationContext, data.infos.imageUrl)
                     } else {
                         Log.d("hyunheemp", response.errorBody().toString())
                     }

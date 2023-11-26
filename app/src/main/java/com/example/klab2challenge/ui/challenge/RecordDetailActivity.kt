@@ -8,6 +8,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityRecordDetailBinding
 import com.example.klab2challenge.retrofit.GetAllCommentsResponse
@@ -43,6 +44,7 @@ class RecordDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         recordId = intent.getIntExtra("recordId", -1)
+
 
         Log.d("hyunheeRDborder", getUserBorder(this).toString())
         binding.cvRdUserImgBorder.backgroundTintList = ColorStateList.valueOf(getUserBorder(this))
@@ -104,6 +106,8 @@ class RecordDetailActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful) {
                         recordDetailViewModel.setRecordDetail(response.body()!!)
+                        Glide.with(this@RecordDetailActivity).load(response.body()!!.memberImageUrl).into(binding.ivRdUserImg)
+                        Glide.with(this@RecordDetailActivity).load(response.body()!!.contents.image).into(binding.ivRdRecordImg)
                     } else {
                         Log.d("seohyun", response.errorBody().toString())
                     }
