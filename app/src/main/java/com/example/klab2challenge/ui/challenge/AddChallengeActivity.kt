@@ -72,8 +72,8 @@ class AddChallengeActivity : AppCompatActivity() {
                             binding.etNcContentInput.text.toString(),
                             ""
                         ), ChallengeInfos(
-                            binding.etNcStartInput.editableText.toString(),
-                            binding.etNcFinishInput.editableText.toString(),
+                            binding.etNcStartInput.text.toString(),
+                            binding.etNcFinishInput.text.toString(),
                             binding.spNcFreqInput.selectedItem.toString(),
                             0,
                             false

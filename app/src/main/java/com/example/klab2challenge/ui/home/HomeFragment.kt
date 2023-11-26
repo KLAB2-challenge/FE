@@ -94,6 +94,7 @@ class HomeFragment : Fragment() {
                 response: Response<GetPopularChallengesResponse>
             ) {
                 if(response.isSuccessful) {
+                    popularViewModel.clearChallenge()
                     popularViewModel.addChallenges(response.body()!!.challenges)
                 } else {
                     Log.d("seohyun", response.errorBody().toString())
@@ -112,6 +113,7 @@ class HomeFragment : Fragment() {
                 response: Response<GetOfficialOrUserChallengesResponse>
             ) {
                 if(response.isSuccessful) {
+                    officialViewModel.clearChallenge()
                     officialViewModel.addChallenges(response.body()!!.challenges)
                 } else {
                     Log.d("seohyun", response.errorBody().toString())
@@ -131,6 +133,7 @@ class HomeFragment : Fragment() {
                 response: Response<GetOfficialOrUserChallengesResponse>
             ) {
                 if(response.isSuccessful) {
+                    userViewModel.clearChallenge()
                     userViewModel.addChallenges(response.body()!!.challenges)
                 } else {
                     Log.d("seohyun", response.errorBody().toString())

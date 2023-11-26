@@ -2,6 +2,7 @@ package com.example.klab2challenge.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.klab2challenge.retrofit.Challenge
 import com.example.klab2challenge.retrofit.ChallengeContents
 import com.example.klab2challenge.retrofit.ChallengeInfos
 import com.example.klab2challenge.retrofit.GetChallengeResponse
@@ -47,6 +48,12 @@ class ChallengeViewModel {
 
     fun deleteChallenge(challenge: GetChallengeResponse) {
         list.remove(challenge)
+
+        _itemList.value = list
+    }
+
+    fun clearChallenge() {
+        list.clear()
 
         _itemList.value = list
     }

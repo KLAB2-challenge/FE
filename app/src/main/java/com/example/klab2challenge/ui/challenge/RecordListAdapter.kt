@@ -1,12 +1,16 @@
 package com.example.klab2challenge.ui.challenge
 
+import android.content.Context
+import android.content.res.ColorStateList
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ItemRecordListBinding
 import com.example.klab2challenge.retrofit.GetProofPostResponse
 
-class RecordListAdapter(var items: List<GetProofPostResponse>) : RecyclerView.Adapter<RecordListAdapter.ViewHolder>() {
+class RecordListAdapter(val context: Context, var items: List<GetProofPostResponse>) : RecyclerView.Adapter<RecordListAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClicked(recordId: Int)
@@ -18,6 +22,15 @@ class RecordListAdapter(var items: List<GetProofPostResponse>) : RecyclerView.Ad
         onItemClickListener = listener
     }
 
+    val color = arrayListOf(
+        ContextCompat.getColor(context, R.color.gold),
+        ContextCompat.getColor(context, R.color.green),
+        ContextCompat.getColor(context, R.color.cherry),
+        ContextCompat.getColor(context, R.color.blueberry),
+        ContextCompat.getColor(context, R.color.sunny),
+        ContextCompat.getColor(context, R.color.rainy)
+    )
+
     inner class ViewHolder(val binding : ItemRecordListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : GetProofPostResponse) {
             binding.root.setOnClickListener {
@@ -28,6 +41,7 @@ class RecordListAdapter(var items: List<GetProofPostResponse>) : RecyclerView.Ad
             binding.tvRdUserName.text = item.memberName
             binding.tvRdPostDate.text = item.infos.date
             binding.tvItemRlMessage.text = item.commentNum.toString()
+//            binding.cvPrUserImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(item.userBorder))
         }
     }
 

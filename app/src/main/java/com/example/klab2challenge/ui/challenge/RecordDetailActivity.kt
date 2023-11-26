@@ -33,7 +33,7 @@ class RecordDetailActivity : AppCompatActivity() {
         recordId = intent.getIntExtra("recordId", -1)
 
         binding.rvRdComments.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.rvRdComments.adapter = CommentAdapter(commentViewModel.commentList.value!!)
+        binding.rvRdComments.adapter = CommentAdapter(this, commentViewModel.commentList.value!!)
         commentViewModel.commentList.observe(this, Observer {
             (binding.rvRdComments.adapter as CommentAdapter).setData(it)
             if(it.size == 0) {
