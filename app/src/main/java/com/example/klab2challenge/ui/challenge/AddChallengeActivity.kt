@@ -1,8 +1,10 @@
 package com.example.klab2challenge.ui.challenge
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -13,6 +15,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityAddChallengeBinding
 import com.example.klab2challenge.retrofit.ChallengeContents
@@ -21,9 +24,17 @@ import com.example.klab2challenge.retrofit.RetrofitUtil
 import com.example.klab2challenge.retrofit.SetChallengeRequest
 import com.example.klab2challenge.retrofit.SetChallengeResponse
 import com.example.klab2challenge.retrofit.getUserName
+import com.example.klab2challenge.retrofit.getUserProfileUrl
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
+import java.util.Random
+
 
 class AddChallengeActivity : AppCompatActivity() {
     lateinit var binding: ActivityAddChallengeBinding
@@ -31,6 +42,8 @@ class AddChallengeActivity : AppCompatActivity() {
 
     //어댑터 연결 다시 잘 해보자...
     lateinit var myAdapter: ArrayAdapter<String>
+
+    lateinit var fileToUpload: MultipartBody.Part
     //api연결은 아직
 
     // 갤러리 open
@@ -42,14 +55,33 @@ class AddChallengeActivity : AppCompatActivity() {
         }
 
     // 가져온 사진 보여주기
+    @SuppressLint("Range")
     private val pickImageLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val data: Intent? = result.data
-                val uri = data?.data
-                binding.ivNcAddedimage.setImageURI(uri)
+                var imageUrl = data?.data
+                var bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUrl);
+                bitmap = rotateImage(bitmap, 90);
+                binding.ivNcAddedimage.setImageBitmap(bitmap);
                 binding.ivNcAddedimage.visibility = View.VISIBLE
-                Log.d("hyunhee", uri.toString())
+
+                val cursor = contentResolver.query(
+                    Uri.parse(imageUrl.toString()),
+                    null,
+                    null,
+                    null,
+                    null
+                )!!
+                cursor.moveToFirst()
+                var mediaPath =
+                    cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA))
+                val file = File(mediaPath)
+                val requestBody: RequestBody =
+                    file.asRequestBody("image/*".toMediaTypeOrNull())
+                fileToUpload =
+                    MultipartBody.Part.createFormData("profile", file.getName(), requestBody)
+                Log.d("hyunhee", imageUrl.toString())
             }
         }
 
@@ -66,11 +98,12 @@ class AddChallengeActivity : AppCompatActivity() {
         binding.cvNcCreateBtn.setOnClickListener {
             RetrofitUtil.getRetrofitUtil()
                 .setChallenge(
+                    fileToUpload,
                     SetChallengeRequest(
                         getUserName(this), ChallengeContents(
                             binding.etNcTitleInput.text.toString(),
                             binding.etNcContentInput.text.toString(),
-                            ""
+                            getUserProfileUrl(this)
                         ), ChallengeInfos(
                             binding.etNcStartInput.text.toString(),
                             binding.etNcFinishInput.text.toString(),
