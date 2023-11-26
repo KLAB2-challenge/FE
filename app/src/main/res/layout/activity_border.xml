@@ -263,7 +263,7 @@
                 android:background="@color/gold"
                 android:elevation="2dp" />
         </androidx.cardview.widget.CardView>
-        
+
         <ImageView
             android:id="@+id/iv_b_gold_lock"
             android:layout_width="wrap_content"
@@ -300,6 +300,13 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ph_b_gold"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        app:layout_constraintTop_toTopOf="@id/cl_b_gold_container"
+        app:layout_constraintStart_toStartOf="@id/cl_b_gold_container"/>
+
 
     <!--2번 green-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -351,7 +358,7 @@
                 android:background="@color/green"
                 android:elevation="2dp" />
         </androidx.cardview.widget.CardView>
-        
+
         <ImageView
             android:id="@+id/iv_b_green_lock"
             android:layout_width="wrap_content"
@@ -388,6 +395,12 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ph_b_green"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        app:layout_constraintTop_toTopOf="@id/cl_b_green_container"
+        app:layout_constraintStart_toStartOf="@id/cl_b_green_container"/>
 
     <!--3번 cherry-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -476,6 +489,12 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ph_b_cherry"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        app:layout_constraintTop_toTopOf="@id/cl_b_cherry_container"
+        app:layout_constraintStart_toStartOf="@id/cl_b_cherry_container"/>
 
     <!--4번 blueberry-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -564,6 +583,12 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ph_b_blueberry"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        app:layout_constraintTop_toTopOf="@id/cl_b_blueberry_container"
+        app:layout_constraintStart_toStartOf="@id/cl_b_blueberry_container"/>
 
     <!--5번 sunny-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -652,6 +677,12 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ph_b_sunny"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        app:layout_constraintTop_toTopOf="@id/cl_b_sunny_container"
+        app:layout_constraintStart_toStartOf="@id/cl_b_sunny_container"/>
 
     <!--6번 rainy-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -740,6 +771,12 @@
             app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/ph_b_rainy"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        app:layout_constraintTop_toTopOf="@id/cl_b_rainy_container"
+        app:layout_constraintStart_toStartOf="@id/cl_b_rainy_container"/>
 
 
     <com.google.android.material.card.MaterialCardView
@@ -756,6 +793,7 @@
         app:strokeWidth="1dp">
 
         <TextView
+            android:id="@+id/tv_b_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
