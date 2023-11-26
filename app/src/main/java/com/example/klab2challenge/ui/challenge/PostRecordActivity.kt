@@ -15,9 +15,15 @@ import androidx.core.content.ContextCompat
 import com.example.klab2challenge.databinding.ActivityPostRecordBinding
 import com.example.klab2challenge.retrofit.ProofPostContents
 import com.example.klab2challenge.retrofit.RetrofitUtil
+import com.example.klab2challenge.retrofit.SetMemberCoinsRequest
+import com.example.klab2challenge.retrofit.SetMemberCoinsResponse
 import com.example.klab2challenge.retrofit.SetProofPostRequest
 import com.example.klab2challenge.retrofit.SetProofPostResponse
+import com.example.klab2challenge.retrofit.getUserCoin
 import com.example.klab2challenge.retrofit.getUserName
+import com.example.klab2challenge.retrofit.getUserTotalCoin
+import com.example.klab2challenge.retrofit.saveUserCoin
+import com.example.klab2challenge.retrofit.saveUserTotalCoin
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import okhttp3.MediaType.Companion.toMediaType
@@ -84,6 +90,7 @@ class PostRecordActivity : AppCompatActivity() {
                     ) {
                         if (response.isSuccessful) {
                             Log.d("seohyun", "post success!!")
+                            earnCoin()
                             finish()
                             val i = Intent(applicationContext, RecordListActivity::class.java)
                             i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
@@ -157,6 +164,29 @@ class PostRecordActivity : AppCompatActivity() {
     private fun openGallery() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         pickImageLauncher.launch(gallery)
+    }
+
+    fun earnCoin() {
+        RetrofitUtil.getRetrofitUtil().setMemberCoins(SetMemberCoinsRequest(getUserName(this), 20))
+            .enqueue(object : Callback<SetMemberCoinsResponse> {
+                override fun onResponse(
+                    call: Call<SetMemberCoinsResponse>,
+                    response: Response<SetMemberCoinsResponse>
+                ) {
+                    if(response.isSuccessful) {
+                        Log.d("hyunheeRD", response.body().toString())
+                        saveUserCoin(applicationContext, getUserCoin(applicationContext) + 20)
+                        saveUserTotalCoin(applicationContext, getUserTotalCoin(applicationContext) + 20)
+                    } else {
+                        Log.d("hyunheeRD", response.errorBody().toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<SetMemberCoinsResponse>, t: Throwable) {
+                    Log.d("hyunheeRD", t.message.toString())
+                }
+
+            })
     }
 }
 
