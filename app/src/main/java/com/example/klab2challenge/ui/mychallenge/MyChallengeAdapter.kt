@@ -25,8 +25,14 @@ class MyChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.
 //            }
             binding.tvMcTitle.text = item.contents.title
             binding.tvItemMyChallengePercent.text = (item.progressRate * 100).toInt().toString() + "%"
-            binding.cvMcProgress.layoutParams.width = (360 * item.progressRate).toInt()
+//            binding.cvMcProgress.layoutParams.width = (90 * item.progressRate).toInt()
 
+            val layoutParams = binding.cvMcProgress.layoutParams
+            layoutParams.width = (binding.cvMcBackProgress.layoutParams.width * item.progressRate).toInt()
+//            binding.cvMcProgress.layoutParams = layoutParams
+//
+//            // 레이아웃을 다시 요청
+//            binding.cvMcProgress.requestLayout()
         }
     }
 
