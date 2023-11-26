@@ -225,6 +225,7 @@
                             app:layout_constraintStart_toStartOf="parent">
 
                             <ImageView
+                                android:id="@+id/iv_cd_record1_image"
                                 android:layout_width="84dp"
                                 android:layout_height="84dp"
                                 android:background="@color/GS_60"
@@ -292,6 +293,7 @@
                             app:layout_constraintStart_toStartOf="parent">
 
                             <ImageView
+                                android:id="@+id/iv_cd_record2_image"
                                 android:layout_width="84dp"
                                 android:layout_height="84dp"
                                 android:background="@color/GS_60"

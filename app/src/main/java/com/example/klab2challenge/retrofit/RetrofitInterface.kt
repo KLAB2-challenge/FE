@@ -114,7 +114,7 @@ interface RetrofitInterface {
     @Multipart
     @POST("/proofPost/setProofPost")
     fun setProofPost(
-//        @Part("image") image : MultipartBody.Part,
+        @Part image : MultipartBody.Part,
         @Part("proofPost") request: SetProofPostRequest
 //        @Body request: SetProofPostRequest
     ): Call<SetProofPostResponse>

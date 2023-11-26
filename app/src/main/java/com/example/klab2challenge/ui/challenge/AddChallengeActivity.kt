@@ -61,9 +61,7 @@ class AddChallengeActivity : AppCompatActivity() {
             if (result.resultCode == RESULT_OK) {
                 val data: Intent? = result.data
                 var imageUrl = data?.data
-                var bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUrl);
-                bitmap = rotateImage(bitmap, 90);
-                binding.ivNcAddedimage.setImageBitmap(bitmap);
+                binding.ivNcAddedimage.setImageURI(imageUrl);
                 binding.ivNcAddedimage.visibility = View.VISIBLE
 
                 val cursor = contentResolver.query(
@@ -80,8 +78,8 @@ class AddChallengeActivity : AppCompatActivity() {
                 val requestBody: RequestBody =
                     file.asRequestBody("image/*".toMediaTypeOrNull())
                 fileToUpload =
-                    MultipartBody.Part.createFormData("profile", file.getName(), requestBody)
-                Log.d("hyunhee", imageUrl.toString())
+                    MultipartBody.Part.createFormData("image", file.getName(), requestBody)
+                Log.d("hyunhee", fileToUpload.toString())
             }
         }
 

@@ -41,7 +41,7 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
         binding.rvHomePopular.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val popularAdapter = ChallengeAdapter(popularViewModel.itemList.value!!)
+        val popularAdapter = ChallengeAdapter(requireContext(), popularViewModel.itemList.value!!)
         popularAdapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
             override fun onItemClicked(challengeId : Int) {
                 val i = Intent(requireContext(), ChallengeDetailActivity::class.java)
@@ -55,7 +55,7 @@ class HomeFragment : Fragment() {
         })
 
         binding.rvHomeOfficial.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val officialAdapter = ChallengeAdapter(officialViewModel.itemList.value!!)
+        val officialAdapter = ChallengeAdapter(requireContext(), officialViewModel.itemList.value!!)
         officialAdapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
             override fun onItemClicked(challengeId : Int) {
                 val i = Intent(requireContext(), ChallengeDetailActivity::class.java)
@@ -69,7 +69,7 @@ class HomeFragment : Fragment() {
         })
 
         binding.rvHomeUser.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        val userAdapter = ChallengeAdapter(userViewModel.itemList.value!!)
+        val userAdapter = ChallengeAdapter(requireContext(), userViewModel.itemList.value!!)
         userAdapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
             override fun onItemClicked(challengeId : Int) {
                 val i = Intent(requireContext(), ChallengeDetailActivity::class.java)

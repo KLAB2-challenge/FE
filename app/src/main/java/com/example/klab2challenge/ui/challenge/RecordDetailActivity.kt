@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityRecordDetailBinding
 import com.example.klab2challenge.retrofit.GetAllCommentsResponse
+import com.example.klab2challenge.retrofit.GetChallengeRequest
 import com.example.klab2challenge.retrofit.GetProofPostResponse
 import com.example.klab2challenge.retrofit.RetrofitUtil
 import com.example.klab2challenge.retrofit.SetCommentRequest
@@ -43,11 +44,16 @@ class RecordDetailActivity : AppCompatActivity() {
         _binding = ActivityRecordDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        color = arrayListOf(
+            getColor(R.color.gold),
+            getColor(R.color.green),
+            getColor(R.color.cherry),
+            getColor(R.color.blueberry),
+            getColor(R.color.sunny),
+            getColor(R.color.rainy)
+        )
+
         recordId = intent.getIntExtra("recordId", -1)
-
-
-        Log.d("hyunheeRDborder", getUserBorder(this).toString())
-        binding.cvRdUserImgBorder.backgroundTintList = ColorStateList.valueOf(getUserBorder(this))
 
         binding.rvRdComments.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -106,6 +112,7 @@ class RecordDetailActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful) {
                         recordDetailViewModel.setRecordDetail(response.body()!!)
+                        binding.cvRdUserImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(response.body()!!.memberCurrentBorder))
                         Glide.with(this@RecordDetailActivity).load(response.body()!!.memberImageUrl).into(binding.ivRdUserImg)
                         Glide.with(this@RecordDetailActivity).load(response.body()!!.contents.image).into(binding.ivRdRecordImg)
                     } else {

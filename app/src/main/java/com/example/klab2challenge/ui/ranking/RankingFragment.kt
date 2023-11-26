@@ -93,13 +93,13 @@ class RankingFragment : Fragment() {
                         binding.tvRankingTop2Profile.text = rankingList.get(1).name
                         binding.tvRankingTop2Coin.text = rankingList.get(1).infos.holdingCoins.toString()
                         binding.cvRankingTop2Border.backgroundTintList = ColorStateList.valueOf(color.get(rankingList.get(1).infos.currentBorder))
-                        Glide.with(this@RankingFragment).load(rankingList.get(0).infos.imageUrl).into(binding.ivRankingTop2)
+                        Glide.with(this@RankingFragment).load(rankingList.get(1).infos.imageUrl).into(binding.ivRankingTop2)
                     }
                     if (rankingList.size >= 3) {
                         binding.tvRankingTop3Profile.text = rankingList.get(2).name
                         binding.tvRankingTop3Coin.text = rankingList.get(2).infos.holdingCoins.toString()
-                        binding.cvRankingTop3Border.backgroundTintList = ColorStateList.valueOf(color.get(rankingList.get(1).infos.currentBorder))
-                        Glide.with(this@RankingFragment).load(rankingList.get(0).infos.imageUrl).into(binding.ivRankingTop3)
+                        binding.cvRankingTop3Border.backgroundTintList = ColorStateList.valueOf(color.get(rankingList.get(2).infos.currentBorder))
+                        Glide.with(this@RankingFragment).load(rankingList.get(2).infos.imageUrl).into(binding.ivRankingTop3)
                     }
                     if (rankingList.size >= 4) {
                         rankingViewModel.setItem(rankingList.subList(4, rankingList.size - 1))

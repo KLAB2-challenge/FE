@@ -1,8 +1,10 @@
 package com.example.klab2challenge.ui.challenge
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -27,17 +29,23 @@ import com.example.klab2challenge.retrofit.saveUserTotalCoin
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
+import java.io.File
 
 class PostRecordActivity : AppCompatActivity() {
     lateinit var binding: ActivityPostRecordBinding
     private var challengeId = -1
+
+    lateinit var fileToUpload: MultipartBody.Part
 
     // 갤러리 open
     private val requestPermissionLauncher: ActivityResultLauncher<String> =
@@ -48,14 +56,31 @@ class PostRecordActivity : AppCompatActivity() {
         }
 
     // 가져온 사진 보여주기
+    @SuppressLint("Range")
     private val pickImageLauncher: ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val data: Intent? = result.data
-                val uri = data?.data
-                binding.ivPrAddedimage.setImageURI(uri)
+                var imageUrl = data?.data
+                binding.ivPrAddedimage.setImageURI(imageUrl);
                 binding.ivPrAddedimage.visibility = View.VISIBLE
-                Log.d("hyunhee", uri.toString())
+
+                val cursor = contentResolver.query(
+                    Uri.parse(imageUrl.toString()),
+                    null,
+                    null,
+                    null,
+                    null
+                )!!
+                cursor.moveToFirst()
+                var mediaPath =
+                    cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA))
+                val file = File(mediaPath)
+                val requestBody: RequestBody =
+                    file.asRequestBody("image/*".toMediaTypeOrNull())
+                fileToUpload =
+                    MultipartBody.Part.createFormData("image", file.getName(), requestBody)
+                Log.d("hyunhee", fileToUpload.toString())
             }
         }
 
@@ -82,7 +107,7 @@ class PostRecordActivity : AppCompatActivity() {
 //            val mediaType = "application/json; charset=utf-8".toMediaType()
 //            val body = jsonObject.toString().toRequestBody(mediaType)
 
-            RetrofitUtil.getRetrofitUtil().setProofPost(postRecord)
+            RetrofitUtil.getRetrofitUtil().setProofPost(fileToUpload, postRecord)
                 .enqueue(object : Callback<SetProofPostResponse> {
                     override fun onResponse(
                         call: Call<SetProofPostResponse>,
