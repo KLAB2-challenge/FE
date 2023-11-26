@@ -26,7 +26,8 @@
     <fragment
         android:id="@+id/navigation_my_page"
         android:name="com.example.klab2challenge.ui.mypage.MyPageFragment"
-        android:label="@string/title_my_page" />
+        android:label="@string/title_my_page"
+        tools:layout="@layout/fragment_my_page"/>
 
     <activity
         android:id="@+id/navigation_challenge_detail"
