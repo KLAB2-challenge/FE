@@ -13,6 +13,9 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
+import com.bumptech.glide.GlideBuilder
+import com.example.klab2challenge.MainActivity
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.FragmentMyPageBinding
 import com.example.klab2challenge.retrofit.GetMemberInfosRequest
@@ -21,6 +24,7 @@ import com.example.klab2challenge.retrofit.RetrofitUtil
 import com.example.klab2challenge.retrofit.getUserBorder
 import com.example.klab2challenge.retrofit.getUserCoin
 import com.example.klab2challenge.retrofit.getUserName
+import com.example.klab2challenge.retrofit.getUserProfileUrl
 import com.example.klab2challenge.retrofit.getUserTotalCoin
 import retrofit2.Call
 import retrofit2.Callback
@@ -54,6 +58,7 @@ class MyPageFragment : Fragment() {
         binding.ifbMypageProfileBorder.backgroundTintList = ColorStateList.valueOf(getUserBorder(requireContext()))
         binding.tvMypageAllCoin.text = getUserTotalCoin(requireContext()).toString()
         binding.tvMypageMyCoin.text = getUserCoin(requireContext()).toString()
+        Glide.with(this).load(getUserProfileUrl(requireContext())).into(binding.ivMypageProfile)
 
         return root
     }

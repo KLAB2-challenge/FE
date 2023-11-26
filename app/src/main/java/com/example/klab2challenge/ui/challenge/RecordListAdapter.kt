@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ItemRecordListBinding
 import com.example.klab2challenge.retrofit.GetProofPostResponse
@@ -41,7 +42,10 @@ class RecordListAdapter(val context: Context, var items: List<GetProofPostRespon
             binding.tvRdUserName.text = item.memberName
             binding.tvRdPostDate.text = item.infos.date
             binding.tvItemRlMessage.text = item.commentNum.toString()
-//            binding.cvPrUserImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(item.userBorder))
+            binding.cvPrUserImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(item.memberCurrentBorder))
+            Glide.with(context).load(item.memberImageUrl).into(binding.ivPrUserImg)
+            Glide.with(context).load(item.contents.image).into(binding.ivItemRl)
+
         }
     }
 

@@ -24,16 +24,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:elevation="3dp"
-            android:src="@drawable/ic_user"
-            app:layout_constraintBottom_toBottomOf="@id/cv_pr_userImg_border"
-            app:layout_constraintEnd_toEndOf="@id/cv_pr_userImg_border"
-            app:layout_constraintStart_toStartOf="@id/cv_pr_userImg_border"
-            app:layout_constraintTop_toTopOf="@id/cv_pr_userImg_border" />
+
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_pr_userImg"
@@ -46,7 +37,19 @@
             app:layout_constraintBottom_toBottomOf="@id/cv_pr_userImg_border"
             app:layout_constraintEnd_toEndOf="@id/cv_pr_userImg_border"
             app:layout_constraintStart_toStartOf="@id/cv_pr_userImg_border"
-            app:layout_constraintTop_toTopOf="@id/cv_pr_userImg_border"/>
+            app:layout_constraintTop_toTopOf="@id/cv_pr_userImg_border">
+            <ImageView
+                android:id="@+id/iv_pr_userImg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:elevation="3dp"
+                android:src="@drawable/ic_user"
+                app:layout_constraintBottom_toBottomOf="@id/cv_pr_userImg_border"
+                app:layout_constraintEnd_toEndOf="@id/cv_pr_userImg_border"
+                app:layout_constraintStart_toStartOf="@id/cv_pr_userImg_border"
+                app:layout_constraintTop_toTopOf="@id/cv_pr_userImg_border" />
+        </com.google.android.material.card.MaterialCardView>
 
 
         <TextView
@@ -87,6 +90,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <ImageView
+                android:id="@+id/iv_item_rl"
                 android:layout_width="84dp"
                 android:layout_height="84dp"
                 android:background="@color/GS_40"

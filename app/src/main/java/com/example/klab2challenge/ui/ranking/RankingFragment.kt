@@ -11,12 +11,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.FragmentRankingBinding
 import com.example.klab2challenge.retrofit.GetRankResponse
 import com.example.klab2challenge.retrofit.RetrofitUtil
 import com.example.klab2challenge.retrofit.getUserBorder
 import com.example.klab2challenge.retrofit.getUserName
+import com.example.klab2challenge.retrofit.getUserProfileUrl
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,6 +53,8 @@ class RankingFragment : Fragment() {
             ContextCompat.getColor(requireContext(), R.color.rainy)
         )
 
+        Glide.with(this).load(getUserProfileUrl(requireContext())).into(binding.ivRankingProfileImg)
+
 
         binding.rvRankingAllRankings.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -84,15 +88,18 @@ class RankingFragment : Fragment() {
                     binding.tvRankingTop1Profile.text = rankingList.get(0).name
                     binding.tvRankingTop1Coin.text = rankingList.get(0).infos.holdingCoins.toString()
                     binding.cvRankingTop1Border.backgroundTintList = ColorStateList.valueOf(color.get(rankingList.get(0).infos.currentBorder))
+                    Glide.with(this@RankingFragment).load(rankingList.get(0).infos.imageUrl).into(binding.ivRankingTop1)
                     if (rankingList.size >= 2) {
                         binding.tvRankingTop2Profile.text = rankingList.get(1).name
                         binding.tvRankingTop2Coin.text = rankingList.get(1).infos.holdingCoins.toString()
                         binding.cvRankingTop2Border.backgroundTintList = ColorStateList.valueOf(color.get(rankingList.get(1).infos.currentBorder))
+                        Glide.with(this@RankingFragment).load(rankingList.get(1).infos.imageUrl).into(binding.ivRankingTop2)
                     }
                     if (rankingList.size >= 3) {
                         binding.tvRankingTop3Profile.text = rankingList.get(2).name
                         binding.tvRankingTop3Coin.text = rankingList.get(2).infos.holdingCoins.toString()
-                        binding.cvRankingTop3Border.backgroundTintList = ColorStateList.valueOf(color.get(rankingList.get(1).infos.currentBorder))
+                        binding.cvRankingTop3Border.backgroundTintList = ColorStateList.valueOf(color.get(rankingList.get(2).infos.currentBorder))
+                        Glide.with(this@RankingFragment).load(rankingList.get(2).infos.imageUrl).into(binding.ivRankingTop3)
                     }
                     if (rankingList.size >= 4) {
                         rankingViewModel.setItem(rankingList.subList(4, rankingList.size - 1))

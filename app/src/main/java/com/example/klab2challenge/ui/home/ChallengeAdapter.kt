@@ -1,12 +1,14 @@
 package com.example.klab2challenge.ui.home
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.klab2challenge.databinding.ItemHomeChallengeBinding
 import com.example.klab2challenge.retrofit.GetChallengeResponse
 
-class ChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.Adapter<ChallengeAdapter.ViewHolder>() {
+class ChallengeAdapter(var context : Context, var items : List<GetChallengeResponse>) : RecyclerView.Adapter<ChallengeAdapter.ViewHolder>() {
 
     var itemClickListener : OnItemClickListener? = null
     interface OnItemClickListener {
@@ -24,6 +26,7 @@ class ChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.Ad
             binding.tvHcTitle.text = item.contents.title
             binding.tvHcDuration.text = item.infos.startDate + " ~ " + item.infos.endDate + "\n" + item.infos.frequency
             binding.tvHcMemeberCount.text = item.memberNum.toString()
+            Glide.with(context).load(item.contents.image).into(binding.ivCImage)
         }
     }
 

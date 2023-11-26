@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.klab2challenge.databinding.ActivityChallengeDetailBinding
 import com.example.klab2challenge.retrofit.GetChallengeRequest
 import com.example.klab2challenge.retrofit.GetChallengeResponse
@@ -50,6 +51,7 @@ class ChallengeDetailActivity : AppCompatActivity() {
                 if(response.isSuccessful) {
                     println(response.body()!!.toString())
                     challengeDetailViewModel.setChallengeDetail(response.body()!!)
+                    Glide.with(this@ChallengeDetailActivity).load(response.body()!!.contents.image).into(binding.ivCdImage)
                 } else {
                     Log.d("hyunhee", response.errorBody().toString())
                 }
@@ -66,7 +68,18 @@ class ChallengeDetailActivity : AppCompatActivity() {
                 response: Response<GetProofPostsResponse>
             ) {
                 if(response.isSuccessful) {
-                    recordViewModel.addRecords(response.body()!!.proofPosts)
+                    var postList = response.body()!!.proofPosts
+                    recordViewModel.addRecords(postList)
+                    if(postList.size >= 1) {
+                        binding.tvCdRecordTitle1.text = postList.get(0).contents.title
+                        binding.tvCdRecordContent1.text = postList.get(0).contents.content
+                        Glide.with(this@ChallengeDetailActivity).load(postList.get(0).contents.image).into(binding.ivCdRecord1Image)
+                    }
+                    if(postList.size >= 2) {
+                        binding.tvCdRecordTitle2.text = postList.get(1).contents.title
+                        binding.tvCdRecordContent2.text = postList.get(1).contents.content
+                        Glide.with(this@ChallengeDetailActivity).load(postList.get(1).contents.image).into(binding.ivCdRecord2Image)
+                    }
                 } else {
                     Log.d("hyunhee", response.errorBody()!!.toString())
                 }
@@ -143,7 +156,7 @@ class ChallengeDetailActivity : AppCompatActivity() {
 
 
         binding.rvCd.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        val adapter = ChallengeAdapter(challengeViewModel.itemList.value!!)
+        val adapter = ChallengeAdapter(this, challengeViewModel.itemList.value!!)
         adapter.itemClickListener = object : ChallengeAdapter.OnItemClickListener {
             override fun onItemClicked(challengeId : Int) {
                 val i = Intent(applicationContext, ChallengeDetailActivity::class.java)

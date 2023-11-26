@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ItemRecordDetailCommentBinding
 import com.example.klab2challenge.retrofit.GetCommentResponse
@@ -29,7 +30,8 @@ class CommentAdapter(var context: Context, var items: List<GetCommentResponse>) 
             binding.tvRdCommentName.text = item.memberName
             binding.tvRdCommentContent.text = item.content
             binding.tvRdCommentDate.text = item.infos.date
-//            binding.cvRdCommentImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(item.userBorder))
+            binding.cvRdCommentImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(item.memberCurrentBorder))
+            Glide.with(context).load(item.memberImageUrl).into(binding.ivRdCommentImg)
         }
     }
 

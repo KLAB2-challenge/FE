@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ItemHomeChallengeBinding
 import com.example.klab2challenge.databinding.ItemRankingListBinding
@@ -38,6 +39,8 @@ class RankingAdapter(var context: Context, var items : List<Member>) : RecyclerV
             binding.tvRankingProfileName.text = item.name
             Log.d("hyunheerank", item.infos.currentBorder.toString())
             binding.cvRankingProfileImgBorder.backgroundTintList = ColorStateList.valueOf(getColor(context, color.get(item.infos.currentBorder)))
+            Glide.with(context).load(item.infos.imageUrl).into(binding.ivRankingProfileImg)
+
         }
     }
 
