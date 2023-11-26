@@ -48,17 +48,17 @@ class MyPageFragment : Fragment() {
         _binding = FragmentMyPageBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.tvMypageChooseDesign.setOnClickListener {
-            val i = Intent(requireContext(), BorderActivity::class.java)
-            startActivity(i)
-        }
-
         binding.tvMypageUserName.text = getUserName(requireContext())
         Log.d("hyunheemypageborder", getUserBorder(requireContext()).toString())
         binding.ifbMypageProfileBorder.backgroundTintList = ColorStateList.valueOf(getUserBorder(requireContext()))
         binding.tvMypageAllCoin.text = getUserTotalCoin(requireContext()).toString()
         binding.tvMypageMyCoin.text = getUserCoin(requireContext()).toString()
         Glide.with(this).load(getUserProfileUrl(requireContext())).into(binding.ivMypageProfile)
+
+        binding.tvMypageChooseDesign.setOnClickListener {
+            val i = Intent(requireContext(), BorderActivity::class.java)
+            startActivity(i)
+        }
 
         return root
     }
