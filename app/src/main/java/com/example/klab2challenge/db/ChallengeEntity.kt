@@ -3,8 +3,8 @@ package com.example.klab2challenge.db
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "HCPTable") //Home Challenge Preview
-data class HCPEntity(
+@Entity(tableName = "ChallengeTable") //Home Challenge Preview
+data class ChallengeEntity(
     val number : Int,
     val title : String,
     val image : String,
@@ -12,7 +12,8 @@ data class HCPEntity(
     val duration : String,
     val frequency : String,
     val progress : Double,
-    val type : Int //0-official, 1-user, 2-popular
+    val isJoin : Boolean,
+    val type : Int //0-official, 1-user, 2-popular, 3-my
 ) {
     @PrimaryKey(autoGenerate = true)
     var id : Int = 0

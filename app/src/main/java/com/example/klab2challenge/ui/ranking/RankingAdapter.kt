@@ -31,8 +31,7 @@ class RankingAdapter(var context: Context, var items : List<RankingEntity>, var 
             binding.tvRankingMyRank.text = "# " + (item.ranking + 4).toString()
             binding.tvRankingCoin.text = item.totalCoin.toString()
             binding.tvRankingProfileName.text = item.userName
-            Log.d("hyunheerank", item.currentBorder.toString())
-            binding.cvRankingProfileImgBorder.backgroundTintList = ColorStateList.valueOf(borderList.get(item.currentBorder).color)
+            binding.cvRankingProfileImgBorder.backgroundTintList = ColorStateList.valueOf(borderList[item.currentBorder].color)
             Glide.with(context).load(item.image).into(binding.ivRankingProfileImg)
 
         }

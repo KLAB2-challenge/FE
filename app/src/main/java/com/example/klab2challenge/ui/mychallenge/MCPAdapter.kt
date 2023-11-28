@@ -1,16 +1,13 @@
 package com.example.klab2challenge.ui.mychallenge
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.klab2challenge.databinding.ItemHomeChallengeBinding
 import com.example.klab2challenge.databinding.ItemMyChallengeBinding
-import com.example.klab2challenge.db.MCPEntity
-import com.example.klab2challenge.retrofit.GetChallengeResponse
+import com.example.klab2challenge.db.ChallengeEntity
 
-class MyChallengeAdapter(var items : List<MCPEntity>) : RecyclerView.Adapter<MyChallengeAdapter.ViewHolder>() {
-
+class MCPAdapter() : RecyclerView.Adapter<MCPAdapter.ViewHolder>() {
+    var items = arrayListOf<ChallengeEntity>()
     var itemClickListener : OnItemClickListener? = null
     interface OnItemClickListener {
         fun onItemClicked(challengeId: Int)
@@ -20,7 +17,7 @@ class MyChallengeAdapter(var items : List<MCPEntity>) : RecyclerView.Adapter<MyC
     }
 
     inner class ViewHolder(val binding: ItemMyChallengeBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : MCPEntity) {
+        fun bind(item : ChallengeEntity) {
 //            binding.root.setOnClickListener {
 //                itemClickListener!!.onItemClicked(item.challengeId)
 //            }
@@ -45,8 +42,9 @@ class MyChallengeAdapter(var items : List<MCPEntity>) : RecyclerView.Adapter<MyC
         holder.bind(items[position])
     }
 
-    fun setData(list:List<MCPEntity>) {
-        items = list
+    fun setData(list:List<ChallengeEntity>) {
+        items.clear()
+        items.addAll(list)
         notifyDataSetChanged()
     }
 }

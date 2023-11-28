@@ -8,22 +8,27 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.klab2challenge.ChallengeViewModel
 import com.example.klab2challenge.databinding.FragmentMyChallengeBinding
-import com.example.klab2challenge.db.ChallengeDatabase
+import com.example.klab2challenge.db.MyDatabase
 import com.example.klab2challenge.retrofit.RetrofitInterface
 import com.example.klab2challenge.ui.challenge.AddChallengeActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyChallengeFragment : Fragment() {
+
+    //challenge 선택 시 이동 구현? -> adapter에 onclick listener
+    //challenge add 시 업데이트 반영? roomdb 추가는 될텐데... 어떻게 새로고침하지?
+    //특히 home, mychallenge가 각각 서로 다른 화면에서 challenge add 시 새로고침?
+
     private var _binding: FragmentMyChallengeBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var db: ChallengeDatabase
-    private lateinit var retrofit: RetrofitInterface
 
-    private val myChallengeViewModel = MyChallengeViewModel()
+    private val myChallengeViewModel : ChallengeViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,19 +38,13 @@ class MyChallengeFragment : Fragment() {
         _binding = FragmentMyChallengeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+
+
         binding.rvMyChallenge.layoutManager = GridLayoutManager(requireContext(), 3)
-        binding.rvMyChallenge.adapter = MyChallengeAdapter(myChallengeViewModel.itemList.value!!)
-        myChallengeViewModel.itemList.observe(viewLifecycleOwner, Observer {
-            (binding.rvMyChallenge.adapter as MyChallengeAdapter).setData(it)
+        binding.rvMyChallenge.adapter = MCPAdapter()
+        myChallengeViewModel.myChallenges.observe(viewLifecycleOwner, Observer {
+            (binding.rvMyChallenge.adapter as MCPAdapter).setData(it)
         })
-
-
-
-        db = ChallengeDatabase.getInstance(requireContext())
-        val mcpDao = db.getMCPDAO()
-        CoroutineScope(Dispatchers.IO).launch {
-            myChallengeViewModel.setMyChallenge(mcpDao.getMCPs())
-        }
 
 
 

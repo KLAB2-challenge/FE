@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "UserTable") //Home Challenge Preview
 data class UserEntity(
-    var userName : String,
+    var name : String,
     var image : String,
     var currentBorder : Int,
     var ownBorders : String,

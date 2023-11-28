@@ -5,18 +5,19 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BorderDAO {
     @Insert
-    fun addBorder(hcp : BorderEntity)
+    fun addBorder(border : BorderEntity)
 
     @Update
-    fun updateBorder(hcp : BorderEntity)
+    fun updateBorder(border : BorderEntity)
 
     @Delete
-    fun deleteBorder(hcp : BorderEntity)
+    fun deleteBorder(border : BorderEntity)
 
     @Query("SELECT * FROM BorderTable")
-    fun getAllBorders() : List<BorderEntity>
+    fun getAllBorders() : Flow<List<BorderEntity>>
 }

@@ -8,7 +8,9 @@ data class BorderEntity(
     val number : Int,
     val color : Int,
     val name : String,
-    val price : Int
+    val price : Int,
+    var isLocked : Boolean,
+    var isChcked : Boolean
 ) {
     @PrimaryKey(autoGenerate = true)
     var id : Int = 0

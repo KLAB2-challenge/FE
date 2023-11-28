@@ -149,25 +149,25 @@ class RecordDetailActivity : AppCompatActivity() {
     }
 
     fun earnCoin() {
-        RetrofitUtil.getRetrofitUtil().setMemberCoins(SetMemberCoinsRequest(getUserName(this), 10))
-            .enqueue(object : Callback<SetMemberCoinsResponse> {
-                override fun onResponse(
-                    call: Call<SetMemberCoinsResponse>,
-                    response: Response<SetMemberCoinsResponse>
-                ) {
-                    if(response.isSuccessful) {
-                        Log.d("hyunheeRD", response.body().toString())
-                        saveUserCoin(applicationContext, getUserCoin(applicationContext) + 10)
-                        saveUserTotalCoin(applicationContext, getUserTotalCoin(applicationContext) + 10)
-                    } else {
-                        Log.d("hyunheeRD", response.errorBody().toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<SetMemberCoinsResponse>, t: Throwable) {
-                    Log.d("hyunheeRD", t.message.toString())
-                }
-
-            })
+//        RetrofitUtil.getRetrofitUtil().setMemberCoins(SetMemberCoinsRequest(getUserName(this), 10))
+//            .enqueue(object : Callback<SetMemberCoinsResponse> {
+//                override fun onResponse(
+//                    call: Call<SetMemberCoinsResponse>,
+//                    response: Response<SetMemberCoinsResponse>
+//                ) {
+//                    if(response.isSuccessful) {
+//                        Log.d("hyunheeRD", response.body().toString())
+//                        saveUserCoin(applicationContext, getUserCoin(applicationContext) + 10)
+//                        saveUserTotalCoin(applicationContext, getUserTotalCoin(applicationContext) + 10)
+//                    } else {
+//                        Log.d("hyunheeRD", response.errorBody().toString())
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<SetMemberCoinsResponse>, t: Throwable) {
+//                    Log.d("hyunheeRD", t.message.toString())
+//                }
+//
+//            })
     }
 }
