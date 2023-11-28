@@ -9,12 +9,11 @@ import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.klab2challenge.R
-import com.example.klab2challenge.databinding.ItemHomeChallengeBinding
 import com.example.klab2challenge.databinding.ItemRankingListBinding
-import com.example.klab2challenge.retrofit.GetChallengeResponse
-import com.example.klab2challenge.retrofit.Member
+import com.example.klab2challenge.db.BorderEntity
+import com.example.klab2challenge.db.RankingEntity
 
-class RankingAdapter(var context: Context, var items : List<Member>) : RecyclerView.Adapter<RankingAdapter.ViewHolder>() {
+class RankingAdapter(var context: Context, var items : List<RankingEntity>, var borderList : List<BorderEntity>) : RecyclerView.Adapter<RankingAdapter.ViewHolder>() {
 
     var itemClickListener : OnItemClickListener? = null
     interface OnItemClickListener {
@@ -24,22 +23,17 @@ class RankingAdapter(var context: Context, var items : List<Member>) : RecyclerV
         itemClickListener = onItemClickListener
     }
 
-    val color = arrayListOf(
-    getColor(context, R.color.gold), getColor(context, R.color.green), getColor(context, R.color.cherry),
-    getColor(context, R.color.blueberry), getColor(context, R.color.sunny), getColor(context, R.color.rainy)
-    )
-
     inner class ViewHolder(val binding: ItemRankingListBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : Member, position: Int) {
+        fun bind(item : RankingEntity) {
 //            binding.root.setOnClickListener {
 //                itemClickListener!!.onItemClicked(item.challengeId)
 //            }
-            binding.tvRankingMyRank.text = "# " + (position + 4).toString()
-            binding.tvRankingCoin.text = item.infos.holdingCoins.toString()
-            binding.tvRankingProfileName.text = item.name
-            Log.d("hyunheerank", item.infos.currentBorder.toString())
-            binding.cvRankingProfileImgBorder.backgroundTintList = ColorStateList.valueOf(getColor(context, color.get(item.infos.currentBorder)))
-            Glide.with(context).load(item.infos.imageUrl).into(binding.ivRankingProfileImg)
+            binding.tvRankingMyRank.text = "# " + (item.ranking + 4).toString()
+            binding.tvRankingCoin.text = item.totalCoin.toString()
+            binding.tvRankingProfileName.text = item.userName
+            Log.d("hyunheerank", item.currentBorder.toString())
+            binding.cvRankingProfileImgBorder.backgroundTintList = ColorStateList.valueOf(borderList.get(item.currentBorder).color)
+            Glide.with(context).load(item.image).into(binding.ivRankingProfileImg)
 
         }
     }
@@ -54,10 +48,10 @@ class RankingAdapter(var context: Context, var items : List<Member>) : RecyclerV
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position], position)
+        holder.bind(items[position])
     }
 
-    fun setData(list:List<Member>) {
+    fun setData(list:List<RankingEntity>) {
         items = list
         notifyDataSetChanged()
     }

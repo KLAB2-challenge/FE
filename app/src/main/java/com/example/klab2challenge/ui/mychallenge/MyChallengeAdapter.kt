@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.klab2challenge.databinding.ItemHomeChallengeBinding
 import com.example.klab2challenge.databinding.ItemMyChallengeBinding
+import com.example.klab2challenge.db.MCPEntity
 import com.example.klab2challenge.retrofit.GetChallengeResponse
 
-class MyChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.Adapter<MyChallengeAdapter.ViewHolder>() {
+class MyChallengeAdapter(var items : List<MCPEntity>) : RecyclerView.Adapter<MyChallengeAdapter.ViewHolder>() {
 
     var itemClickListener : OnItemClickListener? = null
     interface OnItemClickListener {
@@ -19,20 +20,15 @@ class MyChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.
     }
 
     inner class ViewHolder(val binding: ItemMyChallengeBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : GetChallengeResponse) {
+        fun bind(item : MCPEntity) {
 //            binding.root.setOnClickListener {
 //                itemClickListener!!.onItemClicked(item.challengeId)
 //            }
-            binding.tvMcTitle.text = item.contents.title
-            binding.tvItemMyChallengePercent.text = (item.progressRate * 100).toInt().toString() + "%"
-//            binding.cvMcProgress.layoutParams.width = (90 * item.progressRate).toInt()
+            binding.tvMcTitle.text = item.title
+            binding.tvItemMyChallengePercent.text = (item.progress * 100).toInt().toString() + "%"
 
             val layoutParams = binding.cvMcProgress.layoutParams
-            layoutParams.width = (binding.cvMcBackProgress.layoutParams.width * item.progressRate).toInt()
-//            binding.cvMcProgress.layoutParams = layoutParams
-//
-//            // 레이아웃을 다시 요청
-//            binding.cvMcProgress.requestLayout()
+            layoutParams.width = (binding.cvMcBackProgress.layoutParams.width * item.progress).toInt()
         }
     }
 
@@ -49,7 +45,7 @@ class MyChallengeAdapter(var items : List<GetChallengeResponse>) : RecyclerView.
         holder.bind(items[position])
     }
 
-    fun setData(list:List<GetChallengeResponse>) {
+    fun setData(list:List<MCPEntity>) {
         items = list
         notifyDataSetChanged()
     }

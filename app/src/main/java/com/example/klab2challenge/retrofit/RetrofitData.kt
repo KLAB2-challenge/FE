@@ -200,7 +200,7 @@ data class GetCommentResponse (
 )
 
 data class GetMemberAllBordersResponse (
-    @SerializedName("borders") val borders: List<Border>
+    @SerializedName("borderIds") val borderIds: List<Int>
 )
 
 data class GetMemberAllChallengesResponse (

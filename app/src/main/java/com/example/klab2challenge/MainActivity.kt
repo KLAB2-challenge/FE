@@ -6,74 +6,182 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.bumptech.glide.module.AppGlideModule
-import com.bumptech.glide.annotation.GlideModule
 import com.example.klab2challenge.databinding.ActivityMainBinding
+import com.example.klab2challenge.db.BorderEntity
+import com.example.klab2challenge.db.ChallengeDatabase
+import com.example.klab2challenge.db.HCPEntity
+import com.example.klab2challenge.db.MCPEntity
+import com.example.klab2challenge.db.RankingEntity
+import com.example.klab2challenge.db.UserEntity
+import com.example.klab2challenge.retrofit.GetMemberAllBordersRequest
+import com.example.klab2challenge.retrofit.GetMemberAllChallengesRequest
 import com.example.klab2challenge.retrofit.GetMemberInfosRequest
-import com.example.klab2challenge.retrofit.GetMemberInfosResponse
+import com.example.klab2challenge.retrofit.GetOfficialOrUserChallengesRequest
+import com.example.klab2challenge.retrofit.GetPopularChallengesRequest
+import com.example.klab2challenge.retrofit.RetrofitInterface
 import com.example.klab2challenge.retrofit.RetrofitUtil
-import com.example.klab2challenge.retrofit.getUserName
-import com.example.klab2challenge.retrofit.saveUserBorder
-import com.example.klab2challenge.retrofit.saveUserCoin
-import com.example.klab2challenge.retrofit.saveUserName
-import com.example.klab2challenge.retrofit.saveUserProfileUrl
-import com.example.klab2challenge.retrofit.saveUserTotalCoin
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var color : ArrayList<Int>
+    private lateinit var db: ChallengeDatabase
+    private lateinit var retrofit: RetrofitInterface
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        color = arrayListOf(
-            getColor(R.color.gold),
-            getColor(R.color.green),
-            getColor(R.color.cherry),
-            getColor(R.color.blueberry),
-            getColor(R.color.sunny),
-            getColor(R.color.rainy)
-        )
-
-        saveUserName(this, "user1")
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navView: BottomNavigationView = binding.navView
 
+
+        db = ChallengeDatabase.getInstance(this)
+        retrofit = RetrofitUtil.getRetrofitUtil()
+        val hcpDao = db.getHCPDAO()
+        val mcpDao = db.getMCPDAO()
+        val userDao = db.getUserDAO()
+        val borderDAO = db.getBorderDAO()
+        val rankingDAO = db.getRankingDAO()
+
+        val userName = "user3"
+
+        CoroutineScope(Dispatchers.IO).launch {
+            //set User
+            val userEntity = UserEntity("", "", 0, "", 0, 0, 0)
+
+            val memberInfoResponse = retrofit.getMemberInfos(GetMemberInfosRequest(userName))
+            if (memberInfoResponse.isSuccessful) {
+                val data = memberInfoResponse.body()!!
+                val infos = data.infos
+                userEntity.image = infos.imageUrl
+                userEntity.currentBorder = infos.currentBorder
+                userEntity.totalCoin = infos.totalCoins
+                userEntity.currentCoin = infos.holdingCoins
+            } else {
+                Log.d("retrofit_main_memberInfo", memberInfoResponse.message().toString())
+            }
+
+            val allBorderResponse =
+                retrofit.getMemberAllBorders(GetMemberAllBordersRequest(userName))
+            if (allBorderResponse.isSuccessful) {
+                val data = allBorderResponse.body()!!
+                userEntity.ownBorders = data.borderIds.toString()
+            } else {
+                Log.d("retrofit_main_allBorders", allBorderResponse.message().toString())
+            }
+
+            //set ranking
+            val rankingResponse = retrofit.getRanking(userName)
+            if (rankingResponse.isSuccessful) {
+                val data = rankingResponse.body()!!
+                userEntity.ranking = data.myRank
+                for (i in 0..<data.ranker.size){
+                    val m = data.ranker[i]
+                    rankingDAO.addRanking(RankingEntity(m.name, m.infos.imageUrl, m.infos.currentBorder, m.infos.totalCoins, i))
+                }
+            } else {
+                Log.d("retrofit_main_ranking", rankingResponse.message().toString())
+            }
+
+            userDao.addUser(userEntity)
+
+            //set Borders
+            borderDAO.addBorder(BorderEntity(0, getColor(R.color.gold), "gold", 20))
+            borderDAO.addBorder(BorderEntity(1, getColor(R.color.green), "green", 40))
+            borderDAO.addBorder(BorderEntity(2, getColor(R.color.cherry), "cherry", 60))
+            borderDAO.addBorder(BorderEntity(3, getColor(R.color.blueberry), "blueberry", 80))
+            borderDAO.addBorder(BorderEntity(4, getColor(R.color.sunny), "sunny", 100))
+            borderDAO.addBorder(BorderEntity(5, getColor(R.color.rainy), "rainy", 120))
+
+            //set HCP
+            val officialHCPResponse = retrofit.getChallenge(GetOfficialOrUserChallengesRequest(userName, 0, 5, true))
+            if (officialHCPResponse.isSuccessful) {
+                val data = officialHCPResponse.body()!!
+                data.challenges.forEach { c ->
+                    hcpDao.addHCP(
+                        HCPEntity(
+                            c.challengeId,
+                            c.contents.title,
+                            c.contents.image,
+                            c.memberNum,
+                            c.infos.startDate + " ~ " + c.infos.endDate,
+                            c.infos.frequency,
+                            0.0,
+                            0
+                        )
+                    )
+                }
+            } else {
+                Log.d("retrofit_main_officialHCP", officialHCPResponse.message().toString())
+            }
+
+            val userHCPResponse = retrofit.getChallenge(GetOfficialOrUserChallengesRequest(userName, 0, 5, false))
+            if (userHCPResponse.isSuccessful) {
+                val data = userHCPResponse.body()!!
+                data.challenges.forEach { c ->
+                    hcpDao.addHCP(
+                        HCPEntity(
+                            c.challengeId,
+                            c.contents.title,
+                            c.contents.image,
+                            c.memberNum,
+                            c.infos.startDate + " ~ " + c.infos.endDate,
+                            c.infos.frequency,
+                            0.0,
+                            1
+                        )
+                    )
+                }
+            } else {
+                Log.d("retrofit_main_userHCP", userHCPResponse.message().toString())
+            }
+
+            val popularHCPResponse = retrofit.getChallenge(GetPopularChallengesRequest(userName, 0, 5))
+            if (popularHCPResponse.isSuccessful) {
+                val data = popularHCPResponse.body()!!
+                data.challenges.forEach { c ->
+                    hcpDao.addHCP(
+                        HCPEntity(
+                            c.challengeId,
+                            c.contents.title,
+                            c.contents.image,
+                            c.memberNum,
+                            c.infos.startDate + " ~ " + c.infos.endDate,
+                            c.infos.frequency,
+                            0.0,
+                            2
+                        )
+                    )
+                }
+            } else {
+                Log.d("retrofit_main_poluarHCP", popularHCPResponse.message().toString())
+            }
+
+            val myChallengeResponse = retrofit.getChallenge(GetMemberAllChallengesRequest(userName, 0, 10))
+            if (myChallengeResponse.isSuccessful) {
+                val data = myChallengeResponse.body()!!
+                data.challenges.forEach { c ->
+                    mcpDao.addMCP(
+                        MCPEntity(
+                            c.challengeId,
+                            c.contents.title,
+                            c.contents.image,
+                            c.memberNum,
+                            c.progressRate
+                        )
+                    )
+                }
+            } else {
+                Log.d("retrofit_main_memberChallengeHCP", myChallengeResponse.message().toString())
+            }
+        }
+
+
+
+        val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
-
-        RetrofitUtil.getRetrofitUtil()
-            .getMemberInfos(GetMemberInfosRequest(getUserName(this))).enqueue(object :
-                Callback<GetMemberInfosResponse> {
-                override fun onResponse(
-                    call: Call<GetMemberInfosResponse>,
-                    response: Response<GetMemberInfosResponse>
-                ) {
-                    if(response.isSuccessful) {
-                        val data = response.body()!!
-                        saveUserName(applicationContext, data.memberName)
-                        Log.d("hyunheemp", data.infos.currentBorder.toString())
-                        Log.d("hyunheempborder", color.get(data.infos.currentBorder).toString())
-                        saveUserBorder(applicationContext, color.get(data.infos.currentBorder))
-                        saveUserCoin(applicationContext, data.infos.holdingCoins)
-                        saveUserTotalCoin(applicationContext, data.infos.totalCoins)
-                        saveUserProfileUrl(applicationContext, data.infos.imageUrl)
-                    } else {
-                        Log.d("hyunheemp", response.errorBody().toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<GetMemberInfosResponse>, t: Throwable) {
-                    Log.d("hyunheemp", t.message.toString())
-                }
-
-            })
     }
 }

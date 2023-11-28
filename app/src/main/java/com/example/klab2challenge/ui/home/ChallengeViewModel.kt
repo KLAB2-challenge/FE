@@ -2,51 +2,40 @@ package com.example.klab2challenge.ui.home
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.klab2challenge.retrofit.Challenge
-import com.example.klab2challenge.retrofit.ChallengeContents
-import com.example.klab2challenge.retrofit.ChallengeInfos
-import com.example.klab2challenge.retrofit.GetChallengeResponse
+import com.example.klab2challenge.db.HCPEntity
 
 class ChallengeViewModel {
-    private var list = ArrayList<GetChallengeResponse>()
-    private val _itemList = MutableLiveData<List<GetChallengeResponse>>()
-    val itemList: LiveData<List<GetChallengeResponse>> get() = _itemList
+    private var list = ArrayList<HCPEntity>()
+    private val _itemList = MutableLiveData<List<HCPEntity>>()
+    val itemList: LiveData<List<HCPEntity>> get() = _itemList
 
 
     init {
-        list = arrayListOf(
-//            GetChallengeResponse(
-//                0,
-//                ChallengeContents("abc", "abc", ""),
-//                ChallengeInfos("startdate", "enddate", "freq", 0, false),
-//                1,
-//                true
-//            ),
-//            GetChallengeResponse(
-//                2,
-//                ChallengeContents("abc2", "abc2", ""),
-//                ChallengeInfos("startdate2", "enddate2", "freq2", 0, false),
-//                1,
-//                true
-//            )
-        )
+        list = arrayListOf()
 
         _itemList.value = list
     }
 
-    fun addChallenge(challenge: GetChallengeResponse) {
+    fun setChallenges(challengeList: List<HCPEntity>) {
+        list.clear()
+        list.addAll(challengeList)
+
+        _itemList.value = list
+    }
+
+    fun addChallenge(challenge: HCPEntity) {
         list.add(challenge)
 
         _itemList.value = list
     }
 
-    fun addChallenges(challenges: List<GetChallengeResponse>) {
+    fun addChallenges(challenges: List<HCPEntity>) {
         list.addAll(challenges)
 
         _itemList.value = list
     }
 
-    fun deleteChallenge(challenge: GetChallengeResponse) {
+    fun deleteChallenge(challenge: HCPEntity) {
         list.remove(challenge)
 
         _itemList.value = list

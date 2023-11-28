@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.klab2challenge.databinding.ItemHomeChallengeBinding
-import com.example.klab2challenge.retrofit.GetChallengeResponse
+import com.example.klab2challenge.db.HCPEntity
 
-class ChallengeAdapter(var context : Context, var items : List<GetChallengeResponse>) : RecyclerView.Adapter<ChallengeAdapter.ViewHolder>() {
+class ChallengeAdapter(var context : Context, var items : List<HCPEntity>) : RecyclerView.Adapter<ChallengeAdapter.ViewHolder>() {
 
     var itemClickListener : OnItemClickListener? = null
     interface OnItemClickListener {
@@ -19,14 +19,14 @@ class ChallengeAdapter(var context : Context, var items : List<GetChallengeRespo
     }
 
     inner class ViewHolder(val binding: ItemHomeChallengeBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : GetChallengeResponse) {
+        fun bind(item : HCPEntity) {
             binding.root.setOnClickListener {
-                itemClickListener!!.onItemClicked(item.challengeId)
+                itemClickListener!!.onItemClicked(item.number)
             }
-            binding.tvHcTitle.text = item.contents.title
-            binding.tvHcDuration.text = item.infos.startDate + " ~ " + item.infos.endDate + "\n" + item.infos.frequency
-            binding.tvHcMemeberCount.text = item.memberNum.toString()
-            Glide.with(context).load(item.contents.image).into(binding.ivCImage)
+            binding.tvHcTitle.text = item.title
+            binding.tvHcDuration.text = item.duration
+            binding.tvHcMemeberCount.text = item.participant.toString()
+            Glide.with(context).load(item.image).into(binding.ivCImage)
         }
     }
 
@@ -43,7 +43,7 @@ class ChallengeAdapter(var context : Context, var items : List<GetChallengeRespo
         holder.bind(items[position])
     }
 
-    fun setData(list:List<GetChallengeResponse>) {
+    fun setData(list:List<HCPEntity>) {
         items = list
         notifyDataSetChanged()
     }
