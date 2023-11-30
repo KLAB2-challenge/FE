@@ -16,18 +16,18 @@ class RankingRepository(
     val rankings = rankingDao.getRanking()
 
     @WorkerThread
-    suspend fun insert(ranking: RankingEntity) {
+    fun insert(ranking: RankingEntity) {
         rankingDao.addRanking(ranking)
     }
 
     @WorkerThread
-    suspend fun init() {
+    fun init() {
         rankingDao.clearRankingTable()
     }
 
 
     @WorkerThread
-    suspend fun requestRanking(userName: String) {
+    fun requestRanking(userName: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val rankingResponse = retrofit.getRanking(userName)
             if (rankingResponse.isSuccessful) {
@@ -51,7 +51,7 @@ class RankingRepository(
     }
 
     @WorkerThread
-    suspend fun refreshRanking(userName: String) {
+    fun refreshRanking(userName: String) {
         CoroutineScope(Dispatchers.IO).launch {
             Log.d("ranking", "hello")
             rankingDao.clearRankingTable()
