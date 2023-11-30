@@ -3,8 +3,8 @@ package com.example.klab2challenge
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.klab2challenge.db.ChallengeEntity
-import com.example.klab2challenge.db.ChallengeRepository
+import com.example.klab2challenge.db.entity.ChallengeEntity
+import com.example.klab2challenge.db.repository.ChallengeRepository
 import kotlinx.coroutines.launch
 
 class ChallengeViewModel(private val challengeRepository: ChallengeRepository) : ViewModel() {

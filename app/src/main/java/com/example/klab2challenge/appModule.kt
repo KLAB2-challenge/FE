@@ -1,10 +1,10 @@
 package com.example.klab2challenge
 
-import com.example.klab2challenge.db.BorderRepository
-import com.example.klab2challenge.db.ChallengeRepository
+import com.example.klab2challenge.db.repository.BorderRepository
+import com.example.klab2challenge.db.repository.ChallengeRepository
 import com.example.klab2challenge.db.MyDatabase
-import com.example.klab2challenge.db.RankingRepository
-import com.example.klab2challenge.db.UserRepository
+import com.example.klab2challenge.db.repository.RankingRepository
+import com.example.klab2challenge.db.repository.UserRepository
 import com.example.klab2challenge.retrofit.RetrofitInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob

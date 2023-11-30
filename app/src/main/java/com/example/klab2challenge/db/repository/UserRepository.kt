@@ -1,7 +1,9 @@
-package com.example.klab2challenge.db
+package com.example.klab2challenge.db.repository
 
 import android.util.Log
 import androidx.annotation.WorkerThread
+import com.example.klab2challenge.db.dao.UserDAO
+import com.example.klab2challenge.db.entity.UserEntity
 import com.example.klab2challenge.retrofit.GetMemberAllBordersRequest
 import com.example.klab2challenge.retrofit.GetMemberInfosRequest
 import com.example.klab2challenge.retrofit.RetrofitInterface

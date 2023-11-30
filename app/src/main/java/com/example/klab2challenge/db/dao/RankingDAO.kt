@@ -1,10 +1,11 @@
-package com.example.klab2challenge.db
+package com.example.klab2challenge.db.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import com.example.klab2challenge.db.entity.RankingEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao

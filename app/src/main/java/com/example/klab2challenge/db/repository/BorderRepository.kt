@@ -1,18 +1,17 @@
-package com.example.klab2challenge.db
+package com.example.klab2challenge.db.repository
 
 import android.content.Context
 import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.core.content.ContextCompat.getColor
-import androidx.lifecycle.asLiveData
 import com.example.klab2challenge.R
+import com.example.klab2challenge.db.dao.BorderDAO
+import com.example.klab2challenge.db.entity.BorderEntity
 import com.example.klab2challenge.retrofit.GetMemberAllBordersRequest
-import com.example.klab2challenge.retrofit.GetMemberInfosRequest
 import com.example.klab2challenge.retrofit.RetrofitInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
 
 class BorderRepository(private val borderDao: BorderDAO, private val retrofit: RetrofitInterface) {
     val borders = borderDao.getAllBorders()

@@ -2,14 +2,11 @@ package com.example.klab2challenge
 
 import android.view.View
 import androidx.annotation.WorkerThread
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.klab2challenge.db.BorderEntity
-import com.example.klab2challenge.db.BorderRepository
-import com.example.klab2challenge.ui.mypage.BorderOption
+import com.example.klab2challenge.db.entity.BorderEntity
+import com.example.klab2challenge.db.repository.BorderRepository
 import kotlinx.coroutines.launch
 
 class BorderViewModel(private val borderRepository: BorderRepository) : ViewModel() {

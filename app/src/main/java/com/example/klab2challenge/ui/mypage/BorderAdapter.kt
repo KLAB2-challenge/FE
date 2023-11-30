@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.klab2challenge.databinding.ItemBorderBinding
-import com.example.klab2challenge.db.BorderEntity
+import com.example.klab2challenge.db.entity.BorderEntity
 
 class BorderAdapter() : RecyclerView.Adapter<BorderAdapter.ViewHolder>() {
     var items = arrayListOf<BorderEntity>()

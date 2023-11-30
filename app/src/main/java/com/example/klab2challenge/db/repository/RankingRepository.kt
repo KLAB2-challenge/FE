@@ -1,11 +1,12 @@
-package com.example.klab2challenge.db
+package com.example.klab2challenge.db.repository
 
 import android.util.Log
 import androidx.annotation.WorkerThread
+import com.example.klab2challenge.db.dao.RankingDAO
+import com.example.klab2challenge.db.entity.RankingEntity
 import com.example.klab2challenge.retrofit.RetrofitInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 class RankingRepository(

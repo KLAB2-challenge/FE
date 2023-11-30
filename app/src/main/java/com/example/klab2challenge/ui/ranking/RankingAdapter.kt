@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.klab2challenge.databinding.ItemRankingListBinding
-import com.example.klab2challenge.db.BorderEntity
-import com.example.klab2challenge.db.RankingEntity
+import com.example.klab2challenge.db.entity.BorderEntity
+import com.example.klab2challenge.db.entity.RankingEntity
 
 class RankingAdapter(var context: Context) : RecyclerView.Adapter<RankingAdapter.ViewHolder>() {
     var items = arrayListOf<RankingEntity>()

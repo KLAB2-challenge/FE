@@ -1,7 +1,9 @@
-package com.example.klab2challenge.db
+package com.example.klab2challenge.db.repository
 
 import android.util.Log
 import androidx.annotation.WorkerThread
+import com.example.klab2challenge.db.dao.ChallengeDAO
+import com.example.klab2challenge.db.entity.ChallengeEntity
 import com.example.klab2challenge.retrofit.GetMemberAllChallengesRequest
 import com.example.klab2challenge.retrofit.GetOfficialOrUserChallengesRequest
 import com.example.klab2challenge.retrofit.GetPopularChallengesRequest

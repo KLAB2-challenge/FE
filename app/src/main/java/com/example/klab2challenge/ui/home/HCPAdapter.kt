@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.klab2challenge.databinding.ItemHomeChallengeBinding
-import com.example.klab2challenge.db.ChallengeEntity
+import com.example.klab2challenge.db.entity.ChallengeEntity
 
 class HCPAdapter(var context : Context) : RecyclerView.Adapter<HCPAdapter.ViewHolder>() {
     var items = arrayListOf<ChallengeEntity>()

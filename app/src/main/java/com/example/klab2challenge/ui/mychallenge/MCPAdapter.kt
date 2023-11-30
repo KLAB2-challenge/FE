@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.klab2challenge.databinding.ItemMyChallengeBinding
-import com.example.klab2challenge.db.ChallengeEntity
+import com.example.klab2challenge.db.entity.ChallengeEntity
 
 class MCPAdapter() : RecyclerView.Adapter<MCPAdapter.ViewHolder>() {
     var items = arrayListOf<ChallengeEntity>()

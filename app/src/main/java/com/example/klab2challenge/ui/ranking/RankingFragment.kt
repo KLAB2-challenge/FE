@@ -14,8 +14,6 @@ import com.example.klab2challenge.BorderViewModel
 import com.example.klab2challenge.RankingViewModel
 import com.example.klab2challenge.UserViewModel
 import com.example.klab2challenge.databinding.FragmentRankingBinding
-import com.example.klab2challenge.db.BorderEntity
-import com.example.klab2challenge.db.UserEntity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class RankingFragment : Fragment() {
