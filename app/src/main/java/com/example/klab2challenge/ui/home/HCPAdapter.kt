@@ -14,9 +14,6 @@ class HCPAdapter(var context : Context) : RecyclerView.Adapter<HCPAdapter.ViewHo
     interface OnItemClickListener {
         fun onItemClicked(challengeId: Int)
     }
-    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
-        itemClickListener = onItemClickListener
-    }
 
     inner class ViewHolder(val binding: ItemHomeChallengeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : ChallengeEntity) {

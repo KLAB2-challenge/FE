@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.klab2challenge.ChallengeViewModel
 import com.example.klab2challenge.databinding.FragmentMyChallengeBinding
 import com.example.klab2challenge.ui.challenge.AddChallengeActivity
 import com.example.klab2challenge.ui.challenge.ChallengeDetailActivity

@@ -12,8 +12,8 @@ interface BorderDAO {
     @Insert
     fun addBorder(border : BorderEntity)
 
-    @Query("UPDATE bordertable SET isLocked = :il WHERE number = :num")
-    fun updateBorder(num : Int, il: Boolean)
+    @Query("UPDATE BorderTable SET isUnlocked = :iu WHERE number = :num")
+    fun updateBorder(num : Int, iu: Boolean)
 
     @Delete
     fun deleteBorder(border : BorderEntity)

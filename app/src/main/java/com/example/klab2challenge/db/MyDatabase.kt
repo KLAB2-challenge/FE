@@ -16,7 +16,7 @@ import com.example.klab2challenge.db.entity.UserEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [UserEntity::class, ChallengeEntity::class, RankingEntity::class, BorderEntity::class], version = 8)
+@Database(entities = [UserEntity::class, ChallengeEntity::class, RankingEntity::class, BorderEntity::class], version = 9)
 abstract class MyDatabase : RoomDatabase() {
     abstract fun getChallengeDAO() : ChallengeDAO
     abstract fun getUserDAO() : UserDAO

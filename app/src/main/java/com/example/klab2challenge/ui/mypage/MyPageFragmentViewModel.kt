@@ -19,15 +19,17 @@ class MyPageFragmentViewModel(
     var borders = borderRepository.borders.asLiveData()
     var users = userRepository.users.asLiveData()
 
-    fun requestUser(userName: String) {
+    fun requestUser() {
+        val userInfo = users.value!!.get(0)
         viewModelScope.launch {
-            userRepository.requestUser(userName)
+            userRepository.requestUser(userInfo.name)
         }
     }
 
-    fun requestBorder(userName: String) {
+    fun requestBorder() {
+        val userInfo = users.value!!.get(0)
         viewModelScope.launch {
-            borderRepository.requestBorder(userName)
+            borderRepository.requestBorder(userInfo.name)
         }
     }
 }

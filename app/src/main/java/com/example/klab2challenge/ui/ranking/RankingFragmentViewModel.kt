@@ -23,21 +23,24 @@ class RankingFragmentViewModel(
     val users = userRepository.users.asLiveData()
     val rankings = rankingRepository.rankings.asLiveData()
 
-    fun requestRanking(userName: String) {
+    fun requestRanking() {
+        val userInfo = users.value!!.get(0)
         viewModelScope.launch {
-            rankingRepository.requestRanking(userName)
+            rankingRepository.requestRanking(userInfo.name)
         }
     }
 
-    fun requestUser(userName: String) {
+    fun requestUser() {
+        val userInfo = users.value!!.get(0)
         viewModelScope.launch {
-            userRepository.requestUser(userName)
+            userRepository.requestUser(userInfo.name)
         }
     }
 
-    fun requestBorder(userName: String) {
+    fun requestBorder() {
+        val userInfo = users.value!!.get(0)
         viewModelScope.launch {
-            borderRepository.requestBorder(userName)
+            borderRepository.requestBorder(userInfo.name)
         }
     }
 }

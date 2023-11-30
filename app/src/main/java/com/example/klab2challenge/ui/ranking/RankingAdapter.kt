@@ -13,19 +13,9 @@ import com.example.klab2challenge.db.entity.RankingEntity
 class RankingAdapter(var context: Context) : RecyclerView.Adapter<RankingAdapter.ViewHolder>() {
     var items = arrayListOf<RankingEntity>()
     var borderList = arrayListOf<BorderEntity>()
-    var itemClickListener : OnItemClickListener? = null
-    interface OnItemClickListener {
-        fun onItemClicked(challengeId: Int)
-    }
-    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
-        itemClickListener = onItemClickListener
-    }
 
     inner class ViewHolder(val binding: ItemRankingListBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : RankingEntity) {
-//            binding.root.setOnClickListener {
-//                itemClickListener!!.onItemClicked(item.challengeId)
-//            }
             binding.tvRankingMyRank.text = "# " + (item.ranking + 1).toString()
             binding.tvRankingCoin.text = item.totalCoin.toString()
             binding.tvRankingProfileName.text = item.userName

@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat.getColor
 import com.example.klab2challenge.R
 import com.example.klab2challenge.db.dao.BorderDAO
 import com.example.klab2challenge.db.entity.BorderEntity
+import com.example.klab2challenge.retrofit.ChangeCurrentBorderRequest
 import com.example.klab2challenge.retrofit.GetMemberAllBordersRequest
 import com.example.klab2challenge.retrofit.RetrofitInterface
 import kotlinx.coroutines.CoroutineScope
@@ -31,7 +32,6 @@ class BorderRepository(private val borderDao: BorderDAO, private val retrofit: R
                     getColor(context, R.color.gold),
                     "gold",
                     20,
-                    false,
                     false
                 )
             )
@@ -41,7 +41,6 @@ class BorderRepository(private val borderDao: BorderDAO, private val retrofit: R
                     getColor(context, R.color.green),
                     "green",
                     40,
-                    false,
                     false
                 )
             )
@@ -51,7 +50,6 @@ class BorderRepository(private val borderDao: BorderDAO, private val retrofit: R
                     getColor(context, R.color.cherry),
                     "cherry",
                     60,
-                    false,
                     false
                 )
             )
@@ -61,7 +59,6 @@ class BorderRepository(private val borderDao: BorderDAO, private val retrofit: R
                     getColor(context, R.color.blueberry),
                     "blueberry",
                     80,
-                    false,
                     false
                 )
             )
@@ -71,7 +68,6 @@ class BorderRepository(private val borderDao: BorderDAO, private val retrofit: R
                     getColor(context, R.color.sunny),
                     "sunny",
                     100,
-                    false,
                     false
                 )
             )
@@ -81,7 +77,6 @@ class BorderRepository(private val borderDao: BorderDAO, private val retrofit: R
                     getColor(context, R.color.rainy),
                     "rainy",
                     120,
-                    false,
                     false
                 )
             )
@@ -100,6 +95,13 @@ class BorderRepository(private val borderDao: BorderDAO, private val retrofit: R
             } else {
                 Log.d("retrofit_requestBorder", borderResponse.message().toString())
             }
+        }
+    }
+
+    @WorkerThread
+    suspend fun updateIsunlocked(checkedBorder: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            borderDao.updateBorder(checkedBorder, true)
         }
     }
 }

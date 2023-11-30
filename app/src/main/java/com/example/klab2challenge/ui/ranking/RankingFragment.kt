@@ -10,9 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.klab2challenge.BorderViewModel
-import com.example.klab2challenge.RankingViewModel
-import com.example.klab2challenge.UserViewModel
 import com.example.klab2challenge.databinding.FragmentRankingBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -32,26 +29,28 @@ class RankingFragment : Fragment() {
         val root: View = binding.root
 
 
-
         binding.rvRankingAllRankings.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         binding.rvRankingAllRankings.adapter = RankingAdapter(requireContext())
+
         rankingFragmentViewModel.borders.observe(viewLifecycleOwner, Observer {
             (binding.rvRankingAllRankings.adapter as RankingAdapter).setBorder(it)
+            Log.d("rankingBorderList", "borderObserver")
 
             rankingFragmentViewModel.users.observe(viewLifecycleOwner, Observer {
                 val borderList = rankingFragmentViewModel.borders.value
                 val userInfo = it[0]
-                Log.d("rankingBorderList", borderList.toString())
-                Log.d("rankingUserInfo", userInfo.toString())
+                Log.d("rankingBorderList", "userObserver")
                 binding.cvRankingProfileImgBorder.backgroundTintList = ColorStateList.valueOf(borderList!!.get(userInfo.currentBorder).color)
                 binding.tvRankingProfileName.text = userInfo.name
                 binding.tvRankingCoin.text = userInfo.totalCoin.toString()
                 binding.tvRankingMyRank.text = "# " + userInfo.ranking.toString()
                 Glide.with(this@RankingFragment).load(userInfo.image).into(binding.ivRankingProfileImg)
             })
+
             rankingFragmentViewModel.rankings.observe(viewLifecycleOwner, Observer {
-                Log.d("rankingInfo", it.toString())
+                Log.d("rankingBorderList", "rankingObserver")
+                Log.d("rankingBorderList", it.toString())
                 val borderList = rankingFragmentViewModel.borders.value
                 val top1 = it[0]
                 binding.cvRankingTop1Border.backgroundTintList = ColorStateList.valueOf(borderList!!.get(top1.currentBorder).color)
@@ -77,6 +76,7 @@ class RankingFragment : Fragment() {
                 else
                     (binding.rvRankingAllRankings.adapter as RankingAdapter).setData(listOf())
             })
+
         })
 
 

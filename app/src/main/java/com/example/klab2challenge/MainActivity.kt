@@ -18,16 +18,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         val userName = "user1"
-        mainActivityViewModel.requestBorder(userName)
-        mainActivityViewModel.requestUser(userName)
-        mainActivityViewModel.requestRanking(userName)
-        mainActivityViewModel.requestOfficialChallenges(userName)
-        mainActivityViewModel.requestUserChallenges(userName)
-        mainActivityViewModel.requestPopularChallenges(userName)
-        mainActivityViewModel.requestMyChallenges(userName)
+        mainActivityViewModel.setUserName(userName)
+        mainActivityViewModel.requestBorder()
+        mainActivityViewModel.requestUser()
+        mainActivityViewModel.requestRanking()
+        mainActivityViewModel.requestOfficialChallenges()
+        mainActivityViewModel.requestUserChallenges()
+        mainActivityViewModel.requestPopularChallenges()
+        mainActivityViewModel.requestMyChallenges()
 
 
 

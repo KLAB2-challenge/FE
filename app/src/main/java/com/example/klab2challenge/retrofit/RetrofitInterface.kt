@@ -100,7 +100,7 @@ interface RetrofitInterface {
         request: GetMemberInfosRequest
     ): Response<GetMemberInfosResponse>
 
-    @GET("/member/changeCurrentBorder")
+    @POST("/member/changeCurrentBorder")
     suspend fun changeCurrentBorder(
         @Body
         request: ChangeCurrentBorderRequest

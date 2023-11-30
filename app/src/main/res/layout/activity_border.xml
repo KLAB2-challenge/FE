@@ -235,7 +235,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:strokeColor="@color/GS_60"
+        app:strokeColor="@color/BK"
         app:strokeWidth="1dp">
 
         <TextView
@@ -245,7 +245,7 @@
             android:layout_gravity="center"
             android:fontFamily="@font/googlesans_regular"
             android:text="Select"
-            android:textColor="@color/GS_60"
+            android:textColor="@color/BK"
             tools:ignore="MissingConstraints" />
 
     </com.google.android.material.card.MaterialCardView>

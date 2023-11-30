@@ -22,44 +22,49 @@ class MainActivityViewModel(
     val borders = borderRepository.borders.asLiveData()
     val users = userRepository.users.asLiveData()
     val rankings = rankingRepository.rankings.asLiveData()
+    private var userName = ""
 
-    fun requestRanking(userName: String) {
+    fun setUserName(name: String) {
+        userName = name
+    }
+
+    fun requestRanking() {
         viewModelScope.launch {
             rankingRepository.requestRanking(userName)
         }
     }
 
-    fun requestUser(userName: String) {
+    fun requestUser() {
         viewModelScope.launch {
             userRepository.requestUser(userName)
         }
     }
 
-    fun requestBorder(userName: String) {
+    fun requestBorder() {
         viewModelScope.launch {
             borderRepository.requestBorder(userName)
         }
     }
 
-    fun requestOfficialChallenges(userName: String) {
+    fun requestOfficialChallenges() {
         viewModelScope.launch {
             challengeRepository.requestOfficialChallenges(userName)
         }
     }
 
-    fun requestUserChallenges(userName: String) {
+    fun requestUserChallenges() {
         viewModelScope.launch {
             challengeRepository.requestUserChallenges(userName)
         }
     }
 
-    fun requestPopularChallenges(userName: String) {
+    fun requestPopularChallenges() {
         viewModelScope.launch {
             challengeRepository.requestPopularChallenges(userName)
         }
     }
 
-    fun requestMyChallenges(userName: String) {
+    fun requestMyChallenges() {
         viewModelScope.launch {
             challengeRepository.requestMyChallenges(userName)
         }

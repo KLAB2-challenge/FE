@@ -50,4 +50,13 @@ class RankingRepository(
         }
     }
 
+    @WorkerThread
+    suspend fun refreshRanking(userName: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            Log.d("ranking", "hello")
+            rankingDao.clearRankingTable()
+            requestRanking(userName)
+        }
+    }
+
 }

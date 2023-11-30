@@ -12,9 +12,6 @@ class MCPAdapter() : RecyclerView.Adapter<MCPAdapter.ViewHolder>() {
     interface OnItemClickListener {
         fun onItemClicked(challengeId: Int)
     }
-    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
-        itemClickListener = onItemClickListener
-    }
 
     inner class ViewHolder(val binding: ItemMyChallengeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : ChallengeEntity) {

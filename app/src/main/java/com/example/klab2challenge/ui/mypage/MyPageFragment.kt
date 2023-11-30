@@ -10,8 +10,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.example.klab2challenge.BorderViewModel
-import com.example.klab2challenge.UserViewModel
 import com.example.klab2challenge.databinding.FragmentMyPageBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,8 +33,6 @@ class MyPageFragment : Fragment() {
             myPageFragmentViewModel.users.observe(viewLifecycleOwner, Observer {
                 val userInfo = it.get(0)
                 val borderList = myPageFragmentViewModel.borders.value
-                Log.d("mypageUserInfo", userInfo.toString())
-                Log.d("mypageborderList", borderList.toString())
                 binding.tvMypageUserName.text = userInfo.name
                 binding.ifbMypageProfileBorder.backgroundTintList = ColorStateList.valueOf(borderList!!.get(userInfo.currentBorder).color)
                 binding.tvMypageAllCoin.text = userInfo.totalCoin.toString()

@@ -4,9 +4,12 @@ import android.util.Log
 import androidx.annotation.WorkerThread
 import com.example.klab2challenge.db.dao.UserDAO
 import com.example.klab2challenge.db.entity.UserEntity
+import com.example.klab2challenge.retrofit.BuyBorderRequest
+import com.example.klab2challenge.retrofit.ChangeCurrentBorderRequest
 import com.example.klab2challenge.retrofit.GetMemberAllBordersRequest
 import com.example.klab2challenge.retrofit.GetMemberInfosRequest
 import com.example.klab2challenge.retrofit.RetrofitInterface
+import com.example.klab2challenge.retrofit.SetMemberCoinsRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,17 +18,17 @@ class UserRepository(private val userDao: UserDAO, private val retrofit: Retrofi
     val users = userDao.getUser()
 
     @WorkerThread
-    suspend fun insert(user: UserEntity) {
+    fun insert(user: UserEntity) {
         userDao.addUser(user)
     }
 
     @WorkerThread
-    suspend fun init() {
+    fun init() {
         userDao.clearUserTable()
     }
 
     @WorkerThread
-    suspend fun requestUser(userName: String) {
+    fun requestUser(userName: String) {
         CoroutineScope(Dispatchers.IO).launch {
             val userData = UserEntity(userName, "", 0, "", 0, 0, 0)
             val memberInfoResponse = retrofit.getMemberInfos(GetMemberInfosRequest(userName))
@@ -62,7 +65,53 @@ class UserRepository(private val userDao: UserDAO, private val retrofit: Retrofi
     }
 
     @WorkerThread
-    suspend fun getUser() {
-        userDao.getUser()
+    fun requestChangeBorder(userName: String, checkedBorder: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val changeCurrentBorderResponse = retrofit.changeCurrentBorder(
+                ChangeCurrentBorderRequest(userName, checkedBorder)
+            )
+            if (changeCurrentBorderResponse.isSuccessful) {
+                val data = changeCurrentBorderResponse.body()!!
+                userDao.updateUserBorder(userName, checkedBorder)
+            } else {
+                Log.d(
+                    "retrofit_border_changeBorder",
+                    changeCurrentBorderResponse.message().toString()
+                )
+            }
+        }
+    }
+
+    @WorkerThread
+    fun requestBuyBorder(userName: String, currentBorder: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val buyBorderResponse =
+                retrofit.buyBorder(BuyBorderRequest(userName, currentBorder))
+            if (buyBorderResponse.isSuccessful) {
+                val data = buyBorderResponse.body()!!
+                Log.d("retrofit_border_buy", data.success.toString())
+            } else {
+                Log.d("retrofit_border_buy", buyBorderResponse.message().toString())
+            }
+        }
+    }
+
+    @WorkerThread
+    fun requestSetCoin(userName: String, currentCoin: Int, price: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val setMemberCoinResponse = retrofit.setMemberCoins(
+                SetMemberCoinsRequest(
+                    userName,
+                    currentCoin-price
+                )
+            )
+            if (setMemberCoinResponse.isSuccessful) {
+                val data = setMemberCoinResponse.body()!!
+                Log.d("retrofit_border_setCoin", data.success.toString())
+                userDao.updateUserCoin(userName, currentCoin-price)
+            } else {
+                Log.d("retrofit_border_setCoin", setMemberCoinResponse.message().toString())
+            }
+        }
     }
 }

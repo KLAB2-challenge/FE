@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Update
 import com.example.klab2challenge.db.entity.UserEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -13,8 +12,11 @@ interface UserDAO {
     @Insert
     fun addUser(user : UserEntity)
 
-    @Update
-    fun updateUser(user : UserEntity)
+    @Query("UPDATE UserTable SET currentBorder = :checkedBorder WHERE name = :userName")
+    fun updateUserBorder(userName: String, checkedBorder: Int)
+
+    @Query("UPDATE UserTable SET currentCoin = :coin WHERE name = :userName")
+    fun updateUserCoin(userName: String, coin: Int)
 
     @Delete
     fun deleteUser(user : UserEntity)

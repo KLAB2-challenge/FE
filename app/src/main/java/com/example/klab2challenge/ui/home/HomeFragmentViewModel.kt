@@ -10,15 +10,32 @@ import com.example.klab2challenge.db.repository.UserRepository
 import kotlinx.coroutines.launch
 
 class HomeFragmentViewModel(
+    private val userRepository: UserRepository,
     private val challengeRepository: ChallengeRepository
 ) : ViewModel() {
+    val users = userRepository.users.asLiveData()
     val popularChallenges = challengeRepository.popularChallenges.asLiveData()
     val userChallenges = challengeRepository.userChallenges.asLiveData()
     val officialChallenges = challengeRepository.officialChallenges.asLiveData()
 
-    fun requestMyChallenges(userName: String) {
+    fun requestOfficialChallenges(userName: String) {
+        val userInfo = users.value!!.get(0)
         viewModelScope.launch {
-            challengeRepository.requestMyChallenges(userName)
+            challengeRepository.requestOfficialChallenges(userInfo.name)
+        }
+    }
+
+    fun requestUserChallenges(userName: String) {
+        val userInfo = users.value!!.get(0)
+        viewModelScope.launch {
+            challengeRepository.requestUserChallenges(userInfo.name)
+        }
+    }
+
+    fun requestPopularChallenges(userName: String) {
+        val userInfo = users.value!!.get(0)
+        viewModelScope.launch {
+            challengeRepository.requestPopularChallenges(userInfo.name)
         }
     }
 }

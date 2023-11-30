@@ -8,6 +8,7 @@ import com.example.klab2challenge.db.repository.UserRepository
 import com.example.klab2challenge.retrofit.RetrofitInterface
 import com.example.klab2challenge.ui.home.HomeFragmentViewModel
 import com.example.klab2challenge.ui.mychallenge.MyChallengeFragmentViewModel
+import com.example.klab2challenge.ui.mypage.BorderActivityViewModel
 import com.example.klab2challenge.ui.mypage.MyPageFragmentViewModel
 import com.example.klab2challenge.ui.ranking.RankingFragmentViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -85,30 +86,21 @@ val appModule = module {
         get<MyDatabase>().getBorderDAO()
     }
     viewModel {
-        ChallengeViewModel(get())
-    }
-    viewModel {
-        RankingViewModel(get())
-    }
-    viewModel {
-        UserViewModel(get())
-    }
-    viewModel {
-        BorderViewModel(get())
-    }
-    viewModel {
         MainActivityViewModel(get(), get(), get(), get())
     }
     viewModel {
         RankingFragmentViewModel(get(), get(), get())
     }
     viewModel {
-        MyChallengeFragmentViewModel(get())
+        MyChallengeFragmentViewModel(get(), get())
     }
     viewModel {
-        HomeFragmentViewModel(get())
+        HomeFragmentViewModel(get(), get())
     }
     viewModel {
         MyPageFragmentViewModel(get(), get())
+    }
+    viewModel {
+        BorderActivityViewModel(get(), get(), get())
     }
 }
