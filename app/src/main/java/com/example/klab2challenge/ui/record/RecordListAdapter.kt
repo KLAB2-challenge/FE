@@ -1,4 +1,4 @@
-package com.example.klab2challenge.ui.challenge
+package com.example.klab2challenge.ui.record
 
 import android.content.Context
 import android.content.res.ColorStateList

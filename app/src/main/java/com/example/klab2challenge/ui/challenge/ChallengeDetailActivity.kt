@@ -1,14 +1,9 @@
 package com.example.klab2challenge.ui.challenge
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.klab2challenge.databinding.ActivityChallengeDetailBinding
+import com.example.klab2challenge.ui.record.RecordViewModel
 
 class ChallengeDetailActivity : AppCompatActivity() {
     lateinit var _binding : ActivityChallengeDetailBinding

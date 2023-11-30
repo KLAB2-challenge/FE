@@ -23,13 +23,13 @@
             android:name=".ui.challenge.ChallengeDetailActivity"
             android:exported="false"/>
         <activity
-            android:name=".ui.challenge.RecordDetailActivity"
+            android:name=".ui.record.RecordDetailActivity"
             android:exported="false"/>
         <activity
-            android:name=".ui.challenge.PostRecordActivity"
+            android:name=".ui.record.PostRecordActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.challenge.RecordListActivity"
+            android:name=".ui.record.RecordListActivity"
             android:exported="false" />
         <activity
             android:name=".ui.challenge.AddChallengeActivity"

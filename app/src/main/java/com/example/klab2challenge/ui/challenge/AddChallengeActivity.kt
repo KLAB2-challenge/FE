@@ -15,6 +15,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityAddChallengeBinding
@@ -24,10 +25,13 @@ import com.example.klab2challenge.retrofit.SetChallengeRequest
 import com.example.klab2challenge.retrofit.SetChallengeResponse
 import com.example.klab2challenge.retrofit.getUserName
 import com.example.klab2challenge.retrofit.getUserProfileUrl
+import kotlinx.coroutines.async
+import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -37,13 +41,13 @@ import java.util.Random
 
 class AddChallengeActivity : AppCompatActivity() {
     lateinit var binding: ActivityAddChallengeBinding
+
+    private val addChallengeActivityViewModel: AddChallengeActivityViewModel by viewModel()
     lateinit var items: Array<String>
 
-    //어댑터 연결 다시 잘 해보자...
     lateinit var myAdapter: ArrayAdapter<String>
 
     var fileToUpload: MultipartBody.Part? = null
-    //api연결은 아직
 
     // 갤러리 open
     private val requestPermissionLauncher: ActivityResultLauncher<String> =
@@ -89,47 +93,36 @@ class AddChallengeActivity : AppCompatActivity() {
 
         items = resources.getStringArray(R.array.freq_array)
         myAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
-
         binding.spNcFreqInput.adapter = myAdapter
 
+        addChallengeActivityViewModel.users.observe(this, Observer {
+
+        })
+
         binding.cvNcCreateBtn.setOnClickListener {
-//            RetrofitUtil.getRetrofitUtil()
-//                .setChallenge(
-//                    fileToUpload!!,
-//                    SetChallengeRequest(
-//                        getUserName(this), ChallengeContents(
-//                            binding.etNcTitleInput.text.toString(),
-//                            binding.etNcContentInput.text.toString(),
-//                            getUserProfileUrl(this)
-//                        ), ChallengeInfos(
-//                            binding.etNcStartInput.text.toString(),
-//                            binding.etNcFinishInput.text.toString(),
-//                            binding.spNcFreqInput.selectedItem.toString(),
-//                            0,
-//                            false
-//                        )
-//                    )
-//                ).enqueue(object : Callback<SetChallengeResponse> {
-//                    override fun onResponse(
-//                        call: Call<SetChallengeResponse>,
-//                        response: Response<SetChallengeResponse>
-//                    ) {
-//                        if (response.isSuccessful) {
-//                            Log.d("hyunhee", response.body().toString())
-//                            setResult(RESULT_OK)
-//                            finish()
-//                        } else {
-//                            Log.d("hyunhee", response.errorBody().toString())
-//                            finish()
-//                        }
-//                    }
-//
-//                    override fun onFailure(call: Call<SetChallengeResponse>, t: Throwable) {
-//                        Log.d("hyunhee", t.message!!)
-//                        finish()
-//                    }
-//
-//                })
+            Log.d("addChallenge", "1")
+            val userInfo = addChallengeActivityViewModel.users.value!!.get(0)
+            Log.d("addChallenge", "2")
+            runBlocking {
+                async {
+                addChallengeActivityViewModel.requestSetChallenge(
+                    fileToUpload, SetChallengeRequest(
+                        userInfo.name, ChallengeContents(
+                            binding.etNcTitleInput.text.toString(),
+                            binding.etNcContentInput.text.toString(),
+                            userInfo.image
+                        ), ChallengeInfos(
+                            binding.etNcStartInput.text.toString(),
+                            binding.etNcFinishInput.text.toString(),
+                            binding.spNcFreqInput.selectedItem.toString(),
+                            0,
+                            false
+                        )
+                    )
+                )}.await()
+                finish()
+            }
+
         }
 
         binding.cvNcBackBtn.setOnClickListener {
@@ -137,50 +130,34 @@ class AddChallengeActivity : AppCompatActivity() {
         }
 
         binding.tvNcAddimage.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.READ_MEDIA_IMAGES
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    openGallery()
-                } else {
-                    requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
-                }
-            } else {
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    openGallery()
-                } else {
-                    requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                }
-            }
+            addImage()
         }
 
         binding.ivNcAddimage.setOnClickListener {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.READ_MEDIA_IMAGES
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    openGallery()
-                } else {
-                    requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
-                }
+            addImage()
+        }
+    }
+
+    private fun addImage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_MEDIA_IMAGES
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                openGallery()
             } else {
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    openGallery()
-                } else {
-                    requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-                }
+                requestPermissionLauncher.launch(Manifest.permission.READ_MEDIA_IMAGES)
+            }
+        } else {
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                openGallery()
+            } else {
+                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             }
         }
     }

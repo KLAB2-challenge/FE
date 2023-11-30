@@ -1,9 +1,8 @@
-package com.example.klab2challenge.ui.challenge
+package com.example.klab2challenge.ui.record
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.klab2challenge.retrofit.GetChallengeResponse
 import com.example.klab2challenge.retrofit.GetProofPostResponse
 
 class RecordViewModel : ViewModel() {

@@ -25,11 +25,10 @@ interface RetrofitInterface {
 
     @Multipart
     @POST("/challenge/setChallenge")
-    fun setChallenge(
-        @Part image : MultipartBody.Part,
+    suspend fun setChallenge(
+        @Part image : MultipartBody.Part? = null,
         @Part("challenge") request: SetChallengeRequest
-//        @Body request: SetChallengeRequest
-    ): Call<SetChallengeResponse>
+    ): Response<SetChallengeResponse>
 
     @POST("/challenge/getChallenge")
     fun getChallenge(

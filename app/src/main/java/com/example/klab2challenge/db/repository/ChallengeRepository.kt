@@ -8,9 +8,11 @@ import com.example.klab2challenge.retrofit.GetMemberAllChallengesRequest
 import com.example.klab2challenge.retrofit.GetOfficialOrUserChallengesRequest
 import com.example.klab2challenge.retrofit.GetPopularChallengesRequest
 import com.example.klab2challenge.retrofit.RetrofitInterface
+import com.example.klab2challenge.retrofit.SetChallengeRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 
 class ChallengeRepository(
     private val challengeDao: ChallengeDAO,
@@ -180,6 +182,24 @@ class ChallengeRepository(
         CoroutineScope(Dispatchers.IO).launch {
 
             challengeDao.getMyChallenges()
+        }
+    }
+
+
+    @WorkerThread
+    suspend fun requestSetChallenge(image: MultipartBody.Part?, request: SetChallengeRequest) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val setChallengeResponse = retrofit.setChallenge(image, request)
+            if(setChallengeResponse.isSuccessful) {
+                val data = setChallengeResponse.body()!!
+                challengeDao.clearChallengeTable()
+                requestUserChallenges(request.memberName)
+                requestOfficialChallenges(request.memberName)
+                requestPopularChallenges(request.memberName)
+                requestMyChallenges(request.memberName)
+            } else {
+                Log.d("retrofit_requestSetChallenge", setChallengeResponse.message().toString())
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.klab2challenge.ui.challenge
+package com.example.klab2challenge.ui.record
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -17,25 +17,11 @@ import androidx.core.content.ContextCompat
 import com.example.klab2challenge.databinding.ActivityPostRecordBinding
 import com.example.klab2challenge.retrofit.ProofPostContents
 import com.example.klab2challenge.retrofit.SetProofPostRequest
-import com.example.klab2challenge.retrofit.SetProofPostResponse
-import com.example.klab2challenge.retrofit.getUserCoin
 import com.example.klab2challenge.retrofit.getUserName
-import com.example.klab2challenge.retrofit.getUserTotalCoin
-import com.example.klab2challenge.retrofit.saveUserCoin
-import com.example.klab2challenge.retrofit.saveUserTotalCoin
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
 import java.io.File
 
 class PostRecordActivity : AppCompatActivity() {

@@ -1,32 +1,16 @@
-package com.example.klab2challenge.ui.challenge
+package com.example.klab2challenge.ui.record
 
-import android.content.res.ColorStateList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.bumptech.glide.Glide
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityRecordDetailBinding
-import com.example.klab2challenge.retrofit.GetAllCommentsResponse
-import com.example.klab2challenge.retrofit.GetChallengeRequest
-import com.example.klab2challenge.retrofit.GetProofPostResponse
 import com.example.klab2challenge.retrofit.SetCommentRequest
-import com.example.klab2challenge.retrofit.SetCommentResponse
-import com.example.klab2challenge.retrofit.SetMemberCoinsRequest
-import com.example.klab2challenge.retrofit.SetMemberCoinsResponse
-import com.example.klab2challenge.retrofit.getUserBorder
-import com.example.klab2challenge.retrofit.getUserCoin
 import com.example.klab2challenge.retrofit.getUserName
-import com.example.klab2challenge.retrofit.getUserTotalCoin
-import com.example.klab2challenge.retrofit.saveUserCoin
-import com.example.klab2challenge.retrofit.saveUserTotalCoin
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import com.example.klab2challenge.ui.challenge.CommentAdapter
+import com.example.klab2challenge.ui.challenge.CommentViewModel
 
 class RecordDetailActivity : AppCompatActivity() {
     lateinit var _binding: ActivityRecordDetailBinding

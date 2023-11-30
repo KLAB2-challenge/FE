@@ -6,6 +6,7 @@ import com.example.klab2challenge.db.MyDatabase
 import com.example.klab2challenge.db.repository.RankingRepository
 import com.example.klab2challenge.db.repository.UserRepository
 import com.example.klab2challenge.retrofit.RetrofitInterface
+import com.example.klab2challenge.ui.challenge.AddChallengeActivityViewModel
 import com.example.klab2challenge.ui.home.HomeFragmentViewModel
 import com.example.klab2challenge.ui.mychallenge.MyChallengeFragmentViewModel
 import com.example.klab2challenge.ui.mypage.BorderActivityViewModel
@@ -102,5 +103,8 @@ val appModule = module {
     }
     viewModel {
         BorderActivityViewModel(get(), get(), get())
+    }
+    viewModel {
+        AddChallengeActivityViewModel(get(), get())
     }
 }
