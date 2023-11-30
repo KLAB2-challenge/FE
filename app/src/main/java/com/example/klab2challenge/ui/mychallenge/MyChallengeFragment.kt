@@ -24,7 +24,7 @@ class MyChallengeFragment : Fragment() {
     private val binding get() = _binding!!
 
 
-    private val myChallengeViewModel : ChallengeViewModel by viewModel()
+    private val myChallengeFragmentViewModel : MyChallengeFragmentViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +46,7 @@ class MyChallengeFragment : Fragment() {
             }
         }
         binding.rvMyChallenge.adapter = MCPAdapter()
-        myChallengeViewModel.myChallenges.observe(viewLifecycleOwner, Observer {
+        myChallengeFragmentViewModel.myChallenges.observe(viewLifecycleOwner, Observer {
             (binding.rvMyChallenge.adapter as MCPAdapter).setData(it)
         })
 

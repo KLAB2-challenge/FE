@@ -21,8 +21,7 @@ class MyPageFragment : Fragment() {
 
     private var _binding: FragmentMyPageBinding? = null
     private val binding get() = _binding!!
-    private val borderViewModel : BorderViewModel by viewModel()
-    private val userViewModel : UserViewModel by viewModel()
+    private val myPageFragmentViewModel : MyPageFragmentViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,19 +31,18 @@ class MyPageFragment : Fragment() {
         _binding = FragmentMyPageBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        borderViewModel.borders.observe(viewLifecycleOwner, Observer {
-
-        })
-        userViewModel.users.observe(viewLifecycleOwner, Observer {
-            val userInfo = it.get(0)
-            val borderList = borderViewModel.borders.value
-            Log.d("mypageUserInfo", userInfo.toString())
-            Log.d("mypageborderList", borderList.toString())
-            binding.tvMypageUserName.text = userInfo.name
-            binding.ifbMypageProfileBorder.backgroundTintList = ColorStateList.valueOf(borderList!!.get(userInfo.currentBorder).color)
-            binding.tvMypageAllCoin.text = userInfo.totalCoin.toString()
-            binding.tvMypageMyCoin.text = userInfo.currentCoin.toString()
-            Glide.with(this@MyPageFragment).load(userInfo.image).into(binding.ivMypageProfile)
+        myPageFragmentViewModel.borders.observe(viewLifecycleOwner, Observer {
+            myPageFragmentViewModel.users.observe(viewLifecycleOwner, Observer {
+                val userInfo = it.get(0)
+                val borderList = myPageFragmentViewModel.borders.value
+                Log.d("mypageUserInfo", userInfo.toString())
+                Log.d("mypageborderList", borderList.toString())
+                binding.tvMypageUserName.text = userInfo.name
+                binding.ifbMypageProfileBorder.backgroundTintList = ColorStateList.valueOf(borderList!!.get(userInfo.currentBorder).color)
+                binding.tvMypageAllCoin.text = userInfo.totalCoin.toString()
+                binding.tvMypageMyCoin.text = userInfo.currentCoin.toString()
+                Glide.with(this@MyPageFragment).load(userInfo.image).into(binding.ivMypageProfile)
+            })
         })
 
 

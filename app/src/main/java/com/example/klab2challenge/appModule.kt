@@ -6,6 +6,10 @@ import com.example.klab2challenge.db.MyDatabase
 import com.example.klab2challenge.db.repository.RankingRepository
 import com.example.klab2challenge.db.repository.UserRepository
 import com.example.klab2challenge.retrofit.RetrofitInterface
+import com.example.klab2challenge.ui.home.HomeFragmentViewModel
+import com.example.klab2challenge.ui.mychallenge.MyChallengeFragmentViewModel
+import com.example.klab2challenge.ui.mypage.MyPageFragmentViewModel
+import com.example.klab2challenge.ui.ranking.RankingFragmentViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -91,5 +95,20 @@ val appModule = module {
     }
     viewModel {
         BorderViewModel(get())
+    }
+    viewModel {
+        MainActivityViewModel(get(), get(), get(), get())
+    }
+    viewModel {
+        RankingFragmentViewModel(get(), get(), get())
+    }
+    viewModel {
+        MyChallengeFragmentViewModel(get())
+    }
+    viewModel {
+        HomeFragmentViewModel(get())
+    }
+    viewModel {
+        MyPageFragmentViewModel(get(), get())
     }
 }

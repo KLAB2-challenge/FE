@@ -20,7 +20,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val challengeViewModel : ChallengeViewModel by viewModel()
+    private val homeFragmentViewModel : HomeFragmentViewModel by viewModel()
 
 
     override fun onCreateView(
@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
             }
         }
         binding.rvHomePopular.adapter = popularAdapter
-        challengeViewModel.popularChallenges.observe(viewLifecycleOwner, Observer {
+        homeFragmentViewModel.popularChallenges.observe(viewLifecycleOwner, Observer {
             (binding.rvHomePopular.adapter as HCPAdapter).setData(it)
         })
 
@@ -57,7 +57,7 @@ class HomeFragment : Fragment() {
             }
         }
         binding.rvHomeOfficial.adapter = officialAdapter
-        challengeViewModel.officialChallenges.observe(viewLifecycleOwner, Observer {
+        homeFragmentViewModel.officialChallenges.observe(viewLifecycleOwner, Observer {
             (binding.rvHomeOfficial.adapter as HCPAdapter).setData(it)
         })
 
@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
             }
         }
         binding.rvHomeUser.adapter = userAdapter
-        challengeViewModel.userChallenges.observe(viewLifecycleOwner, Observer {
+        homeFragmentViewModel.userChallenges.observe(viewLifecycleOwner, Observer {
             (binding.rvHomeUser.adapter as HCPAdapter).setData(it)
         })
 
