@@ -20,4 +20,7 @@ interface RankingDAO {
 
     @Query("SELECT * FROM rankingTable ORDER BY ranking")
     fun getRanking() : Flow<List<RankingEntity>>
+
+    @Query("DELETE FROM rankingTable")
+    fun clearRankingTable()
 }

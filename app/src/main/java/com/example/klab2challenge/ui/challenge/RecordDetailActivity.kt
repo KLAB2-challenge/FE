@@ -14,7 +14,6 @@ import com.example.klab2challenge.databinding.ActivityRecordDetailBinding
 import com.example.klab2challenge.retrofit.GetAllCommentsResponse
 import com.example.klab2challenge.retrofit.GetChallengeRequest
 import com.example.klab2challenge.retrofit.GetProofPostResponse
-import com.example.klab2challenge.retrofit.RetrofitUtil
 import com.example.klab2challenge.retrofit.SetCommentRequest
 import com.example.klab2challenge.retrofit.SetCommentResponse
 import com.example.klab2challenge.retrofit.SetMemberCoinsRequest
@@ -81,71 +80,71 @@ class RecordDetailActivity : AppCompatActivity() {
         binding.ivRdSend.setOnClickListener {
             val commentRequest =
                 SetCommentRequest(getUserName(this), binding.etRdComment.text.toString(), recordId)
-            RetrofitUtil.getRetrofitUtil().setComment(commentRequest)
-                .enqueue(object : Callback<SetCommentResponse> {
-                    override fun onResponse(
-                        call: Call<SetCommentResponse>,
-                        response: Response<SetCommentResponse>
-                    ) {
-                        if (response.isSuccessful) {
-                            getComments()
-                            earnCoin()
-                        } else {
-                            Log.d("hyunhee", response.errorBody()!!.toString())
-                        }
-                    }
-
-                    override fun onFailure(call: Call<SetCommentResponse>, t: Throwable) {
-                        Log.d("hyunhee", t.message.toString())
-                    }
-
-                })
-
-            binding.etRdComment.text.clear()
+//            RetrofitUtil.getRetrofitUtil().setComment(commentRequest)
+//                .enqueue(object : Callback<SetCommentResponse> {
+//                    override fun onResponse(
+//                        call: Call<SetCommentResponse>,
+//                        response: Response<SetCommentResponse>
+//                    ) {
+//                        if (response.isSuccessful) {
+//                            getComments()
+//                            earnCoin()
+//                        } else {
+//                            Log.d("hyunhee", response.errorBody()!!.toString())
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: Call<SetCommentResponse>, t: Throwable) {
+//                        Log.d("hyunhee", t.message.toString())
+//                    }
+//
+//                })
+//
+//            binding.etRdComment.text.clear()
         }
 
-        RetrofitUtil.getRetrofitUtil().getProofPost(recordId)
-            .enqueue(object : Callback<GetProofPostResponse> {
-                override fun onResponse(
-                    call: Call<GetProofPostResponse>,
-                    response: Response<GetProofPostResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        recordDetailViewModel.setRecordDetail(response.body()!!)
-                        binding.cvRdUserImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(response.body()!!.memberCurrentBorder))
-                        Glide.with(this@RecordDetailActivity).load(response.body()!!.memberImageUrl).into(binding.ivRdUserImg)
-                        Glide.with(this@RecordDetailActivity).load(response.body()!!.contents.image).into(binding.ivRdRecordImg)
-                    } else {
-                        Log.d("seohyun", response.errorBody().toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<GetProofPostResponse>, t: Throwable) {
-                    Log.d("seohyun", t.message.toString())
-                }
-            })
+//        RetrofitUtil.getRetrofitUtil().getProofPost(recordId)
+//            .enqueue(object : Callback<GetProofPostResponse> {
+//                override fun onResponse(
+//                    call: Call<GetProofPostResponse>,
+//                    response: Response<GetProofPostResponse>
+//                ) {
+//                    if (response.isSuccessful) {
+//                        recordDetailViewModel.setRecordDetail(response.body()!!)
+//                        binding.cvRdUserImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(response.body()!!.memberCurrentBorder))
+//                        Glide.with(this@RecordDetailActivity).load(response.body()!!.memberImageUrl).into(binding.ivRdUserImg)
+//                        Glide.with(this@RecordDetailActivity).load(response.body()!!.contents.image).into(binding.ivRdRecordImg)
+//                    } else {
+//                        Log.d("seohyun", response.errorBody().toString())
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<GetProofPostResponse>, t: Throwable) {
+//                    Log.d("seohyun", t.message.toString())
+//                }
+//            })
 
         getComments()
     }
 
     fun getComments() {
-        RetrofitUtil.getRetrofitUtil().getAllComments(recordId)
-            .enqueue(object : Callback<GetAllCommentsResponse> {
-                override fun onResponse(
-                    call: Call<GetAllCommentsResponse>,
-                    response: Response<GetAllCommentsResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        commentViewModel.setComments(response.body()!!.getCommentResponses)
-                    } else {
-                        Log.d("seohyun", response.errorBody().toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<GetAllCommentsResponse>, t: Throwable) {
-                    Log.d("seohyun", t.message.toString())
-                }
-            })
+//        RetrofitUtil.getRetrofitUtil().getAllComments(recordId)
+//            .enqueue(object : Callback<GetAllCommentsResponse> {
+//                override fun onResponse(
+//                    call: Call<GetAllCommentsResponse>,
+//                    response: Response<GetAllCommentsResponse>
+//                ) {
+//                    if (response.isSuccessful) {
+//                        commentViewModel.setComments(response.body()!!.getCommentResponses)
+//                    } else {
+//                        Log.d("seohyun", response.errorBody().toString())
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<GetAllCommentsResponse>, t: Throwable) {
+//                    Log.d("seohyun", t.message.toString())
+//                }
+//            })
     }
 
     fun earnCoin() {

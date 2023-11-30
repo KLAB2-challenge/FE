@@ -13,32 +13,51 @@ class ChallengeViewModel(private val challengeRepository: ChallengeRepository) :
     val officialChallenges = challengeRepository.officialChallenges.asLiveData()
     val myChallenges = challengeRepository.myChallenges.asLiveData()
 
-    fun insert(challenge : ChallengeEntity) {
+    fun insert(challenge: ChallengeEntity) {
         viewModelScope.launch {
             challengeRepository.insert(challenge)
         }
     }
 
-    fun requestOfficialChallenge(userName : String) {
+    fun getOfficialChallenges() {
+        viewModelScope.launch {
+            challengeRepository.getOfficialChallenges()
+        }
+    }
+    fun getUserChallenges() {
+        viewModelScope.launch {
+            challengeRepository.getUserChallenges()
+        }
+    }
+    fun getPopularChallenges() {
+        viewModelScope.launch {
+            challengeRepository.getPopularChallenges()
+        }
+    }
+    fun getMyChallenges() {
+        viewModelScope.launch {
+            challengeRepository.getMyChallenges()
+        }
+    }
+    fun requestOfficialChallenges(userName: String) {
         viewModelScope.launch {
             challengeRepository.requestOfficialChallenges(userName)
         }
     }
-    fun requestUserChallenge(userName : String) {
+    fun requestUserChallenges(userName: String) {
         viewModelScope.launch {
             challengeRepository.requestUserChallenges(userName)
         }
     }
-
-    fun requestPopularChallenge(userName : String) {
+    fun requestPopularChallenges(userName: String) {
         viewModelScope.launch {
             challengeRepository.requestPopularChallenges(userName)
         }
     }
-
-    fun requestMyChallenge(userName : String) {
+    fun requestMyChallenges(userName: String) {
         viewModelScope.launch {
             challengeRepository.requestMyChallenges(userName)
         }
     }
+
 }

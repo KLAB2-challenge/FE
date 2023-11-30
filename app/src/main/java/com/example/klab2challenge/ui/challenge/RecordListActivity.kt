@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.klab2challenge.databinding.ActivityRecordListBinding
 import com.example.klab2challenge.retrofit.GetProofPostsRequest
 import com.example.klab2challenge.retrofit.GetProofPostsResponse
-import com.example.klab2challenge.retrofit.RetrofitUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -30,22 +29,22 @@ class RecordListActivity : AppCompatActivity() {
 
         initLayout()
 
-        RetrofitUtil.getRetrofitUtil().getProofPosts(challengeId).enqueue(object : Callback<GetProofPostsResponse> {
-            override fun onResponse(
-                call: Call<GetProofPostsResponse>,
-                response: Response<GetProofPostsResponse>
-            ) {
-                if(response.isSuccessful) {
-                    recordViewModel.addRecords(response.body()!!.proofPosts)
-                } else {
-                    Log.d("seohyun", response.errorBody().toString())
-                }
-            }
-
-            override fun onFailure(call: Call<GetProofPostsResponse>, t: Throwable) {
-                Log.d("seohyun", t.message.toString())
-            }
-        })
+//        RetrofitUtil.getRetrofitUtil().getProofPosts(challengeId).enqueue(object : Callback<GetProofPostsResponse> {
+//            override fun onResponse(
+//                call: Call<GetProofPostsResponse>,
+//                response: Response<GetProofPostsResponse>
+//            ) {
+//                if(response.isSuccessful) {
+//                    recordViewModel.addRecords(response.body()!!.proofPosts)
+//                } else {
+//                    Log.d("seohyun", response.errorBody().toString())
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<GetProofPostsResponse>, t: Throwable) {
+//                Log.d("seohyun", t.message.toString())
+//            }
+//        })
     }
 
     fun initLayout() {

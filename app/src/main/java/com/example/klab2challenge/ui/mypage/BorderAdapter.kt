@@ -7,10 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.klab2challenge.databinding.ItemBorderBinding
 import com.example.klab2challenge.db.BorderEntity
-import com.example.klab2challenge.ui.mypage.BorderOption
 
-class BorderAdapter(var items : List<BorderOption>) : RecyclerView.Adapter<BorderAdapter.ViewHolder>() {
-
+class BorderAdapter() : RecyclerView.Adapter<BorderAdapter.ViewHolder>() {
+    var items = arrayListOf<BorderEntity>()
     var itemClickListener : OnItemClickListener? = null
     interface OnItemClickListener {
         fun onItemClicked(challengeId: Int)
@@ -20,9 +19,9 @@ class BorderAdapter(var items : List<BorderOption>) : RecyclerView.Adapter<Borde
     }
 
     inner class ViewHolder(val binding: ItemBorderBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : BorderOption) {
+        fun bind(item : BorderEntity) {
             binding.root.setOnClickListener {
-                itemClickListener!!.onItemClicked(item.ID)
+                itemClickListener!!.onItemClicked(item.number)
             }
             binding.tvItemText.text = item.name
             binding.cvItemBorder.backgroundTintList = ColorStateList.valueOf(item.color)
@@ -44,8 +43,9 @@ class BorderAdapter(var items : List<BorderOption>) : RecyclerView.Adapter<Borde
         holder.bind(items[position])
     }
 
-    fun setData(list:List<BorderOption>) {
-        items = list
+    fun setData(list:List<BorderEntity>) {
+        items.clear()
+        items.addAll(list)
         notifyDataSetChanged()
     }
 }

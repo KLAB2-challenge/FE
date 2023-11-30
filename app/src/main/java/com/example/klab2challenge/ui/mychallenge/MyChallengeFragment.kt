@@ -10,12 +10,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.klab2challenge.ChallengeViewModel
 import com.example.klab2challenge.databinding.FragmentMyChallengeBinding
-import com.example.klab2challenge.db.MyDatabase
-import com.example.klab2challenge.retrofit.RetrofitInterface
 import com.example.klab2challenge.ui.challenge.AddChallengeActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.klab2challenge.ui.challenge.ChallengeDetailActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyChallengeFragment : Fragment() {
@@ -41,6 +37,14 @@ class MyChallengeFragment : Fragment() {
 
 
         binding.rvMyChallenge.layoutManager = GridLayoutManager(requireContext(), 3)
+        val adapter = MCPAdapter()
+        adapter.itemClickListener = object : MCPAdapter.OnItemClickListener {
+            override fun onItemClicked(challengeId: Int) {
+                val i = Intent(requireContext(), ChallengeDetailActivity::class.java)
+                i.putExtra("challengeId", challengeId)
+                startActivity(i)
+            }
+        }
         binding.rvMyChallenge.adapter = MCPAdapter()
         myChallengeViewModel.myChallenges.observe(viewLifecycleOwner, Observer {
             (binding.rvMyChallenge.adapter as MCPAdapter).setData(it)

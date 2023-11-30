@@ -18,9 +18,9 @@ class MCPAdapter() : RecyclerView.Adapter<MCPAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemMyChallengeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item : ChallengeEntity) {
-//            binding.root.setOnClickListener {
-//                itemClickListener!!.onItemClicked(item.challengeId)
-//            }
+            binding.root.setOnClickListener {
+                itemClickListener!!.onItemClicked(item.number)
+            }
             binding.tvMcTitle.text = item.title
             binding.tvItemMyChallengePercent.text = (item.progress * 100).toInt().toString() + "%"
 

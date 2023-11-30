@@ -12,12 +12,15 @@ interface BorderDAO {
     @Insert
     fun addBorder(border : BorderEntity)
 
-    @Update
-    fun updateBorder(border : BorderEntity)
+    @Query("UPDATE bordertable SET isLocked = :il WHERE number = :num")
+    fun updateBorder(num : Int, il: Boolean)
 
     @Delete
     fun deleteBorder(border : BorderEntity)
 
     @Query("SELECT * FROM BorderTable")
     fun getAllBorders() : Flow<List<BorderEntity>>
+
+    @Query("DELETE FROM BorderTable")
+    fun clearBorderTable()
 }

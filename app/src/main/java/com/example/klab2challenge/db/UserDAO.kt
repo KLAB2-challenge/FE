@@ -20,4 +20,7 @@ interface UserDAO {
 
     @Query("SELECT * FROM UserTable")
     fun getUser() : Flow<List<UserEntity>>
+
+    @Query("DELETE FROM UserTable")
+    fun clearUserTable()
 }

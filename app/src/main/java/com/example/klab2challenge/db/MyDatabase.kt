@@ -1,6 +1,7 @@
 package com.example.klab2challenge.db
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -8,14 +9,14 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [UserEntity::class, ChallengeEntity::class, RankingEntity::class, BorderEntity::class], version = 3)
+@Database(entities = [UserEntity::class, ChallengeEntity::class, RankingEntity::class, BorderEntity::class], version = 8)
 abstract class MyDatabase : RoomDatabase() {
-    abstract fun getHCPDAO() : ChallengeDAO
+    abstract fun getChallengeDAO() : ChallengeDAO
     abstract fun getUserDAO() : UserDAO
     abstract fun getBorderDAO() : BorderDAO
     abstract fun getRankingDAO() : RankingDAO
 
-    private class MyDatabaseCallback(
+    class MyDatabaseCallback(
         private val scope: CoroutineScope
     ) : RoomDatabase.Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
@@ -28,7 +29,10 @@ abstract class MyDatabase : RoomDatabase() {
         }
 
         suspend fun populateDatabase(database: MyDatabase) {
-
+            database.getChallengeDAO().clearChallengeTable()
+            database.getBorderDAO().clearBorderTable()
+            database.getRankingDAO().clearRankingTable()
+            database.getUserDAO().clearUserTable()
         }
     }
 
@@ -41,7 +45,9 @@ abstract class MyDatabase : RoomDatabase() {
                     context,
                     MyDatabase::class.java,
                     "challenge-database"
-                )   .build()
+                ).fallbackToDestructiveMigration()
+                    .addCallback(MyDatabaseCallback(scope))
+                    .build()
             }
 
             return instance!!

@@ -2,19 +2,17 @@ package com.example.klab2challenge.ui.ranking
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat.getColor
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ItemRankingListBinding
 import com.example.klab2challenge.db.BorderEntity
 import com.example.klab2challenge.db.RankingEntity
 
-class RankingAdapter(var context: Context, var items : List<RankingEntity>, var borderList : List<BorderEntity>) : RecyclerView.Adapter<RankingAdapter.ViewHolder>() {
-
+class RankingAdapter(var context: Context) : RecyclerView.Adapter<RankingAdapter.ViewHolder>() {
+    var items = arrayListOf<RankingEntity>()
+    var borderList = arrayListOf<BorderEntity>()
     var itemClickListener : OnItemClickListener? = null
     interface OnItemClickListener {
         fun onItemClicked(challengeId: Int)
@@ -28,7 +26,7 @@ class RankingAdapter(var context: Context, var items : List<RankingEntity>, var 
 //            binding.root.setOnClickListener {
 //                itemClickListener!!.onItemClicked(item.challengeId)
 //            }
-            binding.tvRankingMyRank.text = "# " + (item.ranking + 4).toString()
+            binding.tvRankingMyRank.text = "# " + (item.ranking + 1).toString()
             binding.tvRankingCoin.text = item.totalCoin.toString()
             binding.tvRankingProfileName.text = item.userName
             binding.cvRankingProfileImgBorder.backgroundTintList = ColorStateList.valueOf(borderList[item.currentBorder].color)
@@ -51,7 +49,14 @@ class RankingAdapter(var context: Context, var items : List<RankingEntity>, var 
     }
 
     fun setData(list:List<RankingEntity>) {
-        items = list
+        items.clear()
+        items.addAll(list)
+        notifyDataSetChanged()
+    }
+
+    fun setBorder(list:List<BorderEntity>) {
+        borderList.clear()
+        borderList.addAll(list)
         notifyDataSetChanged()
     }
 }

@@ -1,54 +1,40 @@
 package com.example.klab2challenge.ui.mypage
 
-import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.klab2challenge.BorderViewModel
 import com.example.klab2challenge.databinding.ActivityBorderBinding
 import com.example.klab2challenge.db.MyDatabase
-import com.example.klab2challenge.retrofit.BuyBorderRequest
-import com.example.klab2challenge.retrofit.ChangeCurrentBorderRequest
 import com.example.klab2challenge.retrofit.RetrofitInterface
-import com.example.klab2challenge.retrofit.SetMemberCoinsRequest
 import com.example.klab2challenge.ui.mychallenge.BorderAdapter
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import com.example.klab2challenge.ui.ranking.RankingAdapter
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class BorderActivity : AppCompatActivity() {
     lateinit var binding: ActivityBorderBinding
-
-    private lateinit var db: MyDatabase
-    private lateinit var retrofit: RetrofitInterface
-
-    private var borderOptionsViewModel = BorderOptionsViewModel()
-
-    lateinit var color: ArrayList<Int>
-
+    private val borderViewModel : BorderViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBorderBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//
-//
-//        binding.rvBorder.layoutManager = GridLayoutManager(this, 2)
-//        val borderAdapter = BorderAdapter(borderOptionsViewModel.itemList.value!!)
-//        borderAdapter.itemClickListener = object : BorderAdapter.OnItemClickListener {
-//            override fun onItemClicked(challengeId: Int) {
-//                borderOptionsViewModel.clickItem(challengeId)
-//            }
-//        }
-//        borderOptionsViewModel.itemList.observe(this, Observer {
-//            (binding.rvBorder.adapter as BorderAdapter).setData(it)
-//            binding.tvBSelectBtn.visibility = borderOptionsViewModel.getSelectBtnVisibility()
-//            binding.tvBReleaseBtn.visibility = borderOptionsViewModel.getReleaseBtnVisibility()
-//        })
-//
+        binding.rvBorder.layoutManager = GridLayoutManager(this, 2)
+        val borderAdapter = BorderAdapter()
+        borderAdapter.itemClickListener = object : BorderAdapter.OnItemClickListener {
+            override fun onItemClicked(challengeId: Int) {
+                borderViewModel.clickItem(challengeId)
+            }
+        }
+        borderViewModel.borders.observe(this, Observer {
+            (binding.rvBorder.adapter as BorderAdapter).setData(it)
+            binding.tvBSelectBtn.visibility = borderViewModel.getSelectBtnVisibility()
+            binding.tvBReleaseBtn.visibility = borderViewModel.getReleaseBtnVisibility()
+
+        })
+
 //
 //
 //        db = MyDatabase.getInstance(this)

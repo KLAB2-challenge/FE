@@ -16,9 +16,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import com.example.klab2challenge.databinding.ActivityPostRecordBinding
 import com.example.klab2challenge.retrofit.ProofPostContents
-import com.example.klab2challenge.retrofit.RetrofitUtil
-import com.example.klab2challenge.retrofit.SetMemberCoinsRequest
-import com.example.klab2challenge.retrofit.SetMemberCoinsResponse
 import com.example.klab2challenge.retrofit.SetProofPostRequest
 import com.example.klab2challenge.retrofit.SetProofPostResponse
 import com.example.klab2challenge.retrofit.getUserCoin
@@ -107,30 +104,30 @@ class PostRecordActivity : AppCompatActivity() {
 //            val mediaType = "application/json; charset=utf-8".toMediaType()
 //            val body = jsonObject.toString().toRequestBody(mediaType)
 
-            RetrofitUtil.getRetrofitUtil().setProofPost(fileToUpload, postRecord)
-                .enqueue(object : Callback<SetProofPostResponse> {
-                    override fun onResponse(
-                        call: Call<SetProofPostResponse>,
-                        response: Response<SetProofPostResponse>
-                    ) {
-                        if (response.isSuccessful) {
-                            Log.d("seohyun", "post success!!")
-                            earnCoin()
-                            finish()
-                            val i = Intent(applicationContext, RecordListActivity::class.java)
-                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            i.putExtra("challengeId", challengeId)
-                            startActivity(i)
-                        } else {
-                            Log.d("seohyun", response.errorBody().toString())
-                        }
-                    }
-
-                    override fun onFailure(call: Call<SetProofPostResponse>, t: Throwable) {
-                        Log.d("seohyun", t.message.toString())
-                    }
-
-                })
+//            RetrofitUtil.getRetrofitUtil().setProofPost(fileToUpload, postRecord)
+//                .enqueue(object : Callback<SetProofPostResponse> {
+//                    override fun onResponse(
+//                        call: Call<SetProofPostResponse>,
+//                        response: Response<SetProofPostResponse>
+//                    ) {
+//                        if (response.isSuccessful) {
+//                            Log.d("seohyun", "post success!!")
+//                            earnCoin()
+//                            finish()
+//                            val i = Intent(applicationContext, RecordListActivity::class.java)
+//                            i.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+//                            i.putExtra("challengeId", challengeId)
+//                            startActivity(i)
+//                        } else {
+//                            Log.d("seohyun", response.errorBody().toString())
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: Call<SetProofPostResponse>, t: Throwable) {
+//                        Log.d("seohyun", t.message.toString())
+//                    }
+//
+//                })
         }
 
         binding.cvPrBackBtn.setOnClickListener {

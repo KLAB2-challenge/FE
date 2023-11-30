@@ -9,19 +9,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.klab2challenge.databinding.ActivityChallengeDetailBinding
-import com.example.klab2challenge.retrofit.GetChallengeRequest
-import com.example.klab2challenge.retrofit.GetChallengeResponse
-import com.example.klab2challenge.retrofit.GetProofPostsResponse
-import com.example.klab2challenge.retrofit.GetRelatedChallengesRequest
-import com.example.klab2challenge.retrofit.GetRelatedChallengesResponse
-import com.example.klab2challenge.retrofit.JoinChallengeRequest
-import com.example.klab2challenge.retrofit.JoinChallengeResponse
-import com.example.klab2challenge.retrofit.RetrofitUtil
-import com.example.klab2challenge.retrofit.getUserName
-import com.example.klab2challenge.ui.home.HCPAdapter
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class ChallengeDetailActivity : AppCompatActivity() {
     lateinit var _binding : ActivityChallengeDetailBinding

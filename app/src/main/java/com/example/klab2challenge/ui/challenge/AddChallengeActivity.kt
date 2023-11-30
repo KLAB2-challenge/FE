@@ -20,7 +20,6 @@ import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityAddChallengeBinding
 import com.example.klab2challenge.retrofit.ChallengeContents
 import com.example.klab2challenge.retrofit.ChallengeInfos
-import com.example.klab2challenge.retrofit.RetrofitUtil
 import com.example.klab2challenge.retrofit.SetChallengeRequest
 import com.example.klab2challenge.retrofit.SetChallengeResponse
 import com.example.klab2challenge.retrofit.getUserName
@@ -94,43 +93,43 @@ class AddChallengeActivity : AppCompatActivity() {
         binding.spNcFreqInput.adapter = myAdapter
 
         binding.cvNcCreateBtn.setOnClickListener {
-            RetrofitUtil.getRetrofitUtil()
-                .setChallenge(
-                    fileToUpload!!,
-                    SetChallengeRequest(
-                        getUserName(this), ChallengeContents(
-                            binding.etNcTitleInput.text.toString(),
-                            binding.etNcContentInput.text.toString(),
-                            getUserProfileUrl(this)
-                        ), ChallengeInfos(
-                            binding.etNcStartInput.text.toString(),
-                            binding.etNcFinishInput.text.toString(),
-                            binding.spNcFreqInput.selectedItem.toString(),
-                            0,
-                            false
-                        )
-                    )
-                ).enqueue(object : Callback<SetChallengeResponse> {
-                    override fun onResponse(
-                        call: Call<SetChallengeResponse>,
-                        response: Response<SetChallengeResponse>
-                    ) {
-                        if (response.isSuccessful) {
-                            Log.d("hyunhee", response.body().toString())
-                            setResult(RESULT_OK)
-                            finish()
-                        } else {
-                            Log.d("hyunhee", response.errorBody().toString())
-                            finish()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<SetChallengeResponse>, t: Throwable) {
-                        Log.d("hyunhee", t.message!!)
-                        finish()
-                    }
-
-                })
+//            RetrofitUtil.getRetrofitUtil()
+//                .setChallenge(
+//                    fileToUpload!!,
+//                    SetChallengeRequest(
+//                        getUserName(this), ChallengeContents(
+//                            binding.etNcTitleInput.text.toString(),
+//                            binding.etNcContentInput.text.toString(),
+//                            getUserProfileUrl(this)
+//                        ), ChallengeInfos(
+//                            binding.etNcStartInput.text.toString(),
+//                            binding.etNcFinishInput.text.toString(),
+//                            binding.spNcFreqInput.selectedItem.toString(),
+//                            0,
+//                            false
+//                        )
+//                    )
+//                ).enqueue(object : Callback<SetChallengeResponse> {
+//                    override fun onResponse(
+//                        call: Call<SetChallengeResponse>,
+//                        response: Response<SetChallengeResponse>
+//                    ) {
+//                        if (response.isSuccessful) {
+//                            Log.d("hyunhee", response.body().toString())
+//                            setResult(RESULT_OK)
+//                            finish()
+//                        } else {
+//                            Log.d("hyunhee", response.errorBody().toString())
+//                            finish()
+//                        }
+//                    }
+//
+//                    override fun onFailure(call: Call<SetChallengeResponse>, t: Throwable) {
+//                        Log.d("hyunhee", t.message!!)
+//                        finish()
+//                    }
+//
+//                })
         }
 
         binding.cvNcBackBtn.setOnClickListener {

@@ -10,7 +10,7 @@ data class BorderEntity(
     val name : String,
     val price : Int,
     var isLocked : Boolean,
-    var isChcked : Boolean
+    var isChecked : Boolean
 ) {
     @PrimaryKey(autoGenerate = true)
     var id : Int = 0
