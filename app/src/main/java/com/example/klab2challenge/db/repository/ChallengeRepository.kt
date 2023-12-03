@@ -4,14 +4,22 @@ import android.util.Log
 import androidx.annotation.WorkerThread
 import com.example.klab2challenge.db.dao.ChallengeDAO
 import com.example.klab2challenge.db.entity.ChallengeEntity
+import com.example.klab2challenge.retrofit.GetChallengeRequest
+import com.example.klab2challenge.retrofit.GetChallengeResponse
 import com.example.klab2challenge.retrofit.GetMemberAllChallengesRequest
 import com.example.klab2challenge.retrofit.GetOfficialOrUserChallengesRequest
 import com.example.klab2challenge.retrofit.GetPopularChallengesRequest
+import com.example.klab2challenge.retrofit.GetProofPostsResponse
+import com.example.klab2challenge.retrofit.GetRelatedChallengesRequest
+import com.example.klab2challenge.retrofit.GetRelatedChallengesResponse
+import com.example.klab2challenge.retrofit.JoinChallengeRequest
 import com.example.klab2challenge.retrofit.RetrofitInterface
 import com.example.klab2challenge.retrofit.SetChallengeRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 
 class ChallengeRepository(
@@ -180,7 +188,6 @@ class ChallengeRepository(
     @WorkerThread
     suspend fun getMyChallenges() {
         CoroutineScope(Dispatchers.IO).launch {
-
             challengeDao.getMyChallenges()
         }
     }
@@ -201,5 +208,63 @@ class ChallengeRepository(
                 Log.d("retrofit_requestSetChallenge", setChallengeResponse.message().toString())
             }
         }
+    }
+
+    @WorkerThread
+    suspend fun requestChallengeDetail(request: GetChallengeRequest) : GetChallengeResponse {
+        val ret = CoroutineScope(Dispatchers.IO).async {
+            val challengeDetailResponse = retrofit.getChallenge(request)
+            if(challengeDetailResponse.isSuccessful) {
+                val data = challengeDetailResponse.body()!!
+                data
+            } else {
+                Log.d("retrofit_requestSetChallenge", challengeDetailResponse.message().toString())
+                challengeDetailResponse.body()!!
+            }
+        }
+        return ret.await()
+    }
+
+    @WorkerThread
+    suspend fun requestRelatedChallenges(request: GetRelatedChallengesRequest): GetRelatedChallengesResponse {
+        val ret = CoroutineScope(Dispatchers.IO).async {
+            val relatedChallengesResponse = retrofit.getChallenge(request)
+            if(relatedChallengesResponse.isSuccessful) {
+                val data = relatedChallengesResponse.body()!!
+                data
+            } else {
+                Log.d("retrofit_requestSetChallenge", relatedChallengesResponse.message().toString())
+                relatedChallengesResponse.body()!!
+            }
+        }
+        return ret.await()
+    }
+
+    @WorkerThread
+    suspend fun requestJoin(request: JoinChallengeRequest) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val joinResponse = retrofit.setChallenge(request)
+            if(joinResponse.isSuccessful) {
+                val data = joinResponse.body()!!
+                Log.d("retrofit_requestJoin", data.toString())
+            } else {
+                Log.d("retrofit_requestJoin", joinResponse.message().toString())
+            }
+        }
+    }
+
+    @WorkerThread
+    suspend fun requestProofPosts(challengeId: Int): GetProofPostsResponse {
+        val ret = CoroutineScope(Dispatchers.IO).async {
+            val proofPostsResponse = retrofit.getProofPosts(challengeId)
+            if(proofPostsResponse.isSuccessful) {
+                val data = proofPostsResponse.body()!!
+                data
+            } else {
+                Log.d("retrofit_requestJoin", proofPostsResponse.message().toString())
+                proofPostsResponse.body()!!
+            }
+        }
+        return ret.await()
     }
 }

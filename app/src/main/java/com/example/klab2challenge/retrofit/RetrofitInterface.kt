@@ -31,10 +31,10 @@ interface RetrofitInterface {
     ): Response<SetChallengeResponse>
 
     @POST("/challenge/getChallenge")
-    fun getChallenge(
+    suspend fun getChallenge(
         @Body
         request: GetChallengeRequest
-    ): Call<GetChallengeResponse>
+    ): Response<GetChallengeResponse>
 
     //완료
     @POST("/challenge/getPopularChallenges")
@@ -52,10 +52,10 @@ interface RetrofitInterface {
 
     //완료
     @POST("/challenge/getRelatedChallenges")
-    fun getChallenge(
+    suspend fun getChallenge(
         @Body
         request: GetRelatedChallengesRequest
-    ): Call<GetRelatedChallengesResponse>
+    ): Response<GetRelatedChallengesResponse>
 
     @POST("/challenge/getMemberAllChallenges")
     suspend fun getChallenge(
@@ -82,10 +82,10 @@ interface RetrofitInterface {
     ): Response<BuyBorderResponse>
 
     @POST("/memberChallenge/joinChallenge")
-    fun setChallenge(
+    suspend fun setChallenge(
         @Body
         request: JoinChallengeRequest
-    ): Call<JoinChallengeResponse>
+    ): Response<JoinChallengeResponse>
 
     @POST("/member/setMemberCoin")
     suspend fun setMemberCoins(
@@ -126,9 +126,9 @@ interface RetrofitInterface {
     ): Call<GetProofPostResponse>
 
     @GET("/proofPost/getAllProofPosts")
-    fun getProofPosts(
+    suspend fun getProofPosts(
         @Query("challengeId") challengeId : Int
-    ): Call<GetProofPostsResponse>
+    ): Response<GetProofPostsResponse>
 
     @GET("/proofPost/getProofPosts")
     fun getProofPost(

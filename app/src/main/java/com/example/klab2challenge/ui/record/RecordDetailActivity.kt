@@ -9,8 +9,6 @@ import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityRecordDetailBinding
 import com.example.klab2challenge.retrofit.SetCommentRequest
 import com.example.klab2challenge.retrofit.getUserName
-import com.example.klab2challenge.ui.challenge.CommentAdapter
-import com.example.klab2challenge.ui.challenge.CommentViewModel
 
 class RecordDetailActivity : AppCompatActivity() {
     lateinit var _binding: ActivityRecordDetailBinding
