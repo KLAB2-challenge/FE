@@ -3,36 +3,84 @@ package com.example.klab2challenge.ui.challenge
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.klab2challenge.retrofit.ChallengeContents
-import com.example.klab2challenge.retrofit.ChallengeInfos
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.klab2challenge.db.entity.ChallengeEntity
+import com.example.klab2challenge.db.entity.RecordEntity
+import com.example.klab2challenge.db.repository.ChallengeRepository
+import com.example.klab2challenge.db.repository.UserRepository
+import com.example.klab2challenge.retrofit.GetChallengeRequest
 import com.example.klab2challenge.retrofit.GetChallengeResponse
+import com.example.klab2challenge.retrofit.GetRelatedChallengesRequest
+import com.example.klab2challenge.retrofit.JoinChallengeRequest
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class ChallengeDetailViewModel : ViewModel() {
-    private var cd =
-        GetChallengeResponse(
-        -1,
-        ChallengeContents("", "", ""),
-        ChallengeInfos("", "", "", -1, false),
-        -1,
-        false,
-        0.0
-    )
-    private val _challengeDetail = MutableLiveData<GetChallengeResponse>()
+class ChallengeDetailViewModel(val challengeRepository: ChallengeRepository, val userRepository: UserRepository) : ViewModel() {
+    private val _challengeDetailInfo = MutableLiveData<GetChallengeResponse>()
+    private val _relatedChallenges = MutableLiveData<List<ChallengeEntity>>()
+    private val _records = MutableLiveData<List<RecordEntity>>()
 
-    val challengeDetail: LiveData<GetChallengeResponse> get() = _challengeDetail
+    val challengeDetailInfo: LiveData<GetChallengeResponse> get() = _challengeDetailInfo
+    val relatedChallenges: LiveData<List<ChallengeEntity>> get() = _relatedChallenges
+    val records: LiveData<List<RecordEntity>> get() = _records
+    val users = userRepository.users.asLiveData()
 
-    init {
-        _challengeDetail.value = cd
+
+    fun requestChallengeDetail(request: GetChallengeRequest) {
+        viewModelScope.launch {
+            val ret = challengeRepository.requestChallengeDetail(request)
+            _challengeDetailInfo.value = ret
+        }
     }
 
-    fun setChallengeDetail(challengeDetail : GetChallengeResponse) {
-        cd = challengeDetail
-        _challengeDetail.value = cd
+    fun requestRelatedChallenges(request: GetRelatedChallengesRequest) {
+        viewModelScope.launch {
+            val ret = challengeRepository.requestRelatedChallenges(request)
+            _relatedChallenges.value = ret!!.challenges.map { c ->
+                ChallengeEntity(
+                    c.challengeId,
+                    c.contents.title,
+                    c.contents.image,
+                    c.memberNum,
+                    c.infos.startDate + " ~ " + c.infos.endDate,
+                    c.infos.frequency,
+                    c.progressRate,
+                    c.join,
+                    0
+                );
+            }
+        }
     }
 
-    fun setChallengeDetailJoin(isjoin : Boolean) {
-        cd = cd.copy(join = isjoin)
-        _challengeDetail.value = cd
+    fun requestJoin(request: JoinChallengeRequest) {
+        viewModelScope.launch {
+            challengeRepository.requestJoin(request)
+            val data = _challengeDetailInfo.value
+            data!!.join = true
+            _challengeDetailInfo.value = data!!
+            delay(100)
+            challengeRepository.requestChallenges(request.memberName)
+        }
+    }
+
+    fun requestProofPosts(challengeId: Int) {
+        viewModelScope.launch {
+            val ret = challengeRepository.requestProofPosts(challengeId)
+            _records.value = ret.proofPosts.map { p ->
+                RecordEntity(
+                    p.proofPostId,
+                    p.memberName,
+                    p.memberCurrentBorder,
+                    p.memberImageUrl,
+                    p.contents.title,
+                    p.contents.content,
+                    p.contents.image,
+                    p.infos.date,
+                    p.commentNum
+                )
+            }
+        }
     }
 
 }

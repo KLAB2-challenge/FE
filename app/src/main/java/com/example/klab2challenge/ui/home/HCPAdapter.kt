@@ -6,27 +6,24 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.klab2challenge.databinding.ItemHomeChallengeBinding
-import com.example.klab2challenge.retrofit.GetChallengeResponse
+import com.example.klab2challenge.db.entity.ChallengeEntity
 
-class ChallengeAdapter(var context : Context, var items : List<GetChallengeResponse>) : RecyclerView.Adapter<ChallengeAdapter.ViewHolder>() {
-
+class HCPAdapter(var context : Context) : RecyclerView.Adapter<HCPAdapter.ViewHolder>() {
+    var items = arrayListOf<ChallengeEntity>()
     var itemClickListener : OnItemClickListener? = null
     interface OnItemClickListener {
         fun onItemClicked(challengeId: Int)
     }
-    fun setOnItemClickListener(onItemClickListener: OnItemClickListener) {
-        itemClickListener = onItemClickListener
-    }
 
     inner class ViewHolder(val binding: ItemHomeChallengeBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : GetChallengeResponse) {
+        fun bind(item : ChallengeEntity) {
             binding.root.setOnClickListener {
-                itemClickListener!!.onItemClicked(item.challengeId)
+                itemClickListener!!.onItemClicked(item.number)
             }
-            binding.tvHcTitle.text = item.contents.title
-            binding.tvHcDuration.text = item.infos.startDate + " ~ " + item.infos.endDate + "\n" + item.infos.frequency
-            binding.tvHcMemeberCount.text = item.memberNum.toString()
-            Glide.with(context).load(item.contents.image).into(binding.ivCImage)
+            binding.tvHcTitle.text = item.title
+            binding.tvHcDuration.text = item.duration
+            binding.tvHcMemeberCount.text = item.participant.toString()
+            Glide.with(context).load(item.image).into(binding.ivCImage)
         }
     }
 
@@ -43,8 +40,9 @@ class ChallengeAdapter(var context : Context, var items : List<GetChallengeRespo
         holder.bind(items[position])
     }
 
-    fun setData(list:List<GetChallengeResponse>) {
-        items = list
+    fun setData(list:List<ChallengeEntity>) {
+        items.clear()
+        items.addAll(list)
         notifyDataSetChanged()
     }
 

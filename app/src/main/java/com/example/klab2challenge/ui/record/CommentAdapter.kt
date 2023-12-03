@@ -1,4 +1,4 @@
-package com.example.klab2challenge.ui.challenge
+package com.example.klab2challenge.ui.record
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -9,29 +9,24 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ItemRecordDetailCommentBinding
+import com.example.klab2challenge.db.entity.BorderEntity
+import com.example.klab2challenge.db.entity.CommentEntity
 import com.example.klab2challenge.retrofit.GetCommentResponse
 
-class CommentAdapter(var context: Context, var items: List<GetCommentResponse>) :
+class CommentAdapter(var context: Context) :
     RecyclerView.Adapter<CommentAdapter.ViewHolder>() {
+    var items = arrayListOf<CommentEntity>()
+    var borderList = arrayListOf<BorderEntity>()
 
-
-    val color = arrayListOf(
-        ContextCompat.getColor(context, R.color.gold),
-        ContextCompat.getColor(context, R.color.green),
-        ContextCompat.getColor(context, R.color.cherry),
-        ContextCompat.getColor(context, R.color.blueberry),
-        ContextCompat.getColor(context, R.color.sunny),
-        ContextCompat.getColor(context, R.color.rainy)
-    )
 
     inner class ViewHolder(val binding: ItemRecordDetailCommentBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: GetCommentResponse) {
-            binding.tvRdCommentName.text = item.memberName
+        fun bind(item: CommentEntity) {
+            binding.tvRdCommentName.text = item.userName
             binding.tvRdCommentContent.text = item.content
-            binding.tvRdCommentDate.text = item.infos.date
-            binding.cvRdCommentImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(item.memberCurrentBorder))
-            Glide.with(context).load(item.memberImageUrl).into(binding.ivRdCommentImg)
+            binding.tvRdCommentDate.text = item.date
+            binding.cvRdCommentImgBorder.backgroundTintList = ColorStateList.valueOf(borderList[item.userCurrentBorder].color)
+            Glide.with(context).load(item.userImage).into(binding.ivRdCommentImg)
         }
     }
 
@@ -53,8 +48,16 @@ class CommentAdapter(var context: Context, var items: List<GetCommentResponse>) 
         return items.size
     }
 
-    fun setData(list: List<GetCommentResponse>) {
-        items = list
+    fun setData(list: List<CommentEntity>) {
+        items.clear()
+        items.addAll(list)
+        notifyDataSetChanged()
+    }
+
+
+    fun setBorder(list:List<BorderEntity>) {
+        borderList.clear()
+        borderList.addAll(list)
         notifyDataSetChanged()
     }
 }

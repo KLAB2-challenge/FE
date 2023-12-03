@@ -1,64 +1,56 @@
 package com.example.klab2challenge.ui.mypage
 
-import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.core.content.ContextCompat.getColor
-import androidx.core.content.ContextCompat.getDrawable
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
-import com.bumptech.glide.GlideBuilder
-import com.example.klab2challenge.MainActivity
-import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.FragmentMyPageBinding
-import com.example.klab2challenge.retrofit.GetMemberInfosRequest
-import com.example.klab2challenge.retrofit.GetMemberInfosResponse
-import com.example.klab2challenge.retrofit.RetrofitUtil
-import com.example.klab2challenge.retrofit.getUserBorder
-import com.example.klab2challenge.retrofit.getUserCoin
-import com.example.klab2challenge.retrofit.getUserName
-import com.example.klab2challenge.retrofit.getUserProfileUrl
-import com.example.klab2challenge.retrofit.getUserTotalCoin
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyPageFragment : Fragment() {
 
     private var _binding: FragmentMyPageBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private val myPageFragmentViewModel : MyPageFragmentViewModel by viewModel()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-            ViewModelProvider(this).get(MyPageViewModel::class.java)
-
         _binding = FragmentMyPageBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        binding.tvMypageUserName.text = getUserName(requireContext())
-        Log.d("hyunheemypageborder", getUserBorder(requireContext()).toString())
-        binding.ifbMypageProfileBorder.backgroundTintList = ColorStateList.valueOf(getUserBorder(requireContext()))
-        binding.tvMypageAllCoin.text = getUserTotalCoin(requireContext()).toString()
-        binding.tvMypageMyCoin.text = getUserCoin(requireContext()).toString()
-        Glide.with(this).load(getUserProfileUrl(requireContext())).into(binding.ivMypageProfile)
+        myPageFragmentViewModel.borders.observe(viewLifecycleOwner, Observer {
+            myPageFragmentViewModel.users.observe(viewLifecycleOwner, Observer {
+                if(it.isEmpty())
+                    return@Observer
+                val userInfo = it.get(0)
+                val borderList = myPageFragmentViewModel.borders.value!!
+                if(borderList.size < 6)
+                    return@Observer
+
+                binding.tvMypageUserName.text = userInfo.name
+                binding.ifbMypageProfileBorder.backgroundTintList = ColorStateList.valueOf(borderList.get(userInfo.currentBorder).color)
+                binding.tvMypageAllCoin.text = userInfo.totalCoin.toString()
+                binding.tvMypageMyCoin.text = userInfo.currentCoin.toString()
+                Glide.with(this@MyPageFragment).load(userInfo.image).into(binding.ivMypageProfile)
+            })
+        })
+
+
 
         binding.tvMypageChooseDesign.setOnClickListener {
             val i = Intent(requireContext(), BorderActivity::class.java)
             startActivity(i)
         }
+
+
 
         return root
     }

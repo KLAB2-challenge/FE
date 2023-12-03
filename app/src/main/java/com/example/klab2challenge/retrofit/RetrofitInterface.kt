@@ -2,6 +2,7 @@ package com.example.klab2challenge.retrofit
 
 import okhttp3.MultipartBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Multipart
@@ -18,121 +19,114 @@ interface RetrofitInterface {
     //안해도 됨 demo는
 
     @POST("/border/getMemberAllBorders")
-    fun getMemberAllBorders(
+    suspend fun getMemberAllBorders(
         @Body request: GetMemberAllBordersRequest
-    ): Call<GetMemberAllBordersResponse>
+    ): Response<GetMemberAllBordersResponse>
 
     @Multipart
     @POST("/challenge/setChallenge")
-    fun setChallenge(
-        @Part image : MultipartBody.Part,
+    suspend fun setChallenge(
+        @Part image : MultipartBody.Part? = null,
         @Part("challenge") request: SetChallengeRequest
-//        @Body request: SetChallengeRequest
-    ): Call<SetChallengeResponse>
+    ): Response<SetChallengeResponse>
 
     @POST("/challenge/getChallenge")
-    fun getChallenge(
+    suspend fun getChallenge(
         @Body
         request: GetChallengeRequest
-    ): Call<GetChallengeResponse>
+    ): Response<GetChallengeResponse>
 
     //완료
     @POST("/challenge/getPopularChallenges")
-    fun getChallenge(
+    suspend fun getChallenge(
         @Body
         request: GetPopularChallengesRequest
-    ): Call<GetPopularChallengesResponse>
+    ): Response<GetPopularChallengesResponse>
 
     //완료
     @POST("/challenge/getOfficialOrUserChallenges")
-    fun getChallenge(
+    suspend fun getChallenge(
         @Body
         request: GetOfficialOrUserChallengesRequest
-    ): Call<GetOfficialOrUserChallengesResponse>
+    ): Response<GetOfficialOrUserChallengesResponse>
 
     //완료
     @POST("/challenge/getRelatedChallenges")
-    fun getChallenge(
+    suspend fun getChallenge(
         @Body
         request: GetRelatedChallengesRequest
-    ): Call<GetRelatedChallengesResponse>
+    ): Response<GetRelatedChallengesResponse>
 
     @POST("/challenge/getMemberAllChallenges")
-    fun getChallenge(
+    suspend fun getChallenge(
         @Body
         request: GetMemberAllChallengesRequest
-    ): Call<GetMemberAllChallengesResponse>
+    ): Response<GetMemberAllChallengesResponse>
 
     @POST("/comment/setComment")
-    fun setComment(
+    suspend fun setComment(
         @Body
         request: SetCommentRequest
-    ): Call<SetCommentResponse>
+    ): Response<SetCommentResponse>
 
     @GET("/comment/getAllComments")
-    fun getAllComments(
+    suspend fun getAllComments(
         @Query("proofPostId")
         proofPostId: Int
-    ): Call<GetAllCommentsResponse>
+    ): Response<GetAllCommentsResponse>
 
     @POST ("/memberBorder/buyBorder")
-    fun buyBorder(
+    suspend fun buyBorder(
         @Body
         request: BuyBorderRequest
-    ): Call<BuyBorderResponse>
+    ): Response<BuyBorderResponse>
 
     @POST("/memberChallenge/joinChallenge")
-    fun setChallenge(
+    suspend fun setChallenge(
         @Body
         request: JoinChallengeRequest
-    ): Call<JoinChallengeResponse>
+    ): Response<JoinChallengeResponse>
 
     @POST("/member/setMemberCoin")
-    fun setMemberCoins(
+    suspend fun setMemberCoins(
         @Body
         request: SetMemberCoinsRequest
-    ): Call<SetMemberCoinsResponse>
+    ): Response<SetMemberCoinsResponse>
 
     @POST("/member/getMemberInfos")
-    fun getMemberInfos(
+    suspend fun getMemberInfos(
         @Body
         request: GetMemberInfosRequest
-    ): Call<GetMemberInfosResponse>
+    ): Response<GetMemberInfosResponse>
 
-    @GET("/member/changeCurrentBorder")
-    fun changeCurrentBorder(
+    @POST("/member/changeCurrentBorder")
+    suspend fun changeCurrentBorder(
         @Body
-        request: ChangeCurrentBorderResponse
-    ): Call<ChangeCurrentBorderRequest>
+        request: ChangeCurrentBorderRequest
+    ): Response<ChangeCurrentBorderResponse>
 
     @GET("/member/getRating")
-    fun getRanking(
+    suspend fun getRanking(
         @Query("memberName")
         memberName: String
-    ): Call<GetRankResponse>
+    ): Response<GetRankResponse>
 
     @Multipart
     @POST("/proofPost/setProofPost")
-    fun setProofPost(
-        @Part image : MultipartBody.Part,
+    suspend fun setProofPost(
+        @Part image : MultipartBody.Part? = null,
         @Part("proofPost") request: SetProofPostRequest
 //        @Body request: SetProofPostRequest
-    ): Call<SetProofPostResponse>
+    ): Response<SetProofPostResponse>
 
     @GET("/proofPost/getProofPost")
-    fun getProofPost(
+    suspend fun getProofPost(
         @Query("proofPostId")
         proofPostId: Int
-    ): Call<GetProofPostResponse>
+    ): Response<GetProofPostResponse>
 
     @GET("/proofPost/getAllProofPosts")
-    fun getProofPosts(
+    suspend fun getProofPosts(
         @Query("challengeId") challengeId : Int
-    ): Call<GetProofPostsResponse>
-
-    @GET("/proofPost/getProofPosts")
-    fun getProofPost(
-        @Body
-        request: GetProofPostsRequest
-    ): Call<GetProofPostsResponse>
+    ): Response<GetProofPostsResponse>
 }

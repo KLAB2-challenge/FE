@@ -1,4 +1,4 @@
-package com.example.klab2challenge.ui.challenge
+package com.example.klab2challenge.ui.record
 
 import android.content.Context
 import android.content.res.ColorStateList
@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ItemRecordListBinding
+import com.example.klab2challenge.db.entity.RecordEntity
 import com.example.klab2challenge.retrofit.GetProofPostResponse
 
-class RecordListAdapter(val context: Context, var items: List<GetProofPostResponse>) : RecyclerView.Adapter<RecordListAdapter.ViewHolder>() {
-
+class RecordListAdapter(val context: Context) : RecyclerView.Adapter<RecordListAdapter.ViewHolder>() {
+    var items = arrayListOf<RecordEntity>()
     interface OnItemClickListener {
         fun onItemClicked(recordId: Int)
     }
@@ -33,18 +34,18 @@ class RecordListAdapter(val context: Context, var items: List<GetProofPostRespon
     )
 
     inner class ViewHolder(val binding : ItemRecordListBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item : GetProofPostResponse) {
+        fun bind(item : RecordEntity) {
             binding.root.setOnClickListener {
-                onItemClickListener!!.onItemClicked(item.proofPostId)
+                onItemClickListener!!.onItemClicked(item.number)
             }
-            binding.tvItemRlTitle.text = item.contents.title
-            binding.tvItemRlContent.text = item.contents.content
-            binding.tvRdUserName.text = item.memberName
-            binding.tvRdPostDate.text = item.infos.date
+            binding.tvItemRlTitle.text = item.title
+            binding.tvItemRlContent.text = item.description
+            binding.tvRdUserName.text = item.userName
+            binding.tvRdPostDate.text = item.date
             binding.tvItemRlMessage.text = item.commentNum.toString()
-            binding.cvPrUserImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(item.memberCurrentBorder))
-            Glide.with(context).load(item.memberImageUrl).into(binding.ivPrUserImg)
-            Glide.with(context).load(item.contents.image).into(binding.ivItemRl)
+            binding.cvPrUserImgBorder.backgroundTintList = ColorStateList.valueOf(color.get(item.userCurrentBorder))
+            Glide.with(context).load(item.userImage).into(binding.ivPrUserImg)
+            Glide.with(context).load(item.image).into(binding.ivItemRl)
 
         }
     }
@@ -62,8 +63,9 @@ class RecordListAdapter(val context: Context, var items: List<GetProofPostRespon
         holder.bind(items[position])
     }
 
-    fun setData(list: List<GetProofPostResponse>) {
-        items = list
+    fun setData(list: List<RecordEntity>) {
+        items.clear()
+        items.addAll(list)
         notifyDataSetChanged()
     }
 }
