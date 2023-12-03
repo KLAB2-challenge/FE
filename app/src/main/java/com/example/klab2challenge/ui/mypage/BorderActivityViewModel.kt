@@ -10,10 +10,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.klab2challenge.db.repository.BorderRepository
 import com.example.klab2challenge.db.repository.RankingRepository
 import com.example.klab2challenge.db.repository.UserRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.koin.core.definition._createDefinition
 
 class BorderActivityViewModel(
@@ -28,32 +30,37 @@ class BorderActivityViewModel(
     val checkedItem: LiveData<Int> get() = _checkedItem
     fun checkItem(item: Int): Boolean {
         _checkedItem.value = item
-        Log.d("asdfsadfasdf", borders.value.toString())
-        Log.d("asdfsadfasdf", checkedItem.value.toString())
         return borders.value!![checkedItem.value!!].isUnlocked
     }
 
     fun requestChangeBorder(checkedBorder: Int) {
         viewModelScope.launch {
-            val userInfo = users.value!!.get(0)
-            userRepository.requestChangeBorder(userInfo.name, checkedBorder)
-            delay(100)
-            userRepository.requestUser(userInfo.name)
-            delay(100)
-            rankingRepository.requestRanking(userInfo.name)
+            withContext(Dispatchers.IO) {
+                changeBorder(checkedBorder)
+            }
         }
     }
 
+    suspend fun changeBorder(checkedBorder: Int) {
+        val userInfo = users.value!!.get(0)
+        userRepository.requestChangeBorder(userInfo.name, checkedBorder)
+        userRepository.requestUser(userInfo.name)
+        rankingRepository.requestRanking(userInfo.name)
+    }
 
     fun requestBuyBorder(checkedBorder: Int, context: Context) {
         viewModelScope.launch {
-            val userInfo = users.value!!.get(0)
-            val borderInfo = borders.value!!.get(checkedBorder)
-            userRepository.requestBuyBorder(userInfo.name, checkedBorder)
-            delay(100)
-            borderRepository.requestBorder(userInfo.name, context)
-            delay(100)
-            userRepository.requestUser(userInfo.name)
+            withContext(Dispatchers.IO) {
+                buyBorder(checkedBorder, context)
+            }
         }
+    }
+
+    suspend fun buyBorder(checkedBorder: Int, context: Context) {
+        val userInfo = users.value!!.get(0)
+        val borderInfo = borders.value!!.get(checkedBorder)
+        userRepository.requestBuyBorder(userInfo.name, checkedBorder, borderInfo.price)
+        borderRepository.requestBorder(userInfo.name, context)
+        userRepository.requestUser(userInfo.name)
     }
 }

@@ -13,10 +13,15 @@ import com.example.klab2challenge.retrofit.GetChallengeRequest
 import com.example.klab2challenge.retrofit.GetChallengeResponse
 import com.example.klab2challenge.retrofit.GetRelatedChallengesRequest
 import com.example.klab2challenge.retrofit.JoinChallengeRequest
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class ChallengeDetailViewModel(val challengeRepository: ChallengeRepository, val userRepository: UserRepository) : ViewModel() {
+class ChallengeDetailViewModel(
+    val challengeRepository: ChallengeRepository,
+    val userRepository: UserRepository
+) : ViewModel() {
     private val _challengeDetailInfo = MutableLiveData<GetChallengeResponse>()
     private val _relatedChallenges = MutableLiveData<List<ChallengeEntity>>()
     private val _records = MutableLiveData<List<RecordEntity>>()
@@ -29,56 +34,71 @@ class ChallengeDetailViewModel(val challengeRepository: ChallengeRepository, val
 
     fun requestChallengeDetail(request: GetChallengeRequest) {
         viewModelScope.launch {
-            val ret = challengeRepository.requestChallengeDetail(request)
-            _challengeDetailInfo.value = ret
+            withContext(Dispatchers.IO) {
+                val ret = challengeRepository.requestChallengeDetail(request)
+                viewModelScope.launch {
+                    _challengeDetailInfo.value = ret
+                }.join()
+            }
         }
     }
 
     fun requestRelatedChallenges(request: GetRelatedChallengesRequest) {
         viewModelScope.launch {
-            val ret = challengeRepository.requestRelatedChallenges(request)
-            _relatedChallenges.value = ret!!.challenges.map { c ->
-                ChallengeEntity(
-                    c.challengeId,
-                    c.contents.title,
-                    c.contents.image,
-                    c.memberNum,
-                    c.infos.startDate + " ~ " + c.infos.endDate,
-                    c.infos.frequency,
-                    c.progressRate,
-                    c.join,
-                    0
-                );
+            withContext(Dispatchers.IO) {
+                val ret = challengeRepository.requestRelatedChallenges(request)
+                viewModelScope.launch {
+                    _relatedChallenges.value = ret!!.challenges.map { c ->
+                        ChallengeEntity(
+                            c.challengeId,
+                            c.contents.title,
+                            c.contents.image,
+                            c.memberNum,
+                            c.infos.startDate + " ~ " + c.infos.endDate,
+                            c.infos.frequency,
+                            c.progressRate,
+                            c.join,
+                            0
+                        );
+                    }
+                }.join()
             }
         }
     }
 
     fun requestJoin(request: JoinChallengeRequest) {
         viewModelScope.launch {
-            challengeRepository.requestJoin(request)
-            val data = _challengeDetailInfo.value
-            data!!.join = true
-            _challengeDetailInfo.value = data!!
-            delay(100)
-            challengeRepository.requestChallenges(request.memberName)
+            withContext(Dispatchers.IO) {
+                challengeRepository.requestJoin(request)
+                viewModelScope.launch {
+                    val data = _challengeDetailInfo.value
+                    data!!.join = true
+                    _challengeDetailInfo.value = data!!
+                }.join()
+                challengeRepository.requestChallenges(request.memberName)
+            }
         }
     }
 
     fun requestProofPosts(challengeId: Int) {
         viewModelScope.launch {
-            val ret = challengeRepository.requestProofPosts(challengeId)
-            _records.value = ret.proofPosts.map { p ->
-                RecordEntity(
-                    p.proofPostId,
-                    p.memberName,
-                    p.memberCurrentBorder,
-                    p.memberImageUrl,
-                    p.contents.title,
-                    p.contents.content,
-                    p.contents.image,
-                    p.infos.date,
-                    p.commentNum
-                )
+            withContext(Dispatchers.IO) {
+                val ret = challengeRepository.requestProofPosts(challengeId)
+                viewModelScope.launch {
+                    _records.value = ret.proofPosts.map { p ->
+                        RecordEntity(
+                            p.proofPostId,
+                            p.memberName,
+                            p.memberCurrentBorder,
+                            p.memberImageUrl,
+                            p.contents.title,
+                            p.contents.content,
+                            p.contents.image,
+                            p.infos.date,
+                            p.commentNum
+                        )
+                    }
+                }.join()
             }
         }
     }

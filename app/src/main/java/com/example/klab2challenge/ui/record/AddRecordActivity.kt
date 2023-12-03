@@ -60,20 +60,18 @@ class AddRecordActivity : AppCompatActivity() {
             binding.cvPrPostBtn.setOnClickListener {
                 val userInfo = addRecordViewModel.users.value!!.get(0)
                 runBlocking {
-                    async {
-                        addRecordViewModel.requestSetRecord(
-                            fileToUpload, SetProofPostRequest(
-                                challengeId,
-                                userInfo.name, ProofPostContents(
-                                    binding.etPrTitleInput.text.toString(),
-                                    binding.etPrContentInput.text.toString(),
-                                    ""
-                                )
+                    addRecordViewModel.requestSetRecord(
+                        fileToUpload, SetProofPostRequest(
+                            challengeId,
+                            userInfo.name, ProofPostContents(
+                                binding.etPrTitleInput.text.toString(),
+                                binding.etPrContentInput.text.toString(),
+                                ""
                             )
                         )
-                    }.await()
-                    finish()
+                    )
                 }
+                finish()
             }
         })
 

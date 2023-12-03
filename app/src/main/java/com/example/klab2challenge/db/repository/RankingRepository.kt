@@ -9,6 +9,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class RankingRepository(
     private val rankingDao: RankingDAO,
@@ -16,40 +18,36 @@ class RankingRepository(
 ) {
     val rankings = rankingDao.getRanking()
 
-    @WorkerThread
     fun insert(ranking: RankingEntity) {
         rankingDao.addRanking(ranking)
     }
 
-    @WorkerThread
     fun init() {
         rankingDao.clearRankingTable()
     }
 
 
-    @WorkerThread
-    fun requestRanking(userName: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            init()
-            delay(100)
-            val rankingResponse = retrofit.getRanking(userName)
-            if (rankingResponse.isSuccessful) {
-                val data = rankingResponse.body()!!
-                for (i in 0..<data.ranker.size) {
-                    val rankerUser = data.ranker[i]
-                    rankingDao.addRanking(
-                        RankingEntity(
-                            rankerUser.name,
-                            rankerUser.infos.imageUrl,
-                            rankerUser.infos.currentBorder,
-                            rankerUser.infos.totalCoins,
-                            i
-                        )
+    suspend fun requestRanking(userName: String) {
+        init()
+
+        val rankingResponse = retrofit.getRanking(userName)
+        if (rankingResponse.isSuccessful) {
+            val data = rankingResponse.body()!!
+            Log.d("Retrofit_requestRanking", data.toString())
+            for (i in 0..<data.ranker.size) {
+                val rankerUser = data.ranker[i]
+                rankingDao.addRanking(
+                    RankingEntity(
+                        rankerUser.name,
+                        rankerUser.infos.imageUrl,
+                        rankerUser.infos.currentBorder,
+                        rankerUser.infos.totalCoins,
+                        i
                     )
-                }
-            } else {
-                Log.d("retrofit_requestRanking", rankingResponse.message().toString())
+                )
             }
+        } else {
+            Log.d("Retrofit_requestRanking", rankingResponse.message().toString())
         }
     }
 

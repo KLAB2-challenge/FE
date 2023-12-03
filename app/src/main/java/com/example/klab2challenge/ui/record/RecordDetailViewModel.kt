@@ -17,8 +17,11 @@ import com.example.klab2challenge.retrofit.GetChallengeResponse
 import com.example.klab2challenge.retrofit.GetProofPostResponse
 import com.example.klab2challenge.retrofit.ProofPostContents
 import com.example.klab2challenge.retrofit.ProofPostInfos
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class RecordDetailViewModel(
     val userRepository: UserRepository,
@@ -36,32 +39,47 @@ class RecordDetailViewModel(
 
     fun requestRecord(recordId: Int) {
         viewModelScope.launch {
-            val ret = recordRepository.requestRecord(recordId)
-            _recordInfo.value = ret
+            withContext(Dispatchers.IO) {
+                val ret = recordRepository.requestRecord(recordId)
+                viewModelScope.launch {
+                    _recordInfo.value = ret
+                }.join()
+            }
         }
     }
 
     fun requestComments(recordId: Int) {
         viewModelScope.launch {
-            val ret = recordRepository.requestComments(recordId)
-            _comments.value = ret.getCommentResponses.map { c ->
-                CommentEntity(
-                    c.memberName,
-                    c.memberCurrentBorder,
-                    c.memberImageUrl,
-                    c.content,
-                    c.infos.date
-                )
+            withContext(Dispatchers.IO) {
+                val ret = recordRepository.requestComments(recordId)
+                viewModelScope.launch {
+                    _comments.value = ret.getCommentResponses.map { c ->
+                        CommentEntity(
+                            c.memberName,
+                            c.memberCurrentBorder,
+                            c.memberImageUrl,
+                            c.content,
+                            c.infos.date
+                        )
+                    }
+                }.join()
             }
         }
     }
 
     fun requestSetComment(userName: String, challengeId: Int, recordId: Int, content: String) {
-        val userInfo = users.value!!.get(0)
         viewModelScope.launch {
-            recordRepository.requestSetComment(userInfo.name, recordId, content)
-            delay(100)
-            val ret = recordRepository.requestComments(recordId)
+            withContext(Dispatchers.IO) {
+                setComment(userName, challengeId, recordId, content)
+            }
+        }
+    }
+
+    suspend fun setComment(userName: String, challengeId: Int, recordId: Int, content: String) {
+        val userInfo = users.value!!.get(0)
+        recordRepository.requestSetComment(userInfo.name, recordId, content)
+        val ret = recordRepository.requestComments(recordId)
+        viewModelScope.launch {
             _comments.value = ret.getCommentResponses.map { c ->
                 CommentEntity(
                     c.memberName,
@@ -71,17 +89,12 @@ class RecordDetailViewModel(
                     c.infos.date
                 )
             }
-            delay(100)
-            userRepository.requestSetCoin(userInfo.name, userInfo.currentCoin, 10)
-            delay(100)
-            recordRepository.requestUpdateCommentNum(recordId, _comments.value!!.size)
-            delay(100)
-            recordRepository.requestRecords(challengeId)
-            delay(100)
-            userRepository.requestUser(userName)
-            delay(100)
-            rankingRepository.requestRanking(userName)
-        }
+        }.join()
+        userRepository.requestSetCoin(userInfo.name, userInfo.currentCoin, 10)
+        recordRepository.requestUpdateCommentNum(recordId, _comments.value!!.size)
+        recordRepository.requestRecords(challengeId)
+        userRepository.requestUser(userName)
+        rankingRepository.requestRanking(userName)
     }
 
 }

@@ -88,7 +88,8 @@ data class ProofPostInfos (
 
 data class BuyBorderRequest (
     @SerializedName("memberName") val memberName: String,
-    @SerializedName("borderId") val borderId: Int
+    @SerializedName("borderId") val borderId: Int,
+    @SerializedName("cost") val cost: Int
 )
 
 data class ChangeCurrentBorderRequest (
