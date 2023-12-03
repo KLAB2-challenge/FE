@@ -97,18 +97,18 @@ class UserRepository(private val userDao: UserDAO, private val retrofit: Retrofi
     }
 
     @WorkerThread
-    fun requestSetCoin(userName: String, currentCoin: Int, price: Int) {
+    fun requestSetCoin(userName: String, currentCoin: Int, offset: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             val setMemberCoinResponse = retrofit.setMemberCoins(
                 SetMemberCoinsRequest(
                     userName,
-                    currentCoin-price
+                    currentCoin+offset
                 )
             )
             if (setMemberCoinResponse.isSuccessful) {
                 val data = setMemberCoinResponse.body()!!
                 Log.d("retrofit_border_setCoin", data.success.toString())
-                userDao.updateUserCoin(userName, currentCoin-price)
+                userDao.updateUserCoin(userName, currentCoin+offset)
             } else {
                 Log.d("retrofit_border_setCoin", setMemberCoinResponse.message().toString())
             }

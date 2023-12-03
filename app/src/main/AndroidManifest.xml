@@ -26,7 +26,7 @@
             android:name=".ui.record.RecordDetailActivity"
             android:exported="false"/>
         <activity
-            android:name=".ui.record.PostRecordActivity"
+            android:name=".ui.record.AddRecordActivity"
             android:exported="false" />
         <activity
             android:name=".ui.record.RecordListActivity"

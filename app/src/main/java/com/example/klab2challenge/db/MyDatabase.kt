@@ -8,20 +8,23 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.klab2challenge.db.dao.BorderDAO
 import com.example.klab2challenge.db.dao.ChallengeDAO
 import com.example.klab2challenge.db.dao.RankingDAO
+import com.example.klab2challenge.db.dao.RecordDAO
 import com.example.klab2challenge.db.dao.UserDAO
 import com.example.klab2challenge.db.entity.BorderEntity
 import com.example.klab2challenge.db.entity.ChallengeEntity
 import com.example.klab2challenge.db.entity.RankingEntity
+import com.example.klab2challenge.db.entity.RecordEntity
 import com.example.klab2challenge.db.entity.UserEntity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-@Database(entities = [UserEntity::class, ChallengeEntity::class, RankingEntity::class, BorderEntity::class], version = 9)
+@Database(entities = [UserEntity::class, ChallengeEntity::class, RankingEntity::class, BorderEntity::class, RecordEntity::class], version = 10)
 abstract class MyDatabase : RoomDatabase() {
     abstract fun getChallengeDAO() : ChallengeDAO
     abstract fun getUserDAO() : UserDAO
     abstract fun getBorderDAO() : BorderDAO
     abstract fun getRankingDAO() : RankingDAO
+    abstract fun getRecordDAO() : RecordDAO
 
     class MyDatabaseCallback(
         private val scope: CoroutineScope
@@ -40,6 +43,7 @@ abstract class MyDatabase : RoomDatabase() {
             database.getBorderDAO().clearBorderTable()
             database.getRankingDAO().clearRankingTable()
             database.getUserDAO().clearUserTable()
+            database.getRecordDAO().clearRecordTable()
         }
     }
 

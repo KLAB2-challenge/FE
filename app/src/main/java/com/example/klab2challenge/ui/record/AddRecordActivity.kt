@@ -1,4 +1,4 @@
-package com.example.klab2challenge.ui.challenge
+package com.example.klab2challenge.ui.record
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -19,12 +19,16 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import com.example.klab2challenge.R
 import com.example.klab2challenge.databinding.ActivityAddChallengeBinding
+import com.example.klab2challenge.databinding.ActivityAddRecordBinding
 import com.example.klab2challenge.retrofit.ChallengeContents
 import com.example.klab2challenge.retrofit.ChallengeInfos
+import com.example.klab2challenge.retrofit.ProofPostContents
 import com.example.klab2challenge.retrofit.SetChallengeRequest
 import com.example.klab2challenge.retrofit.SetChallengeResponse
+import com.example.klab2challenge.retrofit.SetProofPostRequest
 import com.example.klab2challenge.retrofit.getUserName
 import com.example.klab2challenge.retrofit.getUserProfileUrl
+import com.example.klab2challenge.ui.record.AddRecordViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -39,15 +43,53 @@ import java.io.File
 import java.util.Random
 
 
-class AddChallengeActivity : AppCompatActivity() {
-    lateinit var binding: ActivityAddChallengeBinding
-
-    private val addChallengeActivityViewModel: AddChallengeActivityViewModel by viewModel()
-    lateinit var items: Array<String>
-
-    lateinit var myAdapter: ArrayAdapter<String>
-
+class AddRecordActivity : AppCompatActivity() {
+    lateinit var binding: ActivityAddRecordBinding
+    private val addRecordViewModel: AddRecordViewModel by viewModel()
     var fileToUpload: MultipartBody.Part? = null
+
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityAddRecordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        val challengeId = intent.getIntExtra("challengeId", -1)
+
+        addRecordViewModel.users.observe(this, Observer {
+            binding.cvPrPostBtn.setOnClickListener {
+                val userInfo = addRecordViewModel.users.value!!.get(0)
+                runBlocking {
+                    async {
+                        addRecordViewModel.requestSetRecord(
+                            fileToUpload, SetProofPostRequest(
+                                challengeId,
+                                userInfo.name, ProofPostContents(
+                                    binding.etPrTitleInput.text.toString(),
+                                    binding.etPrContentInput.text.toString(),
+                                    ""
+                                )
+                            )
+                        )
+                    }.await()
+                    finish()
+                }
+            }
+        })
+
+
+        binding.cvPrBackBtn.setOnClickListener {
+            finish()
+        }
+
+        binding.tvPrAddimage.setOnClickListener {
+            addImage()
+        }
+
+        binding.ivPrAddimage.setOnClickListener {
+            addImage()
+        }
+    }
 
     // 갤러리 open
     private val requestPermissionLauncher: ActivityResultLauncher<String> =
@@ -64,8 +106,8 @@ class AddChallengeActivity : AppCompatActivity() {
             if (result.resultCode == RESULT_OK) {
                 val data: Intent? = result.data
                 var imageUrl = data?.data
-                binding.ivNcAddedimage.setImageURI(imageUrl);
-                binding.ivNcAddedimage.visibility = View.VISIBLE
+                binding.ivPrAddedimage.setImageURI(imageUrl);
+                binding.ivPrAddedimage.visibility = View.VISIBLE
 
                 val cursor = contentResolver.query(
                     Uri.parse(imageUrl.toString()),
@@ -85,56 +127,6 @@ class AddChallengeActivity : AppCompatActivity() {
                 Log.d("hyunhee", fileToUpload.toString())
             }
         }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityAddChallengeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        items = resources.getStringArray(R.array.freq_array)
-        myAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, items)
-        binding.spNcFreqInput.adapter = myAdapter
-
-
-        addChallengeActivityViewModel.users.observe(this, Observer {
-            binding.cvNcCreateBtn.setOnClickListener {
-                val userInfo = addChallengeActivityViewModel.users.value!!.get(0)
-                runBlocking {
-                    async {
-                        addChallengeActivityViewModel.requestSetChallenge(
-                            fileToUpload, SetChallengeRequest(
-                                userInfo.name, ChallengeContents(
-                                    binding.etNcTitleInput.text.toString(),
-                                    binding.etNcContentInput.text.toString(),
-                                    userInfo.image
-                                ), ChallengeInfos(
-                                    binding.etNcStartInput.text.toString(),
-                                    binding.etNcFinishInput.text.toString(),
-                                    binding.spNcFreqInput.selectedItem.toString(),
-                                    0,
-                                    false
-                                )
-                            )
-                        )}.await()
-                    finish()
-                }
-            }
-        })
-
-
-
-        binding.cvNcBackBtn.setOnClickListener {
-            finish()
-        }
-
-        binding.tvNcAddimage.setOnClickListener {
-            addImage()
-        }
-
-        binding.ivNcAddimage.setOnClickListener {
-            addImage()
-        }
-    }
 
     private fun addImage() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

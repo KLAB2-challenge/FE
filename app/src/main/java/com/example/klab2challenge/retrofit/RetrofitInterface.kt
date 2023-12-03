@@ -64,16 +64,16 @@ interface RetrofitInterface {
     ): Response<GetMemberAllChallengesResponse>
 
     @POST("/comment/setComment")
-    fun setComment(
+    suspend fun setComment(
         @Body
         request: SetCommentRequest
-    ): Call<SetCommentResponse>
+    ): Response<SetCommentResponse>
 
     @GET("/comment/getAllComments")
-    fun getAllComments(
+    suspend fun getAllComments(
         @Query("proofPostId")
         proofPostId: Int
-    ): Call<GetAllCommentsResponse>
+    ): Response<GetAllCommentsResponse>
 
     @POST ("/memberBorder/buyBorder")
     suspend fun buyBorder(
@@ -113,26 +113,20 @@ interface RetrofitInterface {
 
     @Multipart
     @POST("/proofPost/setProofPost")
-    fun setProofPost(
-        @Part image : MultipartBody.Part,
+    suspend fun setProofPost(
+        @Part image : MultipartBody.Part? = null,
         @Part("proofPost") request: SetProofPostRequest
 //        @Body request: SetProofPostRequest
-    ): Call<SetProofPostResponse>
+    ): Response<SetProofPostResponse>
 
     @GET("/proofPost/getProofPost")
-    fun getProofPost(
+    suspend fun getProofPost(
         @Query("proofPostId")
         proofPostId: Int
-    ): Call<GetProofPostResponse>
+    ): Response<GetProofPostResponse>
 
     @GET("/proofPost/getAllProofPosts")
     suspend fun getProofPosts(
         @Query("challengeId") challengeId : Int
     ): Response<GetProofPostsResponse>
-
-    @GET("/proofPost/getProofPosts")
-    fun getProofPost(
-        @Body
-        request: GetProofPostsRequest
-    ): Call<GetProofPostsResponse>
 }

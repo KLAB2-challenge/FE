@@ -71,7 +71,7 @@ class BorderActivityViewModel(
             secondTask.await()
             delay(100)
             val thirdTask = async {
-                userRepository.requestSetCoin(userInfo.name, userInfo.currentCoin, borderInfo.price)
+                userRepository.requestSetCoin(userInfo.name, userInfo.currentCoin, -1 * borderInfo.price)
             }
             thirdTask.await()
         }

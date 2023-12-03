@@ -3,7 +3,6 @@ package com.example.klab2challenge.ui.challenge
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +11,7 @@ import com.example.klab2challenge.retrofit.GetChallengeRequest
 import com.example.klab2challenge.retrofit.GetRelatedChallengesRequest
 import com.example.klab2challenge.retrofit.JoinChallengeRequest
 import com.example.klab2challenge.ui.home.HCPAdapter
-import com.example.klab2challenge.ui.record.PostRecordActivity
+import com.example.klab2challenge.ui.record.AddRecordActivity
 import com.example.klab2challenge.ui.record.RecordListActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -50,7 +49,7 @@ class ChallengeDetailActivity : AppCompatActivity() {
         })
 
 
-        challengeDetailViewModel.proofPosts.observe(this, Observer {
+        challengeDetailViewModel.records.observe(this, Observer {
             if(it.size >= 1) {
                 binding.tvCdRecordTitle1.text = it[0].title
                 binding.tvCdRecordContent1.text = it[0].description
@@ -96,7 +95,7 @@ class ChallengeDetailActivity : AppCompatActivity() {
         }
 
         binding.cvRlPostBtn.setOnClickListener {
-            val i = Intent(applicationContext, PostRecordActivity::class.java)
+            val i = Intent(applicationContext, AddRecordActivity::class.java)
             i.putExtra("challengeId", challengeId)
             startActivity(i)
         }

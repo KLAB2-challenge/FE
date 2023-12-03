@@ -4,6 +4,7 @@ import com.example.klab2challenge.db.repository.BorderRepository
 import com.example.klab2challenge.db.repository.ChallengeRepository
 import com.example.klab2challenge.db.MyDatabase
 import com.example.klab2challenge.db.repository.RankingRepository
+import com.example.klab2challenge.db.repository.RecordRepository
 import com.example.klab2challenge.db.repository.UserRepository
 import com.example.klab2challenge.retrofit.RetrofitInterface
 import com.example.klab2challenge.ui.challenge.AddChallengeActivityViewModel
@@ -13,6 +14,9 @@ import com.example.klab2challenge.ui.mychallenge.MyChallengeFragmentViewModel
 import com.example.klab2challenge.ui.mypage.BorderActivityViewModel
 import com.example.klab2challenge.ui.mypage.MyPageFragmentViewModel
 import com.example.klab2challenge.ui.ranking.RankingFragmentViewModel
+import com.example.klab2challenge.ui.record.AddRecordViewModel
+import com.example.klab2challenge.ui.record.RecordDetailViewModel
+import com.example.klab2challenge.ui.record.RecordListViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -76,6 +80,13 @@ val appModule = module {
         }
     }
     single {
+        RecordRepository(get(), get()).apply {
+            applicationScope.launch {
+                init()
+            }
+        }
+    }
+    single {
         get<MyDatabase>().getChallengeDAO()
     }
     single {
@@ -86,6 +97,9 @@ val appModule = module {
     }
     single {
         get<MyDatabase>().getBorderDAO()
+    }
+    single {
+        get<MyDatabase>().getRecordDAO()
     }
     viewModel {
         MainActivityViewModel(get(), get(), get(), get())
@@ -110,5 +124,14 @@ val appModule = module {
     }
     viewModel {
         ChallengeDetailViewModel(get(), get())
+    }
+    viewModel {
+        RecordListViewModel(get())
+    }
+    viewModel {
+        AddRecordViewModel(get(), get(), get())
+    }
+    viewModel {
+        RecordDetailViewModel(get(), get(), get())
     }
 }

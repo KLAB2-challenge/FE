@@ -45,6 +45,7 @@ class BorderActivity : AppCompatActivity() {
                 binding.tvBNoticeLabel.visibility = if (!isUnlocked) View.VISIBLE else View.GONE
                 binding.tvBNoticeLabel2.visibility = if (!isUnlocked) View.VISIBLE else View.GONE
                 binding.tvBNoticeCoin.visibility = if (!isUnlocked) View.VISIBLE else View.GONE
+                binding.tvBNoticeCoin.text = borderInfo.price.toString()
 
                 binding.tvBWarningLabel.visibility = if (!isUnlocked && !isEnable) View.VISIBLE else View.GONE
                 binding.tvBWarningLabel2.visibility = if (!isUnlocked && !isEnable) View.VISIBLE else View.GONE
