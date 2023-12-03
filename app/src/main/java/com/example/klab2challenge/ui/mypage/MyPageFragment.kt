@@ -31,10 +31,15 @@ class MyPageFragment : Fragment() {
 
         myPageFragmentViewModel.borders.observe(viewLifecycleOwner, Observer {
             myPageFragmentViewModel.users.observe(viewLifecycleOwner, Observer {
+                if(it.isEmpty())
+                    return@Observer
                 val userInfo = it.get(0)
-                val borderList = myPageFragmentViewModel.borders.value
+                val borderList = myPageFragmentViewModel.borders.value!!
+                if(borderList.isEmpty())
+                    return@Observer
+
                 binding.tvMypageUserName.text = userInfo.name
-                binding.ifbMypageProfileBorder.backgroundTintList = ColorStateList.valueOf(borderList!!.get(userInfo.currentBorder).color)
+                binding.ifbMypageProfileBorder.backgroundTintList = ColorStateList.valueOf(borderList.get(userInfo.currentBorder).color)
                 binding.tvMypageAllCoin.text = userInfo.totalCoin.toString()
                 binding.tvMypageMyCoin.text = userInfo.currentCoin.toString()
                 Glide.with(this@MyPageFragment).load(userInfo.image).into(binding.ivMypageProfile)

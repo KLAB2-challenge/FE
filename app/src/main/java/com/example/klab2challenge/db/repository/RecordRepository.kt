@@ -42,6 +42,7 @@ class RecordRepository(
     suspend fun requestRecords(challengeId: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             init()
+            delay(100)
             val recordsResponse =
                 retrofit.getProofPosts(challengeId)
             if (recordsResponse.isSuccessful) {
@@ -74,7 +75,6 @@ class RecordRepository(
             val recordResponse = retrofit.setProofPost(image, request)
             if(recordResponse.isSuccessful) {
                 val data = recordResponse.body()!!
-                requestRecords(request.challengeID)
                 Log.d("retrofit_requestSetRecord", data.toString())
             } else {
                 Log.d("retrofit_requestSetRecord", recordResponse.message().toString())
@@ -133,12 +133,4 @@ class RecordRepository(
         }
     }
 
-    @WorkerThread
-    suspend fun refreshRecords(challengeId: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            recordDAO.clearRecordTable()
-            delay(100)
-            requestRecords(challengeId)
-        }
-    }
 }

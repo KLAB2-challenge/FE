@@ -52,39 +52,19 @@ val appModule = module {
         MyDatabase.getInstance(androidApplication(), applicationScope)
     }
     single {
-        ChallengeRepository(get(), get()).apply {
-            applicationScope.launch {
-                init()
-            }
-        }
+        ChallengeRepository(get(), get())
     }
     single {
-        RankingRepository(get(), get()).apply {
-            applicationScope.launch {
-                init()
-            }
-        }
+        RankingRepository(get(), get())
     }
     single {
-        UserRepository(get(), get()).apply {
-            applicationScope.launch {
-                init()
-            }
-        }
+        UserRepository(get(), get())
     }
     single {
-        BorderRepository(get(), get()).apply {
-            applicationScope.launch {
-                init(androidContext())
-            }
-        }
+        BorderRepository(get(), get())
     }
     single {
-        RecordRepository(get(), get()).apply {
-            applicationScope.launch {
-                init()
-            }
-        }
+        RecordRepository(get(), get())
     }
     single {
         get<MyDatabase>().getChallengeDAO()
@@ -132,6 +112,6 @@ val appModule = module {
         AddRecordViewModel(get(), get(), get())
     }
     viewModel {
-        RecordDetailViewModel(get(), get(), get())
+        RecordDetailViewModel(get(), get(), get(), get())
     }
 }

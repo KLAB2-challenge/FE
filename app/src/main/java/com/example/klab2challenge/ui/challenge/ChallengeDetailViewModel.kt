@@ -13,6 +13,7 @@ import com.example.klab2challenge.retrofit.GetChallengeRequest
 import com.example.klab2challenge.retrofit.GetChallengeResponse
 import com.example.klab2challenge.retrofit.GetRelatedChallengesRequest
 import com.example.klab2challenge.retrofit.JoinChallengeRequest
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ChallengeDetailViewModel(val challengeRepository: ChallengeRepository, val userRepository: UserRepository) : ViewModel() {
@@ -58,6 +59,8 @@ class ChallengeDetailViewModel(val challengeRepository: ChallengeRepository, val
             val data = _challengeDetailInfo.value
             data!!.join = true
             _challengeDetailInfo.value = data!!
+            delay(100)
+            challengeRepository.requestChallenges(request.memberName)
         }
     }
 

@@ -26,10 +26,5 @@ class MyPageFragmentViewModel(
         }
     }
 
-    fun requestBorder() {
-        val userInfo = users.value!!.get(0)
-        viewModelScope.launch {
-            borderRepository.requestBorder(userInfo.name)
-        }
-    }
+
 }

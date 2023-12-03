@@ -1,5 +1,6 @@
 package com.example.klab2challenge.ui.ranking
 
+import android.content.Context
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,10 +38,10 @@ class RankingFragmentViewModel(
         }
     }
 
-    fun requestBorder() {
+    fun requestBorder(context : Context) {
         val userInfo = users.value!!.get(0)
         viewModelScope.launch {
-            borderRepository.requestBorder(userInfo.name)
+            borderRepository.requestBorder(userInfo.name, context)
         }
     }
 }

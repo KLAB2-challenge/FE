@@ -20,14 +20,10 @@ class MainActivity : AppCompatActivity() {
 
         val userName = "user1"
         mainActivityViewModel.setUserName(userName)
-        mainActivityViewModel.requestBorder()
+        mainActivityViewModel.requestBorder(this)
         mainActivityViewModel.requestUser()
         mainActivityViewModel.requestRanking()
-        mainActivityViewModel.requestOfficialChallenges()
-        mainActivityViewModel.requestUserChallenges()
-        mainActivityViewModel.requestPopularChallenges()
-        mainActivityViewModel.requestMyChallenges()
-
+        mainActivityViewModel.requestChallengs()
 
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment

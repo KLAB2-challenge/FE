@@ -10,6 +10,7 @@ import com.example.klab2challenge.db.entity.ChallengeEntity
 import com.example.klab2challenge.db.entity.CommentEntity
 import com.example.klab2challenge.db.entity.RecordEntity
 import com.example.klab2challenge.db.repository.BorderRepository
+import com.example.klab2challenge.db.repository.RankingRepository
 import com.example.klab2challenge.db.repository.RecordRepository
 import com.example.klab2challenge.db.repository.UserRepository
 import com.example.klab2challenge.retrofit.GetChallengeResponse
@@ -22,7 +23,8 @@ import kotlinx.coroutines.launch
 class RecordDetailViewModel(
     val userRepository: UserRepository,
     val recordRepository: RecordRepository,
-    val borderRepository: BorderRepository
+    val borderRepository: BorderRepository,
+    val rankingRepository: RankingRepository
 ) : ViewModel() {
     private val _recordInfo = MutableLiveData<GetProofPostResponse>()
     private val _comments = MutableLiveData<List<CommentEntity>>()
@@ -54,7 +56,7 @@ class RecordDetailViewModel(
         }
     }
 
-    fun requestSetComment(challengeId: Int, recordId: Int, content: String) {
+    fun requestSetComment(userName: String, challengeId: Int, recordId: Int, content: String) {
         val userInfo = users.value!!.get(0)
         viewModelScope.launch {
             recordRepository.requestSetComment(userInfo.name, recordId, content)
@@ -74,7 +76,11 @@ class RecordDetailViewModel(
             delay(100)
             recordRepository.requestUpdateCommentNum(recordId, _comments.value!!.size)
             delay(100)
-            recordRepository.refreshRecords(challengeId)
+            recordRepository.requestRecords(challengeId)
+            delay(100)
+            userRepository.requestUser(userName)
+            delay(100)
+            rankingRepository.requestRanking(userName)
         }
     }
 

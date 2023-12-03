@@ -7,6 +7,7 @@ import com.example.klab2challenge.db.entity.RankingEntity
 import com.example.klab2challenge.retrofit.RetrofitInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class RankingRepository(
@@ -29,6 +30,8 @@ class RankingRepository(
     @WorkerThread
     fun requestRanking(userName: String) {
         CoroutineScope(Dispatchers.IO).launch {
+            init()
+            delay(100)
             val rankingResponse = retrofit.getRanking(userName)
             if (rankingResponse.isSuccessful) {
                 val data = rankingResponse.body()!!
@@ -47,15 +50,6 @@ class RankingRepository(
             } else {
                 Log.d("retrofit_requestRanking", rankingResponse.message().toString())
             }
-        }
-    }
-
-    @WorkerThread
-    fun refreshRanking(userName: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            Log.d("ranking", "hello")
-            rankingDao.clearRankingTable()
-            requestRanking(userName)
         }
     }
 

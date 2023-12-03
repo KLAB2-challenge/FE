@@ -16,11 +16,4 @@ class MyChallengeFragmentViewModel(
     val myChallenges = challengeRepository.myChallenges.asLiveData()
     val users = userRepository.users.asLiveData()
 
-    fun requestMyChallenges() {
-        val userInfo = users.value!!.get(0)
-        viewModelScope.launch {
-            challengeRepository.requestMyChallenges(userInfo.name)
-        }
-    }
-
 }

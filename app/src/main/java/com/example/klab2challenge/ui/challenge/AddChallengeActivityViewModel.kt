@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.klab2challenge.db.repository.ChallengeRepository
 import com.example.klab2challenge.db.repository.UserRepository
 import com.example.klab2challenge.retrofit.SetChallengeRequest
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 
@@ -19,6 +20,8 @@ class AddChallengeActivityViewModel(
         val userInfo = users.value!!.get(0)
         viewModelScope.launch {
             challengeRepository.requestSetChallenge(image, request)
+            delay(100)
+            challengeRepository.requestChallenges(userInfo.name)
         }
     }
 

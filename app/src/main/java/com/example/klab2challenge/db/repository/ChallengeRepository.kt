@@ -18,6 +18,7 @@ import com.example.klab2challenge.retrofit.SetChallengeRequest
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
@@ -76,13 +77,6 @@ class ChallengeRepository(
     }
 
     @WorkerThread
-    suspend fun getOfficialChallenges() {
-        CoroutineScope(Dispatchers.IO).launch {
-            challengeDao.getOfficialChallenges()
-        }
-    }
-
-    @WorkerThread
     suspend fun requestUserChallenges(userName: String) {
         CoroutineScope(Dispatchers.IO).launch {
 
@@ -110,15 +104,6 @@ class ChallengeRepository(
             }
         }
     }
-
-    @WorkerThread
-    suspend fun getUserChallenges() {
-        CoroutineScope(Dispatchers.IO).launch {
-
-        challengeDao.getUserChallenges()
-        }
-    }
-
     @WorkerThread
     suspend fun requestPopularChallenges(userName: String) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -145,14 +130,6 @@ class ChallengeRepository(
             } else {
                 Log.d("retrofit_requestPopularHcps", popularChallengeResponse.message().toString())
             }
-        }
-    }
-
-    @WorkerThread
-    suspend fun getPopularChallenges() {
-        CoroutineScope(Dispatchers.IO).launch {
-
-            challengeDao.getPopularChallenges()
         }
     }
 
@@ -185,12 +162,6 @@ class ChallengeRepository(
         }
     }
 
-    @WorkerThread
-    suspend fun getMyChallenges() {
-        CoroutineScope(Dispatchers.IO).launch {
-            challengeDao.getMyChallenges()
-        }
-    }
 
 
     @WorkerThread
@@ -199,11 +170,6 @@ class ChallengeRepository(
             val setChallengeResponse = retrofit.setChallenge(image, request)
             if(setChallengeResponse.isSuccessful) {
                 val data = setChallengeResponse.body()!!
-                challengeDao.clearChallengeTable()
-                requestUserChallenges(request.memberName)
-                requestOfficialChallenges(request.memberName)
-                requestPopularChallenges(request.memberName)
-                requestMyChallenges(request.memberName)
             } else {
                 Log.d("retrofit_requestSetChallenge", setChallengeResponse.message().toString())
             }
@@ -266,5 +232,20 @@ class ChallengeRepository(
             }
         }
         return ret.await()
+    }
+
+    @WorkerThread
+    suspend fun requestChallenges(userName: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            init()
+            delay(100)
+            requestPopularChallenges(userName)
+            delay(100)
+            requestOfficialChallenges(userName)
+            delay(100)
+            requestUserChallenges(userName)
+            delay(100)
+            requestMyChallenges(userName)
+        }
     }
 }

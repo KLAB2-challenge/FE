@@ -44,7 +44,7 @@ class MyChallengeFragment : Fragment() {
                 startActivity(i)
             }
         }
-        binding.rvMyChallenge.adapter = MCPAdapter()
+        binding.rvMyChallenge.adapter = adapter
         myChallengeFragmentViewModel.myChallenges.observe(viewLifecycleOwner, Observer {
             (binding.rvMyChallenge.adapter as MCPAdapter).setData(it)
         })

@@ -1,5 +1,6 @@
 package com.example.klab2challenge
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -7,6 +8,7 @@ import com.example.klab2challenge.db.repository.BorderRepository
 import com.example.klab2challenge.db.repository.ChallengeRepository
 import com.example.klab2challenge.db.repository.RankingRepository
 import com.example.klab2challenge.db.repository.UserRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel(
@@ -40,33 +42,15 @@ class MainActivityViewModel(
         }
     }
 
-    fun requestBorder() {
+    fun requestBorder(context : Context) {
         viewModelScope.launch {
-            borderRepository.requestBorder(userName)
+            borderRepository.requestBorder(userName, context)
         }
     }
 
-    fun requestOfficialChallenges() {
+    fun requestChallengs() {
         viewModelScope.launch {
-            challengeRepository.requestOfficialChallenges(userName)
-        }
-    }
-
-    fun requestUserChallenges() {
-        viewModelScope.launch {
-            challengeRepository.requestUserChallenges(userName)
-        }
-    }
-
-    fun requestPopularChallenges() {
-        viewModelScope.launch {
-            challengeRepository.requestPopularChallenges(userName)
-        }
-    }
-
-    fun requestMyChallenges() {
-        viewModelScope.launch {
-            challengeRepository.requestMyChallenges(userName)
+            challengeRepository.requestChallenges(userName)
         }
     }
 

@@ -17,25 +17,4 @@ class HomeFragmentViewModel(
     val popularChallenges = challengeRepository.popularChallenges.asLiveData()
     val userChallenges = challengeRepository.userChallenges.asLiveData()
     val officialChallenges = challengeRepository.officialChallenges.asLiveData()
-
-    fun requestOfficialChallenges(userName: String) {
-        val userInfo = users.value!!.get(0)
-        viewModelScope.launch {
-            challengeRepository.requestOfficialChallenges(userInfo.name)
-        }
-    }
-
-    fun requestUserChallenges(userName: String) {
-        val userInfo = users.value!!.get(0)
-        viewModelScope.launch {
-            challengeRepository.requestUserChallenges(userInfo.name)
-        }
-    }
-
-    fun requestPopularChallenges(userName: String) {
-        val userInfo = users.value!!.get(0)
-        viewModelScope.launch {
-            challengeRepository.requestPopularChallenges(userInfo.name)
-        }
-    }
 }

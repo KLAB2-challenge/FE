@@ -1,5 +1,6 @@
 package com.example.klab2challenge.ui.mypage
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.koin.core.definition._createDefinition
 
 class BorderActivityViewModel(
     private val userRepository: UserRepository,
@@ -28,52 +30,27 @@ class BorderActivityViewModel(
         return borders.value!![checkedItem.value!!].isUnlocked
     }
 
-    fun requestUser(userName: String) {
-        viewModelScope.launch {
-            userRepository.requestUser(userName)
-        }
-    }
-
-    fun requestBorder(userName: String) {
-        viewModelScope.launch {
-            borderRepository.requestBorder(userName)
-        }
-    }
-
     fun requestChangeBorder(checkedBorder: Int) {
         viewModelScope.launch {
             val userInfo = users.value!!.get(0)
-            val firstTask = async {
-                userRepository.requestChangeBorder(userInfo.name, checkedBorder)
-            }
-            firstTask.await()
+            userRepository.requestChangeBorder(userInfo.name, checkedBorder)
             delay(100)
-            val secondTask = async {
-                rankingRepository.refreshRanking(userInfo.name)
-            }
-            secondTask.await()
+            userRepository.requestUser(userInfo.name)
+            delay(100)
+            rankingRepository.requestRanking(userInfo.name)
         }
     }
 
 
-    fun requestBuyBorder(checkedBorder: Int) {
+    fun requestBuyBorder(checkedBorder: Int, context: Context) {
         viewModelScope.launch {
             val userInfo = users.value!!.get(0)
             val borderInfo = borders.value!!.get(checkedBorder)
-            val firstTask = async {
-                userRepository.requestBuyBorder(userInfo.name, checkedBorder)
-            }
-            firstTask.await()
+            userRepository.requestBuyBorder(userInfo.name, checkedBorder)
             delay(100)
-            val secondTask = async {
-                borderRepository.updateIsunlocked(checkedBorder)
-            }
-            secondTask.await()
+            borderRepository.requestBorder(userInfo.name, context)
             delay(100)
-            val thirdTask = async {
-                userRepository.requestSetCoin(userInfo.name, userInfo.currentCoin, -1 * borderInfo.price)
-            }
-            thirdTask.await()
+            userRepository.requestUser(userInfo.name)
         }
     }
 }

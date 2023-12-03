@@ -16,7 +16,10 @@ interface UserDAO {
     fun updateUserBorder(userName: String, checkedBorder: Int)
 
     @Query("UPDATE UserTable SET currentCoin = :coin WHERE name = :userName")
-    fun updateUserCoin(userName: String, coin: Int)
+    fun updateUserCurrentCoin(userName: String, coin: Int)
+
+    @Query("UPDATE UserTable SET totalCoin = :coin WHERE name = :userName")
+    fun updateUserTotalCoin(userName: String, coin: Int)
 
     @Delete
     fun deleteUser(user : UserEntity)

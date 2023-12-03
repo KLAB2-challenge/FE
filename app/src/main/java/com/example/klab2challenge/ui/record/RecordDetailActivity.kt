@@ -57,8 +57,11 @@ class RecordDetailActivity : AppCompatActivity() {
         })
 
         recordDetailViewModel.users.observe(this, Observer {
+            if(it.isEmpty())
+                return@Observer
+            val userInfo = recordDetailViewModel.users.value!!.get(0)
             binding.ivRdSend.setOnClickListener {
-                recordDetailViewModel.requestSetComment(challengeId, recordId, binding.etRdComment.text.toString())
+                recordDetailViewModel.requestSetComment(userInfo.name, challengeId, recordId, binding.etRdComment.text.toString())
                 binding.etRdComment.text.clear()
             }
         })

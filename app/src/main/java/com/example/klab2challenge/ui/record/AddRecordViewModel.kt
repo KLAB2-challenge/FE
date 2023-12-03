@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.klab2challenge.db.repository.ChallengeRepository
+import com.example.klab2challenge.db.repository.RankingRepository
 import com.example.klab2challenge.db.repository.RecordRepository
 import com.example.klab2challenge.db.repository.UserRepository
 import com.example.klab2challenge.retrofit.SetChallengeRequest
@@ -14,8 +15,8 @@ import okhttp3.MultipartBody
 
 class AddRecordViewModel(
     private val userRepository: UserRepository,
-    private val challengeRepository: ChallengeRepository,
-    private val recordRepository: RecordRepository
+    private val recordRepository: RecordRepository,
+    private val rankingRepository: RankingRepository
 ) : ViewModel() {
     val users = userRepository.users.asLiveData()
     val records = recordRepository.records.asLiveData()
@@ -25,8 +26,13 @@ class AddRecordViewModel(
         viewModelScope.launch {
             recordRepository.requestSetRecord(image, request)
             delay(100)
-            val userInfo = users.value!!.get(0)
+            recordRepository.requestRecords(request.challengeID)
+            delay(100)
             userRepository.requestSetCoin(userInfo.name, userInfo.currentCoin, 20)
+            delay(100)
+            userRepository.requestUser(userInfo.name)
+            delay(100)
+            rankingRepository.requestRanking(userInfo.name)
         }
     }
 

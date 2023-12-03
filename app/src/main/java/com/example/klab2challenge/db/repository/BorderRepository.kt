@@ -12,6 +12,7 @@ import com.example.klab2challenge.retrofit.GetMemberAllBordersRequest
 import com.example.klab2challenge.retrofit.RetrofitInterface
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class BorderRepository(private val borderDao: BorderDAO, private val retrofit: RetrofitInterface) {
@@ -24,8 +25,10 @@ class BorderRepository(private val borderDao: BorderDAO, private val retrofit: R
 
     @WorkerThread
     suspend fun init(context: Context) {
+        Log.d("hello?", context.toString())
         CoroutineScope(Dispatchers.IO).launch {
             borderDao.clearBorderTable()
+            delay(100)
             borderDao.addBorder(
                 BorderEntity(
                     0,
@@ -84,8 +87,10 @@ class BorderRepository(private val borderDao: BorderDAO, private val retrofit: R
     }
 
     @WorkerThread
-    suspend fun requestBorder(userName: String) {
+    suspend fun requestBorder(userName: String, context : Context) {
         CoroutineScope(Dispatchers.IO).launch {
+            init(context)
+            delay(100)
             val borderResponse = retrofit.getMemberAllBorders(GetMemberAllBordersRequest(userName))
             if (borderResponse.isSuccessful) {
                 val data = borderResponse.body()!!
@@ -95,13 +100,6 @@ class BorderRepository(private val borderDao: BorderDAO, private val retrofit: R
             } else {
                 Log.d("retrofit_requestBorder", borderResponse.message().toString())
             }
-        }
-    }
-
-    @WorkerThread
-    suspend fun updateIsunlocked(checkedBorder: Int) {
-        CoroutineScope(Dispatchers.IO).launch {
-            borderDao.updateBorder(checkedBorder, true)
         }
     }
 }

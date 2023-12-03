@@ -57,8 +57,15 @@ class BorderActivity : AppCompatActivity() {
         borderActivityViewModel.borders.observe(this, Observer {
             (binding.rvBorder.adapter as BorderAdapter).setData(it)
             borderActivityViewModel.users.observe(this, Observer {
+                if(it.isEmpty())
+                    return@Observer
+                Log.d("hiuser", it.toString())
                 val userInfo = it[0]
                 val borderList = borderActivityViewModel.borders.value!!
+                if(borderList.isEmpty())
+                    return@Observer
+
+
                 binding.tvBMyCoin.text = userInfo.currentCoin.toString()
                 binding.ifbBProfileBorder.backgroundTintList =
                     ColorStateList.valueOf(borderList[userInfo.currentBorder].color)
@@ -78,7 +85,7 @@ class BorderActivity : AppCompatActivity() {
 
         binding.cvBReleaseBtn.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                borderActivityViewModel.requestBuyBorder(borderActivityViewModel.checkedItem.value!!)
+                borderActivityViewModel.requestBuyBorder(borderActivityViewModel.checkedItem.value!!, this@BorderActivity)
             }
         }
 

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.klab2challenge.databinding.ActivityChallengeDetailBinding
 import com.example.klab2challenge.retrofit.GetChallengeRequest
 import com.example.klab2challenge.retrofit.GetRelatedChallengesRequest
@@ -46,6 +47,7 @@ class ChallengeDetailActivity : AppCompatActivity() {
                 binding.cvRlJoinBtn.visibility = View.VISIBLE
                 binding.cvRlPostBtn.visibility = View.GONE
             }
+            Glide.with(this@ChallengeDetailActivity).load(it.contents.image).into(binding.ivCdImage)
         })
 
 
@@ -62,6 +64,8 @@ class ChallengeDetailActivity : AppCompatActivity() {
 
 
         challengeDetailViewModel.users.observe(this, Observer {
+            if(it.isEmpty())
+                return@Observer
             val userName = challengeDetailViewModel.users.value!!.get(0).name
             challengeDetailViewModel.requestChallengeDetail(GetChallengeRequest(userName, challengeId))
             challengeDetailViewModel.requestRelatedChallenges(GetRelatedChallengesRequest(userName, 0, 5, 0))
