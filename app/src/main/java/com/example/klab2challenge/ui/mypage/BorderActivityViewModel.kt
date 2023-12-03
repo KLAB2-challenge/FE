@@ -1,6 +1,7 @@
 package com.example.klab2challenge.ui.mypage
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,6 +28,8 @@ class BorderActivityViewModel(
     val checkedItem: LiveData<Int> get() = _checkedItem
     fun checkItem(item: Int): Boolean {
         _checkedItem.value = item
+        Log.d("asdfsadfasdf", borders.value.toString())
+        Log.d("asdfsadfasdf", checkedItem.value.toString())
         return borders.value!![checkedItem.value!!].isUnlocked
     }
 

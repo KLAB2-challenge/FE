@@ -2,7 +2,6 @@ package com.example.klab2challenge.ui.ranking
 
 import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,12 +34,10 @@ class RankingFragment : Fragment() {
 
         rankingFragmentViewModel.borders.observe(viewLifecycleOwner, Observer {
             (binding.rvRankingAllRankings.adapter as RankingAdapter).setBorder(it)
-            Log.d("rankingBorderList", "borderObserver")
 
             rankingFragmentViewModel.users.observe(viewLifecycleOwner, Observer {
                 val borderList = rankingFragmentViewModel.borders.value
                 val userInfo = it[0]
-                Log.d("rankingBorderList", "userObserver")
                 binding.cvRankingProfileImgBorder.backgroundTintList = ColorStateList.valueOf(borderList!!.get(userInfo.currentBorder).color)
                 binding.tvRankingProfileName.text = userInfo.name
                 binding.tvRankingCoin.text = userInfo.totalCoin.toString()
@@ -49,8 +46,6 @@ class RankingFragment : Fragment() {
             })
 
             rankingFragmentViewModel.rankings.observe(viewLifecycleOwner, Observer {
-                Log.d("rankingBorderList", "rankingObserver")
-                Log.d("rankingBorderList", it.toString())
                 val borderList = rankingFragmentViewModel.borders.value
                 val top1 = it[0]
                 binding.cvRankingTop1Border.backgroundTintList = ColorStateList.valueOf(borderList!!.get(top1.currentBorder).color)

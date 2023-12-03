@@ -8,7 +8,6 @@ import com.example.klab2challenge.db.repository.BorderRepository
 import com.example.klab2challenge.db.repository.ChallengeRepository
 import com.example.klab2challenge.db.repository.RankingRepository
 import com.example.klab2challenge.db.repository.UserRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivityViewModel(

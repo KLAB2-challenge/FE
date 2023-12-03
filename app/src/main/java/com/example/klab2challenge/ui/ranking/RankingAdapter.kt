@@ -21,7 +21,6 @@ class RankingAdapter(var context: Context) : RecyclerView.Adapter<RankingAdapter
             binding.tvRankingProfileName.text = item.userName
             binding.cvRankingProfileImgBorder.backgroundTintList = ColorStateList.valueOf(borderList[item.currentBorder].color)
             Glide.with(context).load(item.image).into(binding.ivRankingProfileImg)
-
         }
     }
 

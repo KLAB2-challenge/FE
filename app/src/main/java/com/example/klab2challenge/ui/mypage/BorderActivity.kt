@@ -62,13 +62,39 @@ class BorderActivity : AppCompatActivity() {
                 Log.d("hiuser", it.toString())
                 val userInfo = it[0]
                 val borderList = borderActivityViewModel.borders.value!!
-                if(borderList.isEmpty())
+                if(borderList.size < 6)
                     return@Observer
 
 
                 binding.tvBMyCoin.text = userInfo.currentCoin.toString()
                 binding.ifbBProfileBorder.backgroundTintList =
                     ColorStateList.valueOf(borderList[userInfo.currentBorder].color)
+                Log.d("hasdfasdf", borderActivityViewModel.checkedItem.value.toString())
+                if(borderActivityViewModel.checkedItem.value == null)
+                    return@Observer
+                val checkedItem = borderActivityViewModel.checkedItem.value!!
+                val isUnlocked = borderActivityViewModel.checkItem(checkedItem)
+                binding.cvBSelectBtn.visibility = if (isUnlocked) View.VISIBLE else View.GONE
+                binding.cvBReleaseBtn.visibility = if (!isUnlocked) View.VISIBLE else View.GONE
+                val borderInfo = borderActivityViewModel.borders.value!!.get(checkedItem)
+
+                val isEnable = borderInfo.price <= userInfo.currentCoin
+                val bk = getColor(R.color.BK)
+                val gs = getColor(R.color.GS_60)
+                binding.cvBReleaseBtn.isEnabled = isEnable
+                binding.cvBReleaseBtn.strokeColor = if(isEnable) bk else gs
+                binding.tvBReleaseBtn.setTextColor(if(isEnable) bk else gs)
+
+
+                binding.tvBNoticeLabel.visibility = if (!isUnlocked) View.VISIBLE else View.GONE
+                binding.tvBNoticeLabel2.visibility = if (!isUnlocked) View.VISIBLE else View.GONE
+                binding.tvBNoticeCoin.visibility = if (!isUnlocked) View.VISIBLE else View.GONE
+                binding.tvBNoticeCoin.text = borderInfo.price.toString()
+
+                binding.tvBWarningLabel.visibility = if (!isUnlocked && !isEnable) View.VISIBLE else View.GONE
+                binding.tvBWarningLabel2.visibility = if (!isUnlocked && !isEnable) View.VISIBLE else View.GONE
+                binding.tvBWarningCoin.visibility = if (!isUnlocked && !isEnable) View.VISIBLE else View.GONE
+                binding.tvBWarningCoin.text = (borderInfo.price - userInfo.currentCoin).toString()
             })
         })
 

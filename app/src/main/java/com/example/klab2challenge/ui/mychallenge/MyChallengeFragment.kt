@@ -15,10 +15,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MyChallengeFragment : Fragment() {
 
-    //challenge 선택 시 이동 구현? -> adapter에 onclick listener
-    //challenge add 시 업데이트 반영? roomdb 추가는 될텐데... 어떻게 새로고침하지?
-    //특히 home, mychallenge가 각각 서로 다른 화면에서 challenge add 시 새로고침?
-
     private var _binding: FragmentMyChallengeBinding? = null
     private val binding get() = _binding!!
 

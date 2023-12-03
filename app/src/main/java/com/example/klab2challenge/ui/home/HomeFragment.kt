@@ -15,7 +15,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
-    //challenge add 시, roomdb + retrofit update 반영 with startactivityforresult
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
