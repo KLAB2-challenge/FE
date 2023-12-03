@@ -57,7 +57,7 @@ class ChallengeDetailViewModel(val challengeRepository: ChallengeRepository, val
             challengeRepository.requestJoin(request)
             val data = _challengeDetailInfo.value
             data!!.join = true
-            _challengeDetailInfo.value = data
+            _challengeDetailInfo.value = data!!
         }
     }
 
