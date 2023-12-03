@@ -35,25 +35,29 @@ class BorderActivityViewModel(
 
     fun requestChangeBorder(checkedBorder: Int) {
         viewModelScope.launch {
-            val userInfo = users.value!!.get(0)
-            userRepository.requestChangeBorder(userInfo.name, checkedBorder)
-            delay(100)
-            userRepository.requestUser(userInfo.name)
-            delay(100)
-            rankingRepository.requestRanking(userInfo.name)
+            runBlocking {
+                val userInfo = users.value!!.get(0)
+                userRepository.requestChangeBorder(userInfo.name, checkedBorder)
+                delay(100)
+                userRepository.requestUser(userInfo.name)
+                delay(100)
+                rankingRepository.requestRanking(userInfo.name)
+            }
         }
     }
 
 
     fun requestBuyBorder(checkedBorder: Int, context: Context) {
         viewModelScope.launch {
-            val userInfo = users.value!!.get(0)
-            val borderInfo = borders.value!!.get(checkedBorder)
-            userRepository.requestBuyBorder(userInfo.name, checkedBorder)
-            delay(100)
-            borderRepository.requestBorder(userInfo.name, context)
-            delay(100)
-            userRepository.requestUser(userInfo.name)
+            runBlocking {
+                val userInfo = users.value!!.get(0)
+                val borderInfo = borders.value!!.get(checkedBorder)
+                userRepository.requestBuyBorder(userInfo.name, checkedBorder, borderInfo.price)
+                delay(100)
+                borderRepository.requestBorder(userInfo.name, context)
+                delay(100)
+                userRepository.requestUser(userInfo.name)
+            }
         }
     }
 }

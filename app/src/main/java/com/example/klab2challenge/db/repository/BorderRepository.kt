@@ -14,6 +14,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class BorderRepository(private val borderDao: BorderDAO, private val retrofit: RetrofitInterface) {
     val borders = borderDao.getAllBorders()
@@ -87,18 +89,21 @@ class BorderRepository(private val borderDao: BorderDAO, private val retrofit: R
     }
 
     @WorkerThread
-    suspend fun requestBorder(userName: String, context : Context) {
+    suspend fun requestBorder(userName: String, context: Context) {
         CoroutineScope(Dispatchers.IO).launch {
-            init(context)
-            delay(100)
-            val borderResponse = retrofit.getMemberAllBorders(GetMemberAllBordersRequest(userName))
-            if (borderResponse.isSuccessful) {
-                val data = borderResponse.body()!!
-                data.borderIds.forEach {
-                    borderDao.updateBorder(it, true)
+            runBlocking {
+                init(context)
+                delay(100)
+                val borderResponse =
+                    retrofit.getMemberAllBorders(GetMemberAllBordersRequest(userName))
+                if (borderResponse.isSuccessful) {
+                    val data = borderResponse.body()!!
+                    data.borderIds.forEach {
+                        borderDao.updateBorder(it, true)
+                    }
+                } else {
+                    Log.d("retrofit_requestBorder", borderResponse.message().toString())
                 }
-            } else {
-                Log.d("retrofit_requestBorder", borderResponse.message().toString())
             }
         }
     }

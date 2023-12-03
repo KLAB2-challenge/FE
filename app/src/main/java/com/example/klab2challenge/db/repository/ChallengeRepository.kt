@@ -20,6 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
 
@@ -104,10 +105,10 @@ class ChallengeRepository(
             }
         }
     }
+
     @WorkerThread
     suspend fun requestPopularChallenges(userName: String) {
         CoroutineScope(Dispatchers.IO).launch {
-
             val popularChallengeResponse =
                 retrofit.getChallenge(GetPopularChallengesRequest(userName, 0, 5))
             if (popularChallengeResponse.isSuccessful) {
@@ -136,7 +137,6 @@ class ChallengeRepository(
     @WorkerThread
     suspend fun requestMyChallenges(userName: String) {
         CoroutineScope(Dispatchers.IO).launch {
-
             val myChallengeResponse =
                 retrofit.getChallenge(GetMemberAllChallengesRequest(userName, 0, 5))
             if (myChallengeResponse.isSuccessful) {
@@ -163,12 +163,11 @@ class ChallengeRepository(
     }
 
 
-
     @WorkerThread
     suspend fun requestSetChallenge(image: MultipartBody.Part?, request: SetChallengeRequest) {
         CoroutineScope(Dispatchers.IO).launch {
             val setChallengeResponse = retrofit.setChallenge(image, request)
-            if(setChallengeResponse.isSuccessful) {
+            if (setChallengeResponse.isSuccessful) {
                 val data = setChallengeResponse.body()!!
             } else {
                 Log.d("retrofit_requestSetChallenge", setChallengeResponse.message().toString())
@@ -177,10 +176,10 @@ class ChallengeRepository(
     }
 
     @WorkerThread
-    suspend fun requestChallengeDetail(request: GetChallengeRequest) : GetChallengeResponse {
+    suspend fun requestChallengeDetail(request: GetChallengeRequest): GetChallengeResponse {
         val ret = CoroutineScope(Dispatchers.IO).async {
             val challengeDetailResponse = retrofit.getChallenge(request)
-            if(challengeDetailResponse.isSuccessful) {
+            if (challengeDetailResponse.isSuccessful) {
                 val data = challengeDetailResponse.body()!!
                 data
             } else {
@@ -195,11 +194,14 @@ class ChallengeRepository(
     suspend fun requestRelatedChallenges(request: GetRelatedChallengesRequest): GetRelatedChallengesResponse {
         val ret = CoroutineScope(Dispatchers.IO).async {
             val relatedChallengesResponse = retrofit.getChallenge(request)
-            if(relatedChallengesResponse.isSuccessful) {
+            if (relatedChallengesResponse.isSuccessful) {
                 val data = relatedChallengesResponse.body()!!
                 data
             } else {
-                Log.d("retrofit_requestSetChallenge", relatedChallengesResponse.message().toString())
+                Log.d(
+                    "retrofit_requestSetChallenge",
+                    relatedChallengesResponse.message().toString()
+                )
                 relatedChallengesResponse.body()!!
             }
         }
@@ -210,7 +212,7 @@ class ChallengeRepository(
     suspend fun requestJoin(request: JoinChallengeRequest) {
         CoroutineScope(Dispatchers.IO).launch {
             val joinResponse = retrofit.setChallenge(request)
-            if(joinResponse.isSuccessful) {
+            if (joinResponse.isSuccessful) {
                 val data = joinResponse.body()!!
                 Log.d("retrofit_requestJoin", data.toString())
             } else {
@@ -223,7 +225,7 @@ class ChallengeRepository(
     suspend fun requestProofPosts(challengeId: Int): GetProofPostsResponse {
         val ret = CoroutineScope(Dispatchers.IO).async {
             val proofPostsResponse = retrofit.getProofPosts(challengeId)
-            if(proofPostsResponse.isSuccessful) {
+            if (proofPostsResponse.isSuccessful) {
                 val data = proofPostsResponse.body()!!
                 data
             } else {
@@ -237,15 +239,13 @@ class ChallengeRepository(
     @WorkerThread
     suspend fun requestChallenges(userName: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            init()
-            delay(100)
-            requestPopularChallenges(userName)
-            delay(100)
-            requestOfficialChallenges(userName)
-            delay(100)
-            requestUserChallenges(userName)
-            delay(100)
-            requestMyChallenges(userName)
+            runBlocking {
+                init()
+                requestPopularChallenges(userName)
+                requestOfficialChallenges(userName)
+                requestUserChallenges(userName)
+                requestMyChallenges(userName)
+            }
         }
     }
 }

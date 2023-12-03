@@ -6,12 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.klab2challenge.databinding.ActivityMainBinding
+import kotlinx.coroutines.runBlocking
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val mainActivityViewModel : MainActivityViewModel by viewModel()
+    private val mainActivityViewModel: MainActivityViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,13 +21,14 @@ class MainActivity : AppCompatActivity() {
 
         val userName = "user1"
         mainActivityViewModel.setUserName(userName)
-        mainActivityViewModel.requestBorder(this)
+        mainActivityViewModel.requestBorder(this@MainActivity)
         mainActivityViewModel.requestUser()
         mainActivityViewModel.requestRanking()
         mainActivityViewModel.requestChallengs()
 
 
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         val navController = navHostFragment.navController
         val navView: BottomNavigationView = binding.navView
         navView.setupWithNavController(navController)

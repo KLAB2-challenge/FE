@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.MultipartBody
 
 class RecordRepository(
@@ -41,29 +42,31 @@ class RecordRepository(
     @WorkerThread
     suspend fun requestRecords(challengeId: Int) {
         CoroutineScope(Dispatchers.IO).launch {
-            init()
-            delay(100)
-            val recordsResponse =
-                retrofit.getProofPosts(challengeId)
-            if (recordsResponse.isSuccessful) {
-                val data = recordsResponse.body()!!
-                data.proofPosts.forEach {
-                    recordDAO.addRecord(
-                        RecordEntity(
-                            it.proofPostId,
-                            it.memberName,
-                            it.memberCurrentBorder,
-                            it.memberImageUrl,
-                            it.contents.title,
-                            it.contents.content,
-                            it.contents.image,
-                            it.infos.date,
-                            it.commentNum
+            runBlocking {
+                init()
+                delay(100)
+                val recordsResponse =
+                    retrofit.getProofPosts(challengeId)
+                if (recordsResponse.isSuccessful) {
+                    val data = recordsResponse.body()!!
+                    data.proofPosts.forEach {
+                        recordDAO.addRecord(
+                            RecordEntity(
+                                it.proofPostId,
+                                it.memberName,
+                                it.memberCurrentBorder,
+                                it.memberImageUrl,
+                                it.contents.title,
+                                it.contents.content,
+                                it.contents.image,
+                                it.infos.date,
+                                it.commentNum
+                            )
                         )
-                    )
+                    }
+                } else {
+                    Log.d("retrofit_requestRecords", recordsResponse.message().toString())
                 }
-            } else {
-                Log.d("retrofit_requestRecords", recordsResponse.message().toString())
             }
         }
     }
@@ -73,7 +76,7 @@ class RecordRepository(
     fun requestSetRecord(image: MultipartBody.Part?, request: SetProofPostRequest) {
         CoroutineScope(Dispatchers.IO).launch {
             val recordResponse = retrofit.setProofPost(image, request)
-            if(recordResponse.isSuccessful) {
+            if (recordResponse.isSuccessful) {
                 val data = recordResponse.body()!!
                 Log.d("retrofit_requestSetRecord", data.toString())
             } else {
@@ -83,10 +86,10 @@ class RecordRepository(
     }
 
     @WorkerThread
-    suspend fun requestRecord(recordId : Int) : GetProofPostResponse {
+    suspend fun requestRecord(recordId: Int): GetProofPostResponse {
         val ret = CoroutineScope(Dispatchers.IO).async {
             val recordResponse = retrofit.getProofPost(recordId)
-            if(recordResponse.isSuccessful) {
+            if (recordResponse.isSuccessful) {
                 val data = recordResponse.body()!!
                 data
             } else {
@@ -98,10 +101,10 @@ class RecordRepository(
     }
 
     @WorkerThread
-    suspend fun requestComments(recordId: Int) : GetAllCommentsResponse {
+    suspend fun requestComments(recordId: Int): GetAllCommentsResponse {
         val ret = CoroutineScope(Dispatchers.IO).async {
             val commentsResponse = retrofit.getAllComments(recordId)
-            if(commentsResponse.isSuccessful) {
+            if (commentsResponse.isSuccessful) {
                 val data = commentsResponse.body()!!
                 data
             } else {
@@ -111,11 +114,13 @@ class RecordRepository(
         }
         return ret.await()
     }
+
     @WorkerThread
-    suspend fun requestSetComment(userName : String, recordId: Int, content: String) {
+    suspend fun requestSetComment(userName: String, recordId: Int, content: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val commentResponse = retrofit.setComment(SetCommentRequest(userName, content, recordId))
-            if(commentResponse.isSuccessful) {
+            val commentResponse =
+                retrofit.setComment(SetCommentRequest(userName, content, recordId))
+            if (commentResponse.isSuccessful) {
                 val data = commentResponse.body()!!
                 Log.d("retrofit_requestSetComment", data.toString())
             } else {

@@ -25,8 +25,10 @@ import com.example.klab2challenge.retrofit.SetChallengeRequest
 import com.example.klab2challenge.retrofit.SetChallengeResponse
 import com.example.klab2challenge.retrofit.getUserName
 import com.example.klab2challenge.retrofit.getUserProfileUrl
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -100,24 +102,23 @@ class AddChallengeActivity : AppCompatActivity() {
             binding.cvNcCreateBtn.setOnClickListener {
                 val userInfo = addChallengeActivityViewModel.users.value!!.get(0)
                 runBlocking {
-                    async {
-                        addChallengeActivityViewModel.requestSetChallenge(
-                            fileToUpload, SetChallengeRequest(
-                                userInfo.name, ChallengeContents(
-                                    binding.etNcTitleInput.text.toString(),
-                                    binding.etNcContentInput.text.toString(),
-                                    userInfo.image
-                                ), ChallengeInfos(
-                                    binding.etNcStartInput.text.toString(),
-                                    binding.etNcFinishInput.text.toString(),
-                                    binding.spNcFreqInput.selectedItem.toString(),
-                                    0,
-                                    false
-                                )
+                    addChallengeActivityViewModel.requestSetChallenge(
+                        fileToUpload, SetChallengeRequest(
+                            userInfo.name, ChallengeContents(
+                                binding.etNcTitleInput.text.toString(),
+                                binding.etNcContentInput.text.toString(),
+                                userInfo.image
+                            ), ChallengeInfos(
+                                binding.etNcStartInput.text.toString(),
+                                binding.etNcFinishInput.text.toString(),
+                                binding.spNcFreqInput.selectedItem.toString(),
+                                0,
+                                false
                             )
-                        )}.await()
-                    finish()
+                        )
+                    )
                 }
+                finish()
             }
         })
 

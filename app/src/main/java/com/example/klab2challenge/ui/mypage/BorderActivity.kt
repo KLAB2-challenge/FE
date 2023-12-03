@@ -65,11 +65,12 @@ class BorderActivity : AppCompatActivity() {
                 if(borderList.size < 6)
                     return@Observer
 
-
                 binding.tvBMyCoin.text = userInfo.currentCoin.toString()
                 binding.ifbBProfileBorder.backgroundTintList =
                     ColorStateList.valueOf(borderList[userInfo.currentBorder].color)
                 Log.d("hasdfasdf", borderActivityViewModel.checkedItem.value.toString())
+
+
                 if(borderActivityViewModel.checkedItem.value == null)
                     return@Observer
                 val checkedItem = borderActivityViewModel.checkedItem.value!!

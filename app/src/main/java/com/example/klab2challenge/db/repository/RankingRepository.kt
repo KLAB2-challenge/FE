@@ -9,6 +9,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class RankingRepository(
     private val rankingDao: RankingDAO,
@@ -30,25 +32,27 @@ class RankingRepository(
     @WorkerThread
     fun requestRanking(userName: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            init()
-            delay(100)
-            val rankingResponse = retrofit.getRanking(userName)
-            if (rankingResponse.isSuccessful) {
-                val data = rankingResponse.body()!!
-                for (i in 0..<data.ranker.size) {
-                    val rankerUser = data.ranker[i]
-                    rankingDao.addRanking(
-                        RankingEntity(
-                            rankerUser.name,
-                            rankerUser.infos.imageUrl,
-                            rankerUser.infos.currentBorder,
-                            rankerUser.infos.totalCoins,
-                            i
+            runBlocking {
+                init()
+                delay(100)
+                val rankingResponse = retrofit.getRanking(userName)
+                if (rankingResponse.isSuccessful) {
+                    val data = rankingResponse.body()!!
+                    for (i in 0..<data.ranker.size) {
+                        val rankerUser = data.ranker[i]
+                        rankingDao.addRanking(
+                            RankingEntity(
+                                rankerUser.name,
+                                rankerUser.infos.imageUrl,
+                                rankerUser.infos.currentBorder,
+                                rankerUser.infos.totalCoins,
+                                i
+                            )
                         )
-                    )
+                    }
+                } else {
+                    Log.d("retrofit_requestRanking", rankingResponse.message().toString())
                 }
-            } else {
-                Log.d("retrofit_requestRanking", rankingResponse.message().toString())
             }
         }
     }

@@ -11,7 +11,6 @@ class RecordListViewModel(val recordRepository: RecordRepository) : ViewModel() 
     val records = recordRepository.records.asLiveData()
 
     fun requestRecords(challengeId : Int) {
-        Log.d("???", "recordList")
         viewModelScope.launch {
             recordRepository.requestRecords(challengeId)
         }

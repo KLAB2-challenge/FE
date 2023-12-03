@@ -19,6 +19,7 @@ import com.example.klab2challenge.retrofit.ProofPostContents
 import com.example.klab2challenge.retrofit.ProofPostInfos
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class RecordDetailViewModel(
     val userRepository: UserRepository,
@@ -59,28 +60,30 @@ class RecordDetailViewModel(
     fun requestSetComment(userName: String, challengeId: Int, recordId: Int, content: String) {
         val userInfo = users.value!!.get(0)
         viewModelScope.launch {
-            recordRepository.requestSetComment(userInfo.name, recordId, content)
-            delay(100)
-            val ret = recordRepository.requestComments(recordId)
-            _comments.value = ret.getCommentResponses.map { c ->
-                CommentEntity(
-                    c.memberName,
-                    c.memberCurrentBorder,
-                    c.memberImageUrl,
-                    c.content,
-                    c.infos.date
-                )
+            runBlocking {
+                recordRepository.requestSetComment(userInfo.name, recordId, content)
+                delay(100)
+                val ret = recordRepository.requestComments(recordId)
+                _comments.value = ret.getCommentResponses.map { c ->
+                    CommentEntity(
+                        c.memberName,
+                        c.memberCurrentBorder,
+                        c.memberImageUrl,
+                        c.content,
+                        c.infos.date
+                    )
+                }
+                delay(100)
+                userRepository.requestSetCoin(userInfo.name, userInfo.currentCoin, 10)
+                delay(100)
+                recordRepository.requestUpdateCommentNum(recordId, _comments.value!!.size)
+                delay(100)
+                recordRepository.requestRecords(challengeId)
+                delay(100)
+                userRepository.requestUser(userName)
+                delay(100)
+                rankingRepository.requestRanking(userName)
             }
-            delay(100)
-            userRepository.requestSetCoin(userInfo.name, userInfo.currentCoin, 10)
-            delay(100)
-            recordRepository.requestUpdateCommentNum(recordId, _comments.value!!.size)
-            delay(100)
-            recordRepository.requestRecords(challengeId)
-            delay(100)
-            userRepository.requestUser(userName)
-            delay(100)
-            rankingRepository.requestRanking(userName)
         }
     }
 

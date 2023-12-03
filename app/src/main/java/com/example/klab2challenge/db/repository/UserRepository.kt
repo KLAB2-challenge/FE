@@ -14,6 +14,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class UserRepository(private val userDao: UserDAO, private val retrofit: RetrofitInterface) {
     val users = userDao.getUser()
@@ -31,39 +33,41 @@ class UserRepository(private val userDao: UserDAO, private val retrofit: Retrofi
     @WorkerThread
     fun requestUser(userName: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            init()
-            delay(100)
-            val userData = UserEntity(userName, "", 0, "", 0, 0, 0)
-            val memberInfoResponse = retrofit.getMemberInfos(GetMemberInfosRequest(userName))
-            if (memberInfoResponse.isSuccessful) {
-                val data = memberInfoResponse.body()!!
-                userData.image = data.infos.imageUrl
-                userData.currentBorder = data.infos.currentBorder
-                userData.currentCoin = data.infos.holdingCoins
-                userData.totalCoin = data.infos.totalCoins
-            } else {
-                Log.d("retrofit_requestMemberInfo", memberInfoResponse.message().toString())
+            runBlocking {
+                init()
+                delay(100)
+                val userData = UserEntity(userName, "", 0, "", 0, 0, 0)
+                val memberInfoResponse = retrofit.getMemberInfos(GetMemberInfosRequest(userName))
+                if (memberInfoResponse.isSuccessful) {
+                    val data = memberInfoResponse.body()!!
+                    userData.image = data.infos.imageUrl
+                    userData.currentBorder = data.infos.currentBorder
+                    userData.currentCoin = data.infos.holdingCoins
+                    userData.totalCoin = data.infos.totalCoins
+                } else {
+                    Log.d("retrofit_requestMemberInfo", memberInfoResponse.message().toString())
+                }
+                delay(100)
+                val allBorderResponse =
+                    retrofit.getMemberAllBorders(GetMemberAllBordersRequest(userName))
+                if (allBorderResponse.isSuccessful) {
+                    val data = allBorderResponse.body()!!
+                    userData.ownBorders = data.borderIds.toString()
+                } else {
+                    Log.d("retrofit_requestAllBorders", allBorderResponse.message().toString())
+                }
+                delay(100)
+                val rankingResponse = retrofit.getRanking(userName)
+                if (rankingResponse.isSuccessful) {
+                    val data = rankingResponse.body()!!
+                    userData.ranking = data.myRank
+                } else {
+                    Log.d("retrofit_requestRanking", rankingResponse.message().toString())
+                }
+                Log.d("roomuserInfo", userData.toString())
+                delay(100)
+                userDao.addUser(userData)
             }
-            delay(100)
-            val allBorderResponse =
-                retrofit.getMemberAllBorders(GetMemberAllBordersRequest(userName))
-            if (allBorderResponse.isSuccessful) {
-                val data = allBorderResponse.body()!!
-                userData.ownBorders = data.borderIds.toString()
-            } else {
-                Log.d("retrofit_requestAllBorders", allBorderResponse.message().toString())
-            }
-            delay(100)
-            val rankingResponse = retrofit.getRanking(userName)
-            if (rankingResponse.isSuccessful) {
-                val data = rankingResponse.body()!!
-                userData.ranking = data.myRank
-            } else {
-                Log.d("retrofit_requestRanking", rankingResponse.message().toString())
-            }
-            delay(100)
-            Log.d("roomuserInfo", userData.toString())
-            userDao.addUser(userData)
         }
     }
 
@@ -85,10 +89,10 @@ class UserRepository(private val userDao: UserDAO, private val retrofit: Retrofi
     }
 
     @WorkerThread
-    fun requestBuyBorder(userName: String, currentBorder: Int) {
+    fun requestBuyBorder(userName: String, currentBorder: Int, price: Int) {
         CoroutineScope(Dispatchers.IO).launch {
             val buyBorderResponse =
-                retrofit.buyBorder(BuyBorderRequest(userName, currentBorder))
+                retrofit.buyBorder(BuyBorderRequest(userName, currentBorder, price))
             if (buyBorderResponse.isSuccessful) {
                 val data = buyBorderResponse.body()!!
                 Log.d("retrofit_border_buy", data.success.toString())
@@ -100,8 +104,6 @@ class UserRepository(private val userDao: UserDAO, private val retrofit: Retrofi
 
     @WorkerThread
     fun requestSetCoin(userName: String, currentCoin: Int, offset: Int) {
-        Log.d("helloooo?", "abc")
-        Log.d("helloooo?", offset.toString())
         CoroutineScope(Dispatchers.IO).launch {
             val setMemberCoinResponse = retrofit.setMemberCoins(
                 SetMemberCoinsRequest(
@@ -111,8 +113,6 @@ class UserRepository(private val userDao: UserDAO, private val retrofit: Retrofi
             )
             if (setMemberCoinResponse.isSuccessful) {
                 val data = setMemberCoinResponse.body()!!
-                Log.d("helloooo?", "abc")
-                Log.d("helloooo?", offset.toString())
                 Log.d("retrofit_border_setCoin", data.success.toString())
             } else {
                 Log.d("retrofit_border_setCoin", setMemberCoinResponse.message().toString())
