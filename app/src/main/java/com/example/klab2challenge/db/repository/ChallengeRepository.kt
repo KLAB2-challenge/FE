@@ -33,219 +33,181 @@ class ChallengeRepository(
     val userChallenges = challengeDao.getUserChallenges()
     val myChallenges = challengeDao.getMyChallenges()
 
-    @WorkerThread
     suspend fun insert(challenge: ChallengeEntity) {
-        CoroutineScope(Dispatchers.IO).launch {
-
-            challengeDao.addChallenge(challenge)
-        }
+        challengeDao.addChallenge(challenge)
     }
 
-    @WorkerThread
     suspend fun init() {
-        CoroutineScope(Dispatchers.IO).launch {
-            challengeDao.clearChallengeTable()
-        }
+        challengeDao.clearChallengeTable()
     }
 
 
-    @WorkerThread
     suspend fun requestOfficialChallenges(userName: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val officialChallengeResponse =
-                retrofit.getChallenge(GetOfficialOrUserChallengesRequest(userName, 0, 5, true))
-            if (officialChallengeResponse.isSuccessful) {
-                val data = officialChallengeResponse.body()!!
-                data.challenges.forEach {
-                    challengeDao.addChallenge(
-                        ChallengeEntity(
-                            it.challengeId,
-                            it.contents.title,
-                            it.contents.image,
-                            it.memberNum,
-                            it.infos.startDate + " ~ " + it.infos.endDate,
-                            it.infos.frequency,
-                            it.progressRate,
-                            it.join,
-                            0
-                        )
+        val officialChallengeResponse =
+            retrofit.getChallenge(GetOfficialOrUserChallengesRequest(userName, 0, 5, true))
+        if (officialChallengeResponse.isSuccessful) {
+            val data = officialChallengeResponse.body()!!
+            Log.d("Retrofit_requestOfficialHcps", data.toString())
+            data.challenges.forEach {
+                challengeDao.addChallenge(
+                    ChallengeEntity(
+                        it.challengeId,
+                        it.contents.title,
+                        it.contents.image,
+                        it.memberNum,
+                        it.infos.startDate + " ~ " + it.infos.endDate,
+                        it.infos.frequency,
+                        it.progressRate,
+                        it.join,
+                        0
                     )
-                }
-            } else {
-                Log.d("retrofit_requestPopularHcps", officialChallengeResponse.message().toString())
-            }
-        }
-    }
-
-    @WorkerThread
-    suspend fun requestUserChallenges(userName: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-
-            val userChallengeResponse =
-                retrofit.getChallenge(GetOfficialOrUserChallengesRequest(userName, 0, 5, false))
-            if (userChallengeResponse.isSuccessful) {
-                val data = userChallengeResponse.body()!!
-                data.challenges.forEach {
-                    challengeDao.addChallenge(
-                        ChallengeEntity(
-                            it.challengeId,
-                            it.contents.title,
-                            it.contents.image,
-                            it.memberNum,
-                            it.infos.startDate + " ~ " + it.infos.endDate,
-                            it.infos.frequency,
-                            it.progressRate,
-                            it.join,
-                            1
-                        )
-                    )
-                }
-            } else {
-                Log.d("retrofit_requestPopularHcps", userChallengeResponse.message().toString())
-            }
-        }
-    }
-
-    @WorkerThread
-    suspend fun requestPopularChallenges(userName: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val popularChallengeResponse =
-                retrofit.getChallenge(GetPopularChallengesRequest(userName, 0, 5))
-            if (popularChallengeResponse.isSuccessful) {
-                val data = popularChallengeResponse.body()!!
-                data.challenges.forEach {
-                    challengeDao.addChallenge(
-                        ChallengeEntity(
-                            it.challengeId,
-                            it.contents.title,
-                            it.contents.image,
-                            it.memberNum,
-                            it.infos.startDate + " ~ " + it.infos.endDate,
-                            it.infos.frequency,
-                            it.progressRate,
-                            it.join,
-                            2
-                        )
-                    )
-                }
-            } else {
-                Log.d("retrofit_requestPopularHcps", popularChallengeResponse.message().toString())
-            }
-        }
-    }
-
-    @WorkerThread
-    suspend fun requestMyChallenges(userName: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val myChallengeResponse =
-                retrofit.getChallenge(GetMemberAllChallengesRequest(userName, 0, 5))
-            if (myChallengeResponse.isSuccessful) {
-                val data = myChallengeResponse.body()!!
-                data.challenges.forEach {
-                    challengeDao.addChallenge(
-                        ChallengeEntity(
-                            it.challengeId,
-                            it.contents.title,
-                            it.contents.image,
-                            it.memberNum,
-                            it.infos.startDate + " ~ " + it.infos.endDate,
-                            it.infos.frequency,
-                            it.progressRate,
-                            it.join,
-                            3
-                        )
-                    )
-                }
-            } else {
-                Log.d("retrofit_requestPopularHcps", myChallengeResponse.message().toString())
-            }
-        }
-    }
-
-
-    @WorkerThread
-    suspend fun requestSetChallenge(image: MultipartBody.Part?, request: SetChallengeRequest) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val setChallengeResponse = retrofit.setChallenge(image, request)
-            if (setChallengeResponse.isSuccessful) {
-                val data = setChallengeResponse.body()!!
-            } else {
-                Log.d("retrofit_requestSetChallenge", setChallengeResponse.message().toString())
-            }
-        }
-    }
-
-    @WorkerThread
-    suspend fun requestChallengeDetail(request: GetChallengeRequest): GetChallengeResponse {
-        val ret = CoroutineScope(Dispatchers.IO).async {
-            val challengeDetailResponse = retrofit.getChallenge(request)
-            if (challengeDetailResponse.isSuccessful) {
-                val data = challengeDetailResponse.body()!!
-                data
-            } else {
-                Log.d("retrofit_requestSetChallenge", challengeDetailResponse.message().toString())
-                challengeDetailResponse.body()!!
-            }
-        }
-        return ret.await()
-    }
-
-    @WorkerThread
-    suspend fun requestRelatedChallenges(request: GetRelatedChallengesRequest): GetRelatedChallengesResponse {
-        val ret = CoroutineScope(Dispatchers.IO).async {
-            val relatedChallengesResponse = retrofit.getChallenge(request)
-            if (relatedChallengesResponse.isSuccessful) {
-                val data = relatedChallengesResponse.body()!!
-                data
-            } else {
-                Log.d(
-                    "retrofit_requestSetChallenge",
-                    relatedChallengesResponse.message().toString()
                 )
-                relatedChallengesResponse.body()!!
             }
+        } else {
+            Log.d("Retrofit_requestOfficialHcps", officialChallengeResponse.message().toString())
         }
-        return ret.await()
     }
 
-    @WorkerThread
+    suspend fun requestUserChallenges(userName: String) {
+        val userChallengeResponse =
+            retrofit.getChallenge(GetOfficialOrUserChallengesRequest(userName, 0, 5, false))
+        if (userChallengeResponse.isSuccessful) {
+            val data = userChallengeResponse.body()!!
+            Log.d("Retrofit_requestUserHcps", data.toString())
+            data.challenges.forEach {
+                challengeDao.addChallenge(
+                    ChallengeEntity(
+                        it.challengeId,
+                        it.contents.title,
+                        it.contents.image,
+                        it.memberNum,
+                        it.infos.startDate + " ~ " + it.infos.endDate,
+                        it.infos.frequency,
+                        it.progressRate,
+                        it.join,
+                        1
+                    )
+                )
+            }
+        } else {
+            Log.d("Retrofit_requestUserHcps", userChallengeResponse.message().toString())
+        }
+    }
+
+    suspend fun requestPopularChallenges(userName: String) {
+        val popularChallengeResponse =
+            retrofit.getChallenge(GetPopularChallengesRequest(userName, 0, 5))
+        if (popularChallengeResponse.isSuccessful) {
+            val data = popularChallengeResponse.body()!!
+            Log.d("Retrofit_requestPopularHcps", data.toString())
+            data.challenges.forEach {
+                challengeDao.addChallenge(
+                    ChallengeEntity(
+                        it.challengeId,
+                        it.contents.title,
+                        it.contents.image,
+                        it.memberNum,
+                        it.infos.startDate + " ~ " + it.infos.endDate,
+                        it.infos.frequency,
+                        it.progressRate,
+                        it.join,
+                        2
+                    )
+                )
+            }
+        } else {
+            Log.d("Retrofit_requestPopularHcps", popularChallengeResponse.message().toString())
+        }
+    }
+
+    suspend fun requestMyChallenges(userName: String) {
+        val myChallengeResponse =
+            retrofit.getChallenge(GetMemberAllChallengesRequest(userName, 0, 5))
+        if (myChallengeResponse.isSuccessful) {
+            val data = myChallengeResponse.body()!!
+            Log.d("Retrofit_requestMyHcps", data.toString())
+            data.challenges.forEach {
+                challengeDao.addChallenge(
+                    ChallengeEntity(
+                        it.challengeId,
+                        it.contents.title,
+                        it.contents.image,
+                        it.memberNum,
+                        it.infos.startDate + " ~ " + it.infos.endDate,
+                        it.infos.frequency,
+                        it.progressRate,
+                        it.join,
+                        3
+                    )
+                )
+            }
+        } else {
+            Log.d("Retrofit_requestMyHcps", myChallengeResponse.message().toString())
+        }
+    }
+
+
+    suspend fun requestSetChallenge(image: MultipartBody.Part?, request: SetChallengeRequest) {
+        val setChallengeResponse = retrofit.setChallenge(image, request)
+        if (setChallengeResponse.isSuccessful) {
+            val data = setChallengeResponse.body()!!
+            Log.d("Retrofit_requestSetChallenge", data.toString())
+        } else {
+            Log.d("Retrofit_requestSetChallenge", setChallengeResponse.message().toString())
+        }
+    }
+
+    suspend fun requestChallengeDetail(request: GetChallengeRequest): GetChallengeResponse {
+        val challengeDetailResponse = retrofit.getChallenge(request)
+        if (challengeDetailResponse.isSuccessful) {
+            val data = challengeDetailResponse.body()!!
+            return data
+        } else {
+            Log.d("retrofit_requestSetChallenge", challengeDetailResponse.message().toString())
+            return challengeDetailResponse.body()!!
+        }
+    }
+
+    suspend fun requestRelatedChallenges(request: GetRelatedChallengesRequest): GetRelatedChallengesResponse {
+        val relatedChallengesResponse = retrofit.getChallenge(request)
+        if (relatedChallengesResponse.isSuccessful) {
+            val data = relatedChallengesResponse.body()!!
+            return data
+        } else {
+            Log.d(
+                "retrofit_requestSetChallenge",
+                relatedChallengesResponse.message().toString()
+            )
+            return relatedChallengesResponse.body()!!
+        }
+    }
+
     suspend fun requestJoin(request: JoinChallengeRequest) {
-        CoroutineScope(Dispatchers.IO).launch {
-            val joinResponse = retrofit.setChallenge(request)
-            if (joinResponse.isSuccessful) {
-                val data = joinResponse.body()!!
-                Log.d("retrofit_requestJoin", data.toString())
-            } else {
-                Log.d("retrofit_requestJoin", joinResponse.message().toString())
-            }
+        val joinResponse = retrofit.setChallenge(request)
+        if (joinResponse.isSuccessful) {
+            val data = joinResponse.body()!!
+            Log.d("retrofit_requestJoin", data.toString())
+        } else {
+            Log.d("retrofit_requestJoin", joinResponse.message().toString())
         }
     }
 
-    @WorkerThread
     suspend fun requestProofPosts(challengeId: Int): GetProofPostsResponse {
-        val ret = CoroutineScope(Dispatchers.IO).async {
-            val proofPostsResponse = retrofit.getProofPosts(challengeId)
-            if (proofPostsResponse.isSuccessful) {
-                val data = proofPostsResponse.body()!!
-                data
-            } else {
-                Log.d("retrofit_requestJoin", proofPostsResponse.message().toString())
-                proofPostsResponse.body()!!
-            }
+        val proofPostsResponse = retrofit.getProofPosts(challengeId)
+        if (proofPostsResponse.isSuccessful) {
+            val data = proofPostsResponse.body()!!
+            return data
+        } else {
+            Log.d("retrofit_requestJoin", proofPostsResponse.message().toString())
+            return proofPostsResponse.body()!!
         }
-        return ret.await()
     }
 
-    @WorkerThread
     suspend fun requestChallenges(userName: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            runBlocking {
-                init()
-                requestPopularChallenges(userName)
-                requestOfficialChallenges(userName)
-                requestUserChallenges(userName)
-                requestMyChallenges(userName)
-            }
-        }
+        init()
+        requestPopularChallenges(userName)
+        requestOfficialChallenges(userName)
+        requestUserChallenges(userName)
+        requestMyChallenges(userName)
     }
 }

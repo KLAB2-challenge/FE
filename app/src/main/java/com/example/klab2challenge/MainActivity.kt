@@ -1,6 +1,7 @@
 package com.example.klab2challenge
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -19,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val userName = "user1"
+        val userName = "user4"
         mainActivityViewModel.setUserName(userName)
         mainActivityViewModel.requestBorder(this@MainActivity)
         mainActivityViewModel.requestUser()

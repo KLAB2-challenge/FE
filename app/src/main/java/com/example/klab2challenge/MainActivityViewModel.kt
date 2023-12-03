@@ -8,7 +8,9 @@ import com.example.klab2challenge.db.repository.BorderRepository
 import com.example.klab2challenge.db.repository.ChallengeRepository
 import com.example.klab2challenge.db.repository.RankingRepository
 import com.example.klab2challenge.db.repository.UserRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivityViewModel(
     private val challengeRepository: ChallengeRepository,
@@ -31,25 +33,33 @@ class MainActivityViewModel(
 
     fun requestRanking() {
         viewModelScope.launch {
-            rankingRepository.requestRanking(userName)
+            withContext(Dispatchers.IO) {
+                rankingRepository.requestRanking(userName)
+            }
         }
     }
 
     fun requestUser() {
         viewModelScope.launch {
-            userRepository.requestUser(userName)
+            withContext(Dispatchers.IO) {
+                userRepository.requestUser(userName)
+            }
         }
     }
 
     fun requestBorder(context : Context) {
         viewModelScope.launch {
-            borderRepository.requestBorder(userName, context)
+            withContext(Dispatchers.IO) {
+                borderRepository.requestBorder(userName, context)
+            }
         }
     }
 
     fun requestChallengs() {
         viewModelScope.launch {
-            challengeRepository.requestChallenges(userName)
+            withContext(Dispatchers.IO) {
+                challengeRepository.requestChallenges(userName)
+            }
         }
     }
 
